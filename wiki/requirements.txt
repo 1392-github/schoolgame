@@ -1,0 +1,11 @@
+pip
+
+flask
+waitress
+
+requests
+diff-match-patch
+
+pillow
+
+pymysql
