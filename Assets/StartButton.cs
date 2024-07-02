@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class StartButton : MonoBehaviour
 {
-    public List<NameAndVal<Experimental>> exp;
+    public List<ExperData> exp;
     public GameObject expCheck;
     public Transform expScroll;
     public InputField name;
@@ -16,11 +16,12 @@ public class StartButton : MonoBehaviour
     void Start()
     {
         expSelect = new Dictionary<Experimental, Toggle>();
-        foreach (NameAndVal<Experimental> item in exp)
+        foreach (ExperData item in exp)
         {
             GameObject g = Instantiate(expCheck);
             g.transform.SetParent(expScroll, false);
             g.transform.Find("Text (Legacy)").GetComponent<Text>().text = item.name;
+            g.transform.Find("Text (Legacy) (1)").GetComponent<Text>().text = item.desc;
             expSelect.Add(item.value, g.transform.Find("Toggle").GetComponent<Toggle>());
         }
     }
