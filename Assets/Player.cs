@@ -133,6 +133,18 @@ public class Player : MonoBehaviour
     public GameObject upgradeButton;
     public GameObject menu;
     public AchGenerator achGen;
+    public int currentChat;
+    public int currentChatElement;
+    public int nextChatElement;
+    public GameObject chatDisplay;
+    public Text chatTitleText;
+    public Text chatContentText;
+    public GameObject optionButton;
+    public Transform chatOption;
+    bool enableNext;
+    string actualSceneName;
+    string doorName;
+    Direction2 doorDirection;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -194,6 +206,7 @@ public class Player : MonoBehaviour
         nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
         speed = save.speed;
         repeatAll1 = save.repeatAll1;
+        experimental = save.experimental;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
         weeklyGoalSubject = save.weeklyGoalSubject;
         weeklyGoalValue = save.weeklyGoalValue;
@@ -201,7 +214,6 @@ public class Player : MonoBehaviour
         weeklyGoalTime = DateTime.ParseExact(save.weeklyGoalTime, "yyyy-MM-dd", null);
         weeklyGoalCompleted = save.weeklyGoalCompleted;
         stat = save.stat;
-        experimental = save.experimental;
         if (stat.Length < data.stat.Count)
         {
             stat = stat.Concat(new int[data.stat.Count - stat.Length]).ToArray();
@@ -588,7 +600,8 @@ public class Player : MonoBehaviour
 (엔딩을 볼 시 자동으로 저장되며, 엔딩을 본 이후에도 해당 파일을 계속 플레이할 수 있습니다)";
             endButton.interactable = ach == achSum && lv == 99 && money >= 10000000 && studyExpSum >= 7500000;
         }
-        if (GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject?.GetComponent<InputField>() == null)
+        GameObject selectedGameobject = GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject;
+        if (selectedGameobject == null || selectedGameobject.GetComponent<InputField>() == null)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -863,7 +876,7 @@ public class Player : MonoBehaviour
             UpdateLv();
         }*/
     }
-    public void Move(string name, int args, Vector3 pos)
+    public void Move(string name, int args, Vector3 pos, string door = "", Direction2 doorDirection = 0)
     {
         if (name == "Main1F")
         {
@@ -878,14 +891,17 @@ public class Player : MonoBehaviour
             mapInited = false;
             if (!string.IsNullOrEmpty(currentScene))
             {
-                SceneManager.UnloadSceneAsync(currentScene);
+                SceneManager.UnloadSceneAsync(actualSceneName);
             }
-            SceneManager.LoadScene(name, LoadSceneMode.Additive);
+            actualSceneName = ExperimentalCheck(Experimental.NEW_MAP) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
+            SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
             mapArgs = args;
         }
         currentScene = name;
         transform.position = pos;
         control = false;
+        doorName = door;
+        this.doorDirection = doorDirection;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -1029,6 +1045,25 @@ public class Player : MonoBehaviour
             busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
         }
         mapInited = true;
+        if (doorName != "")
+        {
+            GameObject d = GameObject.Find(doorName);
+            switch (doorDirection)
+            {
+                case Direction2.left:
+                    transform.position = d.transform.position + Vector3.left;
+                    break;
+                case Direction2.right:
+                    transform.position = d.transform.position + Vector3.right;
+                    break;
+                case Direction2.up:
+                    transform.position = d.transform.position + Vector3.up;
+                    break;
+                case Direction2.down:
+                    transform.position = d.transform.position + Vector3.down;
+                    break;
+            }
+        }
     }
     public void PrevScore()
     {
@@ -1192,7 +1227,7 @@ public class Player : MonoBehaviour
         }
         if (time.TimeOfDay >= new TimeSpan(7, 0, 0) && time.TimeOfDay <= new TimeSpan(14, 50, 0))
         {
-            OpenDialog("이 아이템은 오전 7시 ~ 오후 14시 50분까지 사용할 수 없습니다");
+            OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
             itemRemove = false;
             return;
         }
@@ -1451,5 +1486,57 @@ public class Player : MonoBehaviour
             }
             SceneManager.LoadScene("SelectSaveScene");
         }
+    }
+    public void OpenChat(int id)
+    {
+        chatDisplay.SetActive(true);
+        currentChat = id;
+        currentChatElement = 0;
+        chatTitleText.text = data.chat[id].name;
+        updateChat();
+    }
+    void updateChat()
+    {
+        if (currentChatElement == -1)
+        {
+            chatDisplay.SetActive(false);
+            return;
+        }
+        ChatElement e = data.chat[currentChat].value[currentChatElement];
+        e.chatEvent.Invoke();
+        nextChatElement = e.next;
+        chatContentText.text = e.value;
+        foreach (Transform item2 in chatOption)
+        {
+            Destroy(item2.gameObject);
+        }
+        if (e.option.Count == 0)
+        {
+            enableNext = true;
+        }
+        else
+        {
+            enableNext = false;
+            foreach (NameAndVal<int> item in e.option)
+            {
+                int n = item.value;
+                GameObject button = Instantiate(optionButton, chatOption);
+                button.GetComponent<Button>().onClick.AddListener(() => ChatOptionSelect(n));
+                button.transform.Find("Text (Legacy)").GetComponent<Text>().text = item.name;
+            }
+        }
+    }
+    public void NextChat()
+    {
+        if (enableNext)
+        {
+            currentChatElement = nextChatElement;
+            updateChat();
+        }
+    }
+    public void ChatOptionSelect(int id)
+    {
+        currentChatElement = id;
+        updateChat();
     }
 }

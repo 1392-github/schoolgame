@@ -24,30 +24,33 @@ EditorBuildSettings:
     path: Assets/NewGameScene.unity
     guid: 5698ac5f93ee8f848be9561bcf2f762b
   - enabled: 1
-    path: Assets/Map/DormitoryRoom.unity
+    path: Assets/Map/OldDormitoryRoom.unity
     guid: 0f8992cdc07d2d84fa723f415ee2fd4c
   - enabled: 1
-    path: Assets/Map/Dormitory1F.unity
+    path: Assets/Map/OldDormitory1F.unity
     guid: 1b7a25741513dc5479ce7ac24b7564ed
   - enabled: 1
-    path: Assets/Map/Dormitory2F.unity
+    path: Assets/Map/OldDormitory2F.unity
     guid: 7f791e6728f9c6747b1a5fa97c94fa4c
   - enabled: 1
-    path: Assets/Map/Main1F.unity
+    path: Assets/Map/OldMain1F.unity
     guid: 3aebac03bbbad3848a2d27152a02eda0
   - enabled: 1
-    path: Assets/Map/Classroom.unity
+    path: Assets/Map/OldClassroom.unity
     guid: 3b8acd9a22e2df04ca39bf3e527219cd
   - enabled: 1
-    path: Assets/Map/BusStop.unity
+    path: Assets/Map/OldBusStop.unity
     guid: 4382c8ecf983d444c825dd70a07f180f
   - enabled: 1
-    path: Assets/Map/Shop.unity
+    path: Assets/Map/OldShop.unity
     guid: efb7a04a78a98a041942ce5a2a8b6d60
   - enabled: 1
-    path: Assets/Map/Unnamed3.unity
+    path: Assets/Map/OldUnnamed3.unity
     guid: 07db6d89248e66741b65deaee9c53804
   - enabled: 1
-    path: Assets/Map/Bus.unity
+    path: Assets/Map/OldBus.unity
     guid: 7dee489d073b16f4894b514f15440aa8
+  - enabled: 1
+    path: Assets/Map/DormitoryRoom.unity
+    guid: 0e81162188e25d64a976ea2b3bd32a4e
   m_configObjects: {}

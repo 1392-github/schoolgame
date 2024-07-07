@@ -1,5 +1,6 @@
 public enum Experimental
 {
     NONE = -1,
-    FRIEND_SYSTEM
+    FRIEND_SYSTEM,
+    NEW_MAP
 }

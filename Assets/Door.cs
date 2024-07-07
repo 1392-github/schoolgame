@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum Direction2
+{
+    left,
+    right,
+    up,
+    down
+}
 public class Door : MonoBehaviour
 {
     public string map;
     public int args;
     public Vector3 pos;
     public bool enable = true;
+    public string DestDoorName;
+    public Direction2 direction;
     Player player;
     // Start is called before the first frame update
     void Start()
@@ -24,7 +32,7 @@ public class Door : MonoBehaviour
     {
         if (enable && collision.gameObject.name == "Player")
         {
-            player.Move(map, args, pos);
+            player.Move(map, args, pos, DestDoorName, direction);
         }
     }
 }

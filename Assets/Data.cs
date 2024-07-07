@@ -16,4 +16,5 @@ public class Data : MonoBehaviour
     public List<Item> item;
     public List<Wrap<List<Problem>>> problem;
     public List<StatType> stat;
+    public List<NameAndVal<List<ChatElement>>> chat;
 }
