@@ -419,7 +419,7 @@ public class Player : MonoBehaviour
             {
                 TimeSpan t = time.TimeOfDay;
                 bool b1 = true;
-                bool b2 = true;
+                bool b2 = true; 
                 for (int i = 0; i < busTime1.Length; i++)
                 {
                     TimeSpan bt1 = busTime1[i];
@@ -894,10 +894,10 @@ public class Player : MonoBehaviour
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }
             actualSceneName = ExperimentalCheck(Experimental.NEW_MAP) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
+            currentScene = name;
             SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
             mapArgs = args;
         }
-        currentScene = name;
         transform.position = pos;
         control = false;
         doorName = door;
@@ -910,7 +910,7 @@ public class Player : MonoBehaviour
             return;
         }
         SceneManager.SetActiveScene(scene);
-        if (scene.name == "Main1F") // 夯包 汗档 积己
+        if (currentScene == "Main1F") // 夯包 汗档 积己
         {
             for (int i = 0; i < 10; i++)
             {
@@ -942,12 +942,12 @@ public class Player : MonoBehaviour
                 GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"￠ {mapArgs}摸";
             }
         }
-        if (scene.name == "Classroom") // 背角 积己
+        if (currentScene == "Classroom") // 背角 积己
         {
             GameObject.Find("Square (3)").GetComponent<Door>().args = mapArgs / 10;
             GameObject.Find("Square (3)").GetComponent<Door>().pos = new Vector3(1 + mapArgs % 10 * 3, 0.8f, 0);
         }
-        if (scene.name == "Dormitory1F")
+        if (currentScene == "Dormitory1F")
         {
             //GameObject.Find("Square (4)").GetComponent<OpenGUIButton>().target = canvas.Find("PC").gameObject;
             //GameObject.Find("Square (4)").GetComponent<CPBlockCall>().c = canvas.Find("PC").GetComponent<CPBlock>();
@@ -1002,7 +1002,7 @@ public class Player : MonoBehaviour
             //}
             #endregion
         }
-        if (scene.name == "BusStop")
+        if (currentScene == "BusStop")
         {
             if (mapArgs == 0)
             {
@@ -1028,7 +1028,7 @@ public class Player : MonoBehaviour
             GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>().text = $"{data.busStop[0].name} 规氢";
             GameObject.Find("Text (TMP) (2)").GetComponent<TextMeshPro>().text = $"{data.busStop[^1].name} 规氢";
         }
-        if (scene.name == "Bus")
+        if (currentScene == "Bus")
         {
             if (mapArgs >= 65536)
             {
@@ -1045,7 +1045,7 @@ public class Player : MonoBehaviour
             busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
         }
         mapInited = true;
-        if (doorName != "")
+        /*if (doorName != "")
         {
             GameObject d = GameObject.Find(doorName);
             switch (doorDirection)
@@ -1063,7 +1063,7 @@ public class Player : MonoBehaviour
                     transform.position = d.transform.position + Vector3.down;
                     break;
             }
-        }
+        }*/
     }
     public void PrevScore()
     {
