@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-    
+
 [System.Serializable]
-public class SaveFile1 : SaveFile0
+public class SaveFile2 : SaveFile0
 {
     public string time;
     public string timeSpeed;
@@ -38,4 +38,6 @@ public class SaveFile1 : SaveFile0
     public List<Experimental> experimental;
     public string startTime;
     public string totalPlayTime;
+    public int length;
+    public bool end;
 }

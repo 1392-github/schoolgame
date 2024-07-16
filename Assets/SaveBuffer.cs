@@ -6,7 +6,7 @@ public class SaveBuffer : MonoBehaviour
 {
     public bool tutorial;
     public string name;
-    public SaveFile1 save;
+    public SaveFile0 save;
     public static bool generated;
     void Awake()
     {

@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/EndScene.unity
     guid: 688148c49bc6e1443b822bd06745deae
   - enabled: 1
+    path: Assets/EndScene2.unity
+    guid: 3fa00769fd1e4fa4ea066ca9ec9e4378
+  - enabled: 1
     path: Assets/NewGameScene.unity
     guid: 5698ac5f93ee8f848be9561bcf2f762b
   - enabled: 1

@@ -76,6 +76,11 @@ public class StatUpgrade : MonoBehaviour
     }
     public void Upgrade()
     {
+        if (player.end)
+        {
+            player.OpenDialog("이미 종료된 게임입니다");
+            return;
+        }
         if (player.exp < xp)
         {
             player.OpenDialog("XP가 부족합니다");

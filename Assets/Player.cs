@@ -45,6 +45,8 @@ public class Player : MonoBehaviour
     public List<Experimental> experimental;
     public DateTime startTime;
     public TimeSpan totalPlayTime;
+    public int length;
+    public bool end;
     #endregion
     #region 저장 데이터가 아닌 변수들
     public int sbindex;
@@ -145,6 +147,10 @@ public class Player : MonoBehaviour
     string actualSceneName;
     string doorName;
     Direction2 doorDirection;
+    public DateTime endTime;
+    public Image endEffect;
+    float endEffectAlpha;
+    bool endEffectDuring;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -180,7 +186,7 @@ public class Player : MonoBehaviour
         data = GameObject.Find("Data").GetComponent<Data>();
         saveName = GameObject.Find("SaveData").GetComponent<SaveBuffer>().name;
         #region 저장 데이터 불러오기
-        SaveFile1 save = GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        SaveFile2 save = (SaveFile2)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
         timeSpeed = TimeSpan.Parse(save.timeSpeed);
         exp = save.exp;
@@ -220,6 +226,8 @@ public class Player : MonoBehaviour
         }
         startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
         totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
+        length = save.length;
+        end = save.end;
         #endregion
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
@@ -328,6 +336,7 @@ public class Player : MonoBehaviour
             u.UpdateText();
         }
         updateInventory();
+        endTime = new DateTime(2024, 3, 4) + new TimeSpan(length * 7, 0, 0, 0);
     }
     void Update()
     {
@@ -581,24 +590,27 @@ public class Player : MonoBehaviour
         //}
         if (Input.GetKeyDown(KeyCode.E))
         {
-            endingDisplay.SetActive(true);
-            int ach = 0;
-            for (int i = 0; i < data.achievement.Count; i++)
+            if (length == 0)
             {
-                if (!data.achievement[i].excludeEnding && achCompleted[i])
+                endingDisplay.SetActive(true);
+                int ach = 0;
+                for (int i = 0; i < data.achievement.Count; i++)
                 {
-                    ach++;
+                    if (!data.achievement[i].excludeEnding && achCompleted[i])
+                    {
+                        ach++;
+                    }
                 }
-            }
-            int achSum = data.achievement.Count(c => !c.excludeEnding);
-            int studyExpSum = studyExp.Sum();
-            endingDisplayText.text = $@"엔딩 조건
+                int achSum = data.achievement.Count(c => !c.excludeEnding);
+                int studyExpSum = studyExp.Sum();
+                endingDisplayText.text = $@"엔딩 조건
 <color={(ach == achSum ? "green" : "red")}>1 - 모든 업적 달성 (THE END, 이름없는업적15 제외) ({ach}/14)</color>
 <color={(lv == 99 ? "green" : "red")}>2 - 레벨 100 달성 ({lv + 1}/100)</color>
 <color={(money >= 10000000 ? "green" : "red")}>3 - 돈 10000000 달성 ({money}/10000000)</color>
 <color={(studyExpSum >= 7500000 ? "green" : "red")}>4 - 모든 과목 능력치 합계 7500000 이상 ({studyExpSum}/7500000)</color>
 (엔딩을 볼 시 자동으로 저장되며, 엔딩을 본 이후에도 해당 파일을 계속 플레이할 수 있습니다)";
-            endButton.interactable = ach == achSum && lv == 99 && money >= 10000000 && studyExpSum >= 7500000;
+                endButton.interactable = ach == achSum && lv == 99 && money >= 10000000 && studyExpSum >= 7500000;
+            }
         }
         GameObject selectedGameobject = GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject;
         if (selectedGameobject == null || selectedGameobject.GetComponent<InputField>() == null)
@@ -628,6 +640,20 @@ public class Player : MonoBehaviour
         {
             speed = 1;
         }
+        if (endEffectDuring)
+        {
+            endEffectAlpha += Time.deltaTime / 5;
+            endEffect.color = new Color(0, 0, 0, endEffectAlpha);
+            if (endEffectAlpha >= 1)
+            {
+                Save();
+                GameObject end = GameObject.Find("EndDatePass");
+                DontDestroyOnLoad(end);
+                end.GetComponent<EndDatePass>().studyExp = studyExp;
+                end.GetComponent<EndDatePass>().score = scores[^1];
+                SceneManager.LoadScene("EndScene2");
+            }
+        }
     }
     void LateUpdate()
     {
@@ -642,8 +668,9 @@ public class Player : MonoBehaviour
     }
     void Save()
     {
-        SaveFile1 save = new SaveFile1();
-        save.version = 1;
+        SaveFile2 save = new SaveFile2();
+        save.version = 2;
+        save.versionName = "1.04";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
         save.exp = exp;
@@ -677,6 +704,8 @@ public class Player : MonoBehaviour
         save.experimental = experimental;
         save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
         save.totalPlayTime = totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
+        save.length = length;
+        save.end = end;
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
     }
     public void StartDay()
@@ -821,10 +850,17 @@ public class Player : MonoBehaviour
         {
             timeSpeed = TimeSpan.Zero;
         }
+        else if (length != 0 && time.Date == endTime)
+        {
+            timeSpeed = TimeSpan.Zero;
+            end = true;
+            endEffectDuring = true;
+            endEffect.gameObject.SetActive(true);
+            endEffect.transform.SetAsLastSibling();
+        }
         else
         {
             timeSpeed = new TimeSpan(0, 0, 30);
-            //timeSpeed = new TimeSpan(3, 0, 0);
         }
         if (time.DayOfWeek == DayOfWeek.Monday && time.Date != new DateTime(2024, 3, 4) || (tutorial && time.Date == new DateTime(2024, 3, 5))) 
         {
@@ -1300,6 +1336,11 @@ public class Player : MonoBehaviour
     }
     public void UseItem(int id)
     {
+        if (end)
+        {
+            OpenDialog("이미 종료된 게임입니다");
+            return;
+        }
         itemRemove = true;
         data.item[inventory[id]].use.Invoke();
         if (itemRemove)

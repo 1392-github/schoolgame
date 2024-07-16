@@ -252,7 +252,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 80
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -263,11 +263,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uCD95\uD558\uAC11\uB2C8\uB2E4! \uB2F9\uC2E0\uC740 \uC774 \uAC8C\uC784\uC744
-    \uD074\uB9AC\uC5B4 \uD588\uC2B5\uB2C8\uB2E4\n2024\uB144 3\uC6D4 4\uC77C 8\uC2DC
-    0\uBD84 0\uCD08\n(0\uC77C 0\uC2DC\uAC04 0\uBD84 0\uCD08 \uC18C\uBAA8)\n[Enter]\uB85C
-    \uBA54\uC778 \uD654\uBA74\uC73C\uB85C \uC774\uB3D9\n(\uC2DC\uAC04\uC740 \uAC8C\uC784
-    \uC2DC\uAC04\uC785\uB2C8\uB2E4)"
+  m_Text: "\uCD5C\uC885 \uB2A5\uB825\uCE58\n\uAD6D\uC5B4 999999 / \uC218\uD559 999999
+    / \uC0AC\uD68C 999999 / \uACFC\uD559 999999 / \uC601\uC5B4 999999\n\uCD1D\uD569
+    <size=100>1000000</size>\n\uCD5C\uC885 \uC131\uC801\n\uAD6D\uC5B4 1(1) / \uC218\uD559
+    1(1) / \uC0AC\uD68C 1(1) / \uACFC\uD559 1(1) / \uC601\uC5B4 1(1)\n\uD3C9\uADE0
+    <size=100>1</size>\n[Enter]\uB85C \uBA54\uC778 \uD654\uBA74\uC73C\uB85C \uC774\uB3D9"
 --- !u!222 &581953926
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 581953923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac23c67e2aa817f4fb8dc59ac4552e91, type: 3}
+  m_Script: {fileID: 11500000, guid: c95640149706e4a46aa6e2d4eeae7e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &688168407

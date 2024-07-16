@@ -10,8 +10,9 @@ public class StartButton : MonoBehaviour
     public GameObject expCheck;
     public Transform expScroll;
     public InputField name;
+    public InputField length;
     Dictionary<Experimental, Toggle> expSelect;
-    public SaveFile1 defaultSave;
+    public SaveFile2 defaultSave;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +44,10 @@ public class StartButton : MonoBehaviour
             defaultSave.clas = new int[] {-1};
         }
         defaultSave.startTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        if (length.text != "")
+        {
+            defaultSave.length = int.Parse(length.text);
+        }
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{name.text}", JsonUtility.ToJson(defaultSave));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
     }
