@@ -151,6 +151,10 @@ public class Player : MonoBehaviour
     public Image endEffect;
     float endEffectAlpha;
     bool endEffectDuring;
+    int[] oldStudyExp;
+    public GameObject studyExpIncreaseEffect;
+    public Toggle isFixMsgScroll;
+    public Transform studyExpPanel;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -337,6 +341,11 @@ public class Player : MonoBehaviour
         }
         updateInventory();
         endTime = new DateTime(2024, 3, 4) + new TimeSpan(length * 7, 0, 0, 0);
+        oldStudyExp = new int[5];
+        for (int i = 0; i < 5; i++)
+        {
+            oldStudyExp[i] = studyExp[i];
+        }
     }
     void Update()
     {
@@ -652,6 +661,18 @@ public class Player : MonoBehaviour
                 end.GetComponent<EndDatePass>().studyExp = studyExp;
                 end.GetComponent<EndDatePass>().score = scores[^1];
                 SceneManager.LoadScene("EndScene2");
+            }
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            if (oldStudyExp[i] != studyExp[i])
+            {
+                GameObject g = Instantiate(studyExpIncreaseEffect, studyExpPanel);
+                g.GetComponent<Text>().text = (studyExp[i] - oldStudyExp[i]).ToString("+0;-#");
+                RectTransform rt = g.GetComponent<RectTransform>();
+                rt.anchorMin = new Vector2((i + 1) / 6f, 0.33f);
+                rt.anchorMax = rt.anchorMin;
+                oldStudyExp[i] = studyExp[i];
             }
         }
     }
@@ -1147,10 +1168,7 @@ public class Player : MonoBehaviour
     }
     public void SendMessage(string text)
     {
-        if (msgScroll.verticalNormalizedPosition <= 0.001f)
-        {
-            msgScrollDown = 2;
-        }
+        msgScrollDown = 2;
         msg.text += "\n" + text;
     }
     public void GiveAch(int id)
