@@ -106,10 +106,11 @@ public class StatUpgrade : MonoBehaviour
         ChanceInputChance(chanceInput.text);
         ChanceInputEnd();
         player.updateShop();
+        player.updateInventory();
     }
     public void UpdateText()
     {
-        text.text = $"{data.stat[id].name} Lv {player.stat[id]} ({prop.GetValue(player)}{data.stat[id].unit})";
+        text.text = $"{data.stat[id].name} Lv {player.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix})";
         if (data.stat[id].max != 0 && player.stat[id] == data.stat[id].max)
         {
             button.interactable = false;

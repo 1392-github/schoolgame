@@ -21,9 +21,9 @@ public class TheEnd2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScene");
         }
     }
 }

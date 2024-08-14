@@ -6,6 +6,7 @@ public class StatType
     public float reqExp;
     public int max;
     public string prop;
-    public string unit;
+    public string prefix;
+    public string suffix;
     public Experimental experimental = Experimental.NONE;
 }

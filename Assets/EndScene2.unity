@@ -267,7 +267,8 @@ MonoBehaviour:
     / \uC0AC\uD68C 999999 / \uACFC\uD559 999999 / \uC601\uC5B4 999999\n\uCD1D\uD569
     <size=100>1000000</size>\n\uCD5C\uC885 \uC131\uC801\n\uAD6D\uC5B4 1(1) / \uC218\uD559
     1(1) / \uC0AC\uD68C 1(1) / \uACFC\uD559 1(1) / \uC601\uC5B4 1(1)\n\uD3C9\uADE0
-    <size=100>1</size>\n[Enter]\uB85C \uBA54\uC778 \uD654\uBA74\uC73C\uB85C \uC774\uB3D9"
+    <size=100>1</size>\n[Enter] \uB610\uB294 \uD654\uBA74 \uD130\uCE58\uB85C \uBA54\uC778
+    \uD654\uBA74\uC73C\uB85C \uC774\uB3D9"
 --- !u!222 &581953926
 CanvasRenderer:
   m_ObjectHideFlags: 0

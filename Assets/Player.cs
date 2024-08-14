@@ -70,9 +70,9 @@ public class Player : MonoBehaviour
     int msgScrollDown;
     GameObject classPlaceInput;
     Text classPlaceDDay;
-    Text busStopTimeDisplay;
-    Dropdown busStopDropdown;
-    Dropdown busDirectionDropdown;
+    public Text busStopTimeDisplay;
+    public Dropdown busStopDropdown;
+    public Dropdown busDirectionDropdown;
     public bool busDirection;
     TextMeshPro busLocD;
     Door busDoor;
@@ -155,6 +155,13 @@ public class Player : MonoBehaviour
     public GameObject studyExpIncreaseEffect;
     public Toggle isFixMsgScroll;
     public Transform studyExpPanel;
+    public bool pause;
+    public GameObject tutorialArrow;
+    Image currentTutorialImage;
+    public List<KeyCode> currentPressingButton;
+    public Toggle fastSpeedToggle;
+    List<int> alreadyTutorial;
+    public object[] chatExtra;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -167,13 +174,13 @@ public class Player : MonoBehaviour
             }
             else
             {
-                return 55 * Mathf.Pow(1.02f, stat[0] - 18);
+                return 55 * Mathf.Pow(1.03f, stat[0] - 18);
             }
         }
     }
-    public int LvIncome => (int)(9860 * Mathf.Pow(1.02f, stat[1]));
-    public float nextDayStudyExp => 1 - 0.05f * Mathf.Pow(0.98f, stat[2]);
-    public int classPlacementChance => Mathf.Clamp(10 + stat[3] * 3, 10, 100);
+    public int LvIncome => (int)(9860 * Mathf.Pow(1.025f, stat[1]));
+    public float nextDayStudyExp => 1 - 0.2f * Mathf.Pow(0.98f, stat[2]);
+    public int classPlacementChance => Mathf.Clamp(10 + stat[3] * 2, 10, 100);
     public float problemTime => 60 * Mathf.Pow(0.99f, stat[4]);
     #endregion
     void OnEnable()
@@ -274,9 +281,9 @@ public class Player : MonoBehaviour
         }
         classPlaceInput = canvas.Find("ClassPlaceInput").gameObject;
         classPlaceDDay = canvas.Find("Menu").Find("GetClass").Find("ChangeDDay").GetComponent<Text>();
-        busStopTimeDisplay = canvas.Find("BusStopTime").Find("Scroll View").Find("Viewport").Find("Content").GetComponent<Text>();
-        busStopDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy)").GetComponent<Dropdown>();
-        busDirectionDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy) (1)").GetComponent<Dropdown>();
+        //busStopTimeDisplay = canvas.Find("BusStopTime").Find("Scroll View").Find("Viewport").Find("Content").GetComponent<Text>();
+        //busStopDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy)").GetComponent<Dropdown>();
+        //busDirectionDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy) (1)").GetComponent<Dropdown>();
         UpdateDDay();
         int r;
         if (scores.Count == 0)
@@ -346,14 +353,19 @@ public class Player : MonoBehaviour
         {
             oldStudyExp[i] = studyExp[i];
         }
+        alreadyTutorial = new List<int>();
+        chatExtra = new object[0];
     }
     void Update()
     {
-        time += timeSpeed * Time.deltaTime * speed;
+        if (!pause)
+        {
+            time += timeSpeed * Time.deltaTime * speed;
+        }
         totalPlayTime += new TimeSpan(0, 0, 1) * Time.deltaTime;
         if (enableCheat)
         {
-            if (Input.GetKeyDown(KeyCode.Slash))
+            if (GetKeyDown(KeyCode.Slash))
             {
                 canvas.Find("Cheat").gameObject.SetActive(true);
             }
@@ -405,19 +417,19 @@ public class Player : MonoBehaviour
                 hit.transform.GetComponent<Clickable>()?.onClick?.Invoke();
             }
         }
-        if (tutorial)
-        {
-            if (TimeSpan.Parse(data.tutorialSchedule[schedule].time) < time.TimeOfDay)
-            {
-                if (TimeSpan.Parse(data.tutorialSchedule[schedule].time) > new TimeSpan(8, 0, 0) || time.TimeOfDay < new TimeSpan(14, 0, 0))
-                {
-                    data.tutorialSchedule[schedule].work.Invoke();
-                    schedule++;
-                }
-            }
-        }
-        else
-        {
+        //if (tutorial)
+        //{
+        //    if (TimeSpan.Parse(data.tutorialSchedule[schedule].time) < time.TimeOfDay)
+        //    {
+        //        if (TimeSpan.Parse(data.tutorialSchedule[schedule].time) > new TimeSpan(8, 0, 0) || time.TimeOfDay < new TimeSpan(14, 0, 0))
+        //        {
+        //            data.tutorialSchedule[schedule].work.Invoke();
+        //            schedule++;
+        //        }
+        //    }
+        //}
+        //else
+        //{
             if (TimeSpan.Parse(data.schedule[schedule].time) < time.TimeOfDay)
             {
                 if (TimeSpan.Parse(data.schedule[schedule].time) > new TimeSpan(8, 0, 0) || time.TimeOfDay < new TimeSpan(14, 0, 0))
@@ -426,8 +438,8 @@ public class Player : MonoBehaviour
                     schedule++;
                 }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.M))
+        //}
+        if (GetKeyDown(KeyCode.M))
         {
             msgScroll.gameObject.SetActive(!msgScroll.gameObject.activeSelf);
         }
@@ -491,7 +503,6 @@ public class Player : MonoBehaviour
                 {
                     mapArgs += busDirection ? -1 : 1;
                     busBaseTime += new TimeSpan(0, 20, 0);
-                    money -= 100;
                 }
                 busDoor.args = mapArgs;
                 busLocD.text = $"{data.busStop[mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)";
@@ -503,15 +514,15 @@ public class Player : MonoBehaviour
                 moneyFloat -= i;
                 money += i;
             }
-            if (currentScene == "DormitoryRoom" && Input.GetKeyDown(KeyCode.N) && !inSchool)
+            if (GetKeyDown(KeyCode.N) && currentScene == "DormitoryRoom" && !inSchool)
             {
                 timeSpeed = new TimeSpan(1, 0, 0);
             }
         }
         speedDisplay.text = $"Speed = {speed}";
-        if (Input.GetKeyDown(KeyCode.Equals))
+        if (GetKeyDown(KeyCode.Equals))
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
                 if (speed == 0)
                 {
@@ -532,9 +543,9 @@ public class Player : MonoBehaviour
             }
             Time.fixedDeltaTime = 0.02f / speed;
         }
-        if (Input.GetKeyDown(KeyCode.Minus) && speed > 0)
+        if (GetKeyDown(KeyCode.Minus) && speed > 0)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
                 speed /= 2;
             }
@@ -551,7 +562,7 @@ public class Player : MonoBehaviour
                 Time.fixedDeltaTime = 0.02f / speed;
             }
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (GetKeyDown(KeyCode.I))
         {
             inventoryDisplay2.SetActive(true);
         }
@@ -597,7 +608,7 @@ public class Player : MonoBehaviour
         //    moneyFloat2 %= 1;
         //    money -= a;
         //}
-        if (Input.GetKeyDown(KeyCode.E))
+        if (GetKeyDown(KeyCode.E))
         {
             if (length == 0)
             {
@@ -626,7 +637,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < 10; i++)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+                if (GetKeyDown(KeyCode.Alpha0 + i))
                 {
                     speed = i;
                     if (speed == 0)
@@ -641,8 +652,12 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (GetKeyDown(KeyCode.Escape))
         {
+            if (currentChat == 1 && currentChatElement == 1)
+            {
+                NextChat2();
+            }
             menu.SetActive(true);
         }
         if (speed == 0 && cntProblemItem != -1)
@@ -689,6 +704,10 @@ public class Player : MonoBehaviour
     }
     void Save()
     {
+        if (tutorial)
+        {
+            return;
+        }
         SaveFile2 save = new SaveFile2();
         save.version = 2;
         save.versionName = "1.04";
@@ -731,23 +750,6 @@ public class Player : MonoBehaviour
     }
     public void StartDay()
     {
-        //Move("DormitoryRoom", 0, Vector3.zero);
-        if (tutorial)
-        {
-            if (time.Date == new DateTime(2024, 3, 4))
-            {
-                OpenDialog("학교의 1학년 1반 교실에 들어가세요, 8시 50분까지 들어가지 않으면 100XP와 10000원이 깍입니다");
-            }
-            else
-            {
-                GiveExp(150);
-                OpenDialog("XP를 모으면 레벨이 오르며, 레벨은 공부 효율, 수입, 반배정 확률에 영향을 미칩니다\n자세한 내용은 '1392year.pythonanywhere.com/w/123456/레벨'을 참고하세요");
-            }
-        }
-        /*if (!tutorial && time.Date != new DateTime(2024, 3, 4))
-        {
-            GiveExp(Random.Range(50, 151));
-        }*/
         schedule = -1;
         studyExp = studyExp.Select(c => c > 0 ? (int)(c * nextDayStudyExp) : c).ToArray();
         inSchool = true;
@@ -761,13 +763,25 @@ public class Player : MonoBehaviour
             nextBusStopTimeChange = new DateTime(time.Date.Month == 12 ? time.Date.Year + 1 : time.Date.Year, time.Date.Month == 12 ? 1 : time.Month + 1, 1);
             ChangeBusStopTime();
         }
-        //if (time.Date == weeklyGoalTime)
-        //{
-        //    weeklyGoalSubject = Random.Range(0, 5);
-        //    weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-        //    weeklyGoalReward = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 100, int.MaxValue) * Random.Range(0.3f, 0.5f));
-        //    updateWeeklyGoalDisplay();
-        //}
+        if (tutorial)
+        {
+            if (time.Date == new DateTime(2024, 3, 4))
+            {
+                OpenChat(0);
+            }
+            if (time.Date == new DateTime(2024, 3, 5))
+            {
+                OpenChat(8);
+            }
+            if (time.Date == new DateTime(2024, 3, 9))
+            {
+                OpenChat(10);
+            }
+            if (time.Date == new DateTime(2024, 3, 11))
+            {
+                OpenChat(11);
+            }
+        }
     }
     public void Test()
     {
@@ -837,67 +851,66 @@ public class Player : MonoBehaviour
     }
     public void StartClass()
     {
-        if (tutorial)
-        {
-            if (time.Date == new DateTime(2024, 3, 4))
-            {
-                OpenDialog("수업이 시작하면 국어,수학,사회,과학,영어 중 랜덤으로 1과목이 1~500(레벨1 기준) 사이에서 오릅니다");
-            }
-            else
-            {
-                OpenDialog("매주 월요일 (2024년 3월 4일은 제외, 튜토리얼에서는 3월 5일)에 시험을 봅니다");
-            }
-        }
         inClass = true;
         timeSpeed = new TimeSpan(0, 10, 0);
         if (currentScene == "Classroom" && mapArgs == clas[0])
         {
-            giveStudyExp(Random.Range(0, 5), 1, 10);
+            if (tutorial && time.Date == new DateTime(2024, 3, 5) && schedule == 0)
+            {
+                studyExp[weeklyGoalSubject] = weeklyGoalValue;
+                GiveExp(weeklyGoalReward);
+                TutorialOpenChat(9);
+            }
+            else
+            {
+                giveStudyExp(Random.Range(0, 5), 1, 10);
+            }
         }
         else
         {
-            GiveExp(-3000);
-            money -= LvIncome * 8;
+            money -= 50000;
+            for (int i = 0; i < 5; i++)
+            {
+                if (studyExp[i] >= 0)
+                {
+                    studyExp[i] /= 2;
+                }
+                else
+                {
+                    studyExp[i] *= 2;
+                }
+            }
         }
+        TutorialOpenChat(3);
     }
     public void EndClass()
     {
-        timeSpeed = new TimeSpan(0, 0, 5);
-        inClass = false;
+        //timeSpeed = new TimeSpan(0, 0, 5);
+        //inClass = false;
     }
     public void EndSchool()
     {
-        if (tutorial && time.Date == new DateTime(2024, 3, 5))
+        if (length != 0 && time.Date == endTime)
         {
-            timeSpeed = TimeSpan.Zero;
-        }
-        else if (length != 0 && time.Date == endTime)
-        {
-            timeSpeed = TimeSpan.Zero;
-            end = true;
-            endEffectDuring = true;
-            endEffect.gameObject.SetActive(true);
-            endEffect.transform.SetAsLastSibling();
+            if (tutorial)
+            {
+                timeSpeed = TimeSpan.Zero;
+            }
+            else
+            {
+                End2();
+            }
         }
         else
         {
             timeSpeed = new TimeSpan(0, 0, 30);
         }
-        if (time.DayOfWeek == DayOfWeek.Monday && time.Date != new DateTime(2024, 3, 4) || (tutorial && time.Date == new DateTime(2024, 3, 5))) 
+        if (time.DayOfWeek == DayOfWeek.Monday && time.Date != new DateTime(2024, 3, 4)) 
         {
+            TutorialOpenChat(12);
             Test();
         }
-        if (tutorial)
-        {
-            if (time.Date == new DateTime(2024, 3, 4))
-            {
-                OpenDialog("시간표는 다음과 같습니다 (튜토리얼에는 1교시만 있음)\n1교시 08:50~09:35\n2교시 09:45~10:30\n3교시 10:40~11:25\n4교시 11:35~12:20\n5교시 13:10~13:55\n6교시 14:05~14:50");
-            }
-            else
-            {
-                OpenDialog("시험 등급은 능력치에 따라 결정되며, 자세한 내용은 '1392year.pythonanywhere.com/w/123456/시험 등급'을 참고하세요\n능력치가 표시되는 부분을 클릭하면 성적표를 볼 수 있습니다");
-            }
-        }
+        inClass = false;
         inSchool = false;
         if (time.Date == startClassPlacement)
         {
@@ -920,6 +933,7 @@ public class Player : MonoBehaviour
                 clas[0] = Random.Range(0, 10);
             }
         }
+        TutorialOpenChat(4);
     }
     public void GiveExp(int amount)
     {
@@ -939,9 +953,17 @@ public class Player : MonoBehaviour
         {
             GiveAch(0);
         }
-        if (name == "Bus")
+        if (name == "BusStop")
         {
-            money -= 1000;
+            TutorialOpenChat(1);
+        }
+        if (name == "Main1F")
+        {
+            TutorialOpenChat(2);
+        }
+        if (name == "Shop")
+        {
+            TutorialOpenChat(7);
         }
         if (name != currentScene || args != mapArgs)
         {
@@ -975,6 +997,10 @@ public class Player : MonoBehaviour
                 door.transform.position = new Vector3(i * 3 + 1, 1.4f, 0);
                 door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
                 door.transform.Find("Door (2)").GetComponent<Door>().args = mapArgs * 10 + i;
+                if (mapArgs == 0 && i == clas[0])
+                {
+                    door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                }
             }
             if (mapArgs == 2)
             {
@@ -1003,6 +1029,14 @@ public class Player : MonoBehaviour
         {
             GameObject.Find("Square (3)").GetComponent<Door>().args = mapArgs / 10;
             GameObject.Find("Square (3)").GetComponent<Door>().pos = new Vector3(1 + mapArgs % 10 * 3, 0.8f, 0);
+            /*if (mapArgs != 9)
+            {
+                GameObject.Find("EasterEgg").SetActive(false);
+            }*/
+            if (mapArgs == clas[0])
+            {
+                timeSpeed = new TimeSpan(0, 10, 0);
+            }
         }
         if (currentScene == "Dormitory1F")
         {
@@ -1101,6 +1135,11 @@ public class Player : MonoBehaviour
             busDoor = GameObject.Find("Square (5)").GetComponent<Door>();
             busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
         }
+        if (tutorial && currentScene == "Unnamed3" && time.Date == new DateTime(2024, 3, 4)) // 튜토리얼 6 출력 + 문 잠그기
+        {
+            TutorialOpenChat(5);
+            GameObject.Find("Square").GetComponent<Door>().enable = false;
+        }
         mapInited = true;
         /*if (doorName != "")
         {
@@ -1186,6 +1225,11 @@ public class Player : MonoBehaviour
     {
         classPlaceDDay.text = $"다음 반배정 : {startClassPlacement:yyyy-MM-dd} (D-{(startClassPlacement - time.Date).TotalDays})";
         LoadBusTime();
+        if (tutorial && currentScene == "Unnamed3")
+        {
+            GameObject.Find("Square").GetComponent<Door>().enable = true;
+            TutorialOpenChat(6);
+        }
     }
     void ChangeBusStopTime()
     {
@@ -1313,7 +1357,7 @@ public class Player : MonoBehaviour
     }
     public void giveStudyExp(int sub, int min, int max)
     {
-        int amount = Random.Range(min == 1 ? 1 : (int)(min * studyLvBonus), (int)(max * studyLvBonus) + 1);
+        int amount = Random.Range((int)(min * studyLvBonus), (int)(max * studyLvBonus) + 1);
         studyExp[sub] += amount;
         SendMessage($"{data.subjectName[sub]} 능력치가 {Mathf.Abs(amount)} {(amount >= 0 ? "증가" : "감소")}했습니다");
         if (studyExp.All(c => c >= 1000000))
@@ -1369,7 +1413,7 @@ public class Player : MonoBehaviour
     }
     public void Item1Desc(int l)
     {
-        descExt = new object[] { l == 1 ? 1 : (int)(l * studyLvBonus), (int)(l * 2 * studyLvBonus) };
+        descExt = new object[] { (int)(l * studyLvBonus), (int)(l * 2 * studyLvBonus) };
     }
     public void ProblemOK()
     {
@@ -1527,6 +1571,14 @@ public class Player : MonoBehaviour
         end.GetComponent<EndDatePass>().endDate = time;
         SceneManager.LoadScene("EndScene");
     }
+    public void End2()
+    {
+        timeSpeed = TimeSpan.Zero;
+        end = true;
+        endEffectDuring = true;
+        endEffect.gameObject.SetActive(true);
+        endEffect.transform.SetAsLastSibling();
+    }
     public bool ExperimentalCheck(Experimental e)
     {
         return experimental.Contains(e);
@@ -1543,7 +1595,7 @@ public class Player : MonoBehaviour
             {
                 Save();
             }
-            SceneManager.LoadScene("SelectSaveScene");
+            SceneManager.LoadScene("TitleScene");
         }
     }
     public void OpenChat(int id)
@@ -1559,12 +1611,32 @@ public class Player : MonoBehaviour
         if (currentChatElement == -1)
         {
             chatDisplay.SetActive(false);
+            data.chat[currentChat].endEvent.Invoke();
+            currentChat = -1;
             return;
         }
         ChatElement e = data.chat[currentChat].value[currentChatElement];
         e.chatEvent.Invoke();
-        nextChatElement = e.next;
-        chatContentText.text = e.value;
+        if (e.next == -2)
+        {
+            nextChatElement = 0;
+        }
+        else if (e.next == 0)
+        {
+            if (currentChatElement == data.chat[currentChat].value.Count - 1)
+            {
+                nextChatElement = -1;
+            }
+            else
+            {
+                nextChatElement = currentChatElement + 1;
+            }
+        }
+        else
+        {
+            nextChatElement = e.next;
+        }
+        chatContentText.text = string.Format(e.value, chatExtra);
         foreach (Transform item2 in chatOption)
         {
             Destroy(item2.gameObject);
@@ -1584,6 +1656,10 @@ public class Player : MonoBehaviour
                 button.transform.Find("Text (Legacy)").GetComponent<Text>().text = item.name;
             }
         }
+        if (e.disableNext)
+        {
+            enableNext = false;
+        }
     }
     public void NextChat()
     {
@@ -1593,9 +1669,79 @@ public class Player : MonoBehaviour
             updateChat();
         }
     }
+    public void NextChat2()
+    {
+        currentChatElement = nextChatElement;
+        updateChat();
+    }
     public void ChatOptionSelect(int id)
     {
         currentChatElement = id;
         updateChat();
+    }
+    public void ChangeTimeSpeed(string speed)
+    {
+        timeSpeed = TimeSpan.ParseExact(speed, "hh\\:mm\\:ss", null);
+    }
+    public void Pause(bool pause)
+    {
+        this.pause = pause;
+    }
+    public void TutorialUI(int id)
+    {
+        if (currentTutorialImage != null)
+        {
+            currentTutorialImage.color = new Color32(255, 255, 255, 100);
+        }
+        if (id == -1)
+        {
+            tutorialArrow.SetActive(false);
+        }
+        else
+        {
+            currentTutorialImage = data.tutorialUI[id].uiImage;
+            if (currentTutorialImage != null)
+            {
+                currentTutorialImage.color = new Color32(255, 255, 255, 255);
+            }
+            tutorialArrow.SetActive(true);
+            tutorialArrow.transform.localPosition = data.tutorialUI[id].arrowPos;
+            tutorialArrow.transform.rotation = Quaternion.Euler(0, 0, data.tutorialUI[id].arrowRot);
+        }
+    }
+    public bool GetKeyDown(KeyCode key)
+    {
+        if (Input.GetKeyDown(key))
+        {
+            return true;
+        }
+        if (currentPressingButton.Contains(key))
+        {
+            currentPressingButton.Remove(key);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void TutorialOpenChat(int id)
+    {
+        if (!alreadyTutorial.Contains(id) && tutorial)
+        {
+            alreadyTutorial.Add(id);
+            OpenChat(id);
+        }
+    }
+    public void ChatExtra1()
+    {
+        chatExtra = new object[] {clas[0] + 1};
+    }
+    public void TutorialEvent1()
+    {
+        weeklyGoalSubject = Random.Range(0, 5);
+        weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
+        weeklyGoalReward = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+        updateWeeklyGoalDisplay();
     }
 }

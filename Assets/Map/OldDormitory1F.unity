@@ -158,6 +158,8 @@ MonoBehaviour:
   args: 0
   pos: {x: 10, y: -0.8, z: 0}
   enable: 1
+  DestDoorName: 
+  direction: 0
 --- !u!61 &73959577
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -546,7 +548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &622730794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,6 +1396,8 @@ MonoBehaviour:
   args: 0
   pos: {x: 0.6, y: 1, z: 0}
   enable: 1
+  DestDoorName: 
+  direction: 0
 --- !u!61 &1972409532
 BoxCollider2D:
   m_ObjectHideFlags: 0

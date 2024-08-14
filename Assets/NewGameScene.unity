@@ -545,7 +545,7 @@ MonoBehaviour:
     versionName: 1.04
     time: 2024-03-04 08:00:00
     timeSpeed: 00:00:30
-    money: 10000
+    money: 0
     exp: 0
     level: 0
     studyExp: 0000000000000000000000000000000000000000

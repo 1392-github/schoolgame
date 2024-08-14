@@ -158,6 +158,8 @@ MonoBehaviour:
   args: 0
   pos: {x: 10, y: -0.8, z: 0}
   enable: 1
+  DestDoorName: 
+  direction: 0
 --- !u!61 &73959577
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -379,6 +381,8 @@ MonoBehaviour:
   args: 0
   pos: {x: 0, y: 0, z: 0}
   enable: 1
+  DestDoorName: 
+  direction: 0
 --- !u!1 &427100220
 GameObject:
   m_ObjectHideFlags: 0
