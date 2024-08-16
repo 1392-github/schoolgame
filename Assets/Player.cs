@@ -196,6 +196,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         data = GameObject.Find("Data").GetComponent<Data>();
         saveName = GameObject.Find("SaveData").GetComponent<SaveBuffer>().name;
+        alreadyTutorial = new List<int>();
+        chatExtra = new object[0];
         #region 저장 데이터 불러오기
         SaveFile2 save = (SaveFile2)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
@@ -353,8 +355,6 @@ public class Player : MonoBehaviour
         {
             oldStudyExp[i] = studyExp[i];
         }
-        alreadyTutorial = new List<int>();
-        chatExtra = new object[0];
     }
     void Update()
     {
