@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class Stat : MonoBehaviour
     {
         text.text = $@"시작 시간 : {player.startTime:yyyy년 M월 d일 H시 m분 s초}
 전체 플레이 타임 : {TimeSpanToString(DateTime.Now - player.startTime)}
-순수 플레이 타임 : {TimeSpanToString(player.totalPlayTime)}";
+순수 플레이 타임 : {TimeSpanToString(player.totalPlayTime)}
+모든 능력치 합 : {player.studyExp.Sum()}";
     }
 }

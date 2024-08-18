@@ -1033,7 +1033,7 @@ public class Player : MonoBehaviour
             {
                 GameObject.Find("EasterEgg").SetActive(false);
             }*/
-            if (mapArgs == clas[0])
+            if (mapArgs == clas[0] && inSchool)
             {
                 timeSpeed = new TimeSpan(0, 10, 0);
             }
