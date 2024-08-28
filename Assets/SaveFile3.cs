@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// STILL DEVLOPEMENT
+
 [System.Serializable]
 public class SaveFile3 : SaveFile0
 {
@@ -28,7 +28,7 @@ public class SaveFile3 : SaveFile0
     public string nextBusStopTimeChange;
     public List<int> inventory;
     public int speed;
-    public int[] repeatAvg;
+    public int repeatAll1;
     public int weeklyGoalSubject;
     public int weeklyGoalValue;
     public int weeklyGoalReward;
@@ -40,4 +40,6 @@ public class SaveFile3 : SaveFile0
     public string totalPlayTime;
     public int length;
     public bool end;
+    public int reqexpm;
+    public string hash;
 }

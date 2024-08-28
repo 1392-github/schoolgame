@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveScene : MonoBehaviour
 {
     SaveBuffer sb;
-    public SaveFile2 tutorialDefaultSave;
+    public SaveFile3 tutorialDefaultSave;
     void Start()
     {
         sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
@@ -16,11 +16,11 @@ public class MoveScene : MonoBehaviour
     }
     public void Youtube()
     {
-        System.Diagnostics.Process.Start("https://www.youtube.com/@user-vb9by5mp9f");
+        Application.OpenURL("https://www.youtube.com/@user-vb9by5mp9f");
     }
     public void OfficalSite()
     {
-        System.Diagnostics.Process.Start("https://1392year.pythonanywhere.com/w/d7ByHgoruh");
+        Application.OpenURL("https://1392year.pythonanywhere.com/w/d7ByHgoruh");
     }
     public void Tutorial()
     {

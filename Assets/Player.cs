@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     public TimeSpan totalPlayTime;
     public int length;
     public bool end;
+    public int reqexpm;
     #endregion
     #region 저장 데이터가 아닌 변수들
     public int sbindex;
@@ -162,6 +163,8 @@ public class Player : MonoBehaviour
     public Toggle fastSpeedToggle;
     List<int> alreadyTutorial;
     public object[] chatExtra;
+    public GameObject mobileOnlyUI;
+    bool alreadyPenalty;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -199,7 +202,7 @@ public class Player : MonoBehaviour
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
-        SaveFile2 save = (SaveFile2)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        SaveFile3 save = (SaveFile3)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
         timeSpeed = TimeSpan.Parse(save.timeSpeed);
         exp = save.exp;
@@ -241,6 +244,7 @@ public class Player : MonoBehaviour
         totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
         length = save.length;
         end = save.end;
+        reqexpm = save.reqexpm;
         #endregion
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
@@ -326,8 +330,8 @@ public class Player : MonoBehaviour
         if (weeklyGoalSubject == -1)
         {
             weeklyGoalSubject = Random.Range(0, 5);
-            weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-            weeklyGoalReward = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+            weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.7f));
+            weeklyGoalReward = (int)(Mathf.Clamp(weeklyGoalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
         }
         updateWeeklyGoalDisplay();
         cntProblemItem = -1;
@@ -354,6 +358,12 @@ public class Player : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             oldStudyExp[i] = studyExp[i];
+        }
+        data.NeedExpForGrade = data.NeedExpForGrade.Select(c => c * reqexpm).ToList();
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            mobileOnlyUI.SetActive(true);
+            speedDisplay.GetComponent<RectTransform>().offsetMin = new Vector2(300, 0);
         }
     }
     void Update()
@@ -616,20 +626,20 @@ public class Player : MonoBehaviour
                 int ach = 0;
                 for (int i = 0; i < data.achievement.Count; i++)
                 {
-                    if (!data.achievement[i].excludeEnding && achCompleted[i])
+                    if (!data.achievement[i].name.EndsWith("(E)") && achCompleted[i])
                     {
                         ach++;
                     }
                 }
-                int achSum = data.achievement.Count(c => !c.excludeEnding);
+                int achSum = data.achievement.Count(c => !c.name.EndsWith("(E)"));
                 int studyExpSum = studyExp.Sum();
                 endingDisplayText.text = $@"엔딩 조건
-<color={(ach == achSum ? "green" : "red")}>1 - 모든 업적 달성 (THE END, 이름없는업적15 제외) ({ach}/14)</color>
-<color={(lv == 99 ? "green" : "red")}>2 - 레벨 100 달성 ({lv + 1}/100)</color>
+<color={(ach >= achSum ? "green" : "red")}>1 - 모든 업적 달성 (이름 끝에 (E)가 있는 업적 제외) ({ach}/{achSum})</color>
+<color={(stat[0] >= 150 ? "green" : "red")}>2 - 공부 효율 레벨 150 이상 달성 ({stat[0]}/150)</color>
 <color={(money >= 10000000 ? "green" : "red")}>3 - 돈 10000000 달성 ({money}/10000000)</color>
-<color={(studyExpSum >= 7500000 ? "green" : "red")}>4 - 모든 과목 능력치 합계 7500000 이상 ({studyExpSum}/7500000)</color>
+<color={(studyExpSum >= 10000000 ? "green" : "red")}>4 - 모든 과목 능력치 합계 10000000 이상 ({studyExpSum}/10000000)</color>
 (엔딩을 볼 시 자동으로 저장되며, 엔딩을 본 이후에도 해당 파일을 계속 플레이할 수 있습니다)";
-                endButton.interactable = ach == achSum && lv == 99 && money >= 10000000 && studyExpSum >= 7500000;
+                endButton.interactable = ach >= achSum && stat[0] >= 150 && money >= 10000000 && studyExpSum >= 10000000;
             }
         }
         GameObject selectedGameobject = GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject;
@@ -708,9 +718,9 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        SaveFile2 save = new SaveFile2();
-        save.version = 2;
-        save.versionName = "1.04";
+        SaveFile3 save = new SaveFile3();
+        save.version = 3;
+        save.versionName = "1.09";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
         save.exp = exp;
@@ -746,6 +756,7 @@ public class Player : MonoBehaviour
         save.totalPlayTime = totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
         save.length = length;
         save.end = end;
+        save.reqexpm = reqexpm;
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
     }
     public void StartDay()
@@ -782,6 +793,7 @@ public class Player : MonoBehaviour
                 OpenChat(11);
             }
         }
+        alreadyPenalty = false;
     }
     public void Test()
     {
@@ -868,17 +880,21 @@ public class Player : MonoBehaviour
         }
         else
         {
-            money -= 50000;
-            for (int i = 0; i < 5; i++)
+            if (!alreadyPenalty)
             {
-                if (studyExp[i] >= 0)
+                money -= 50000;
+                for (int i = 0; i < 5; i++)
                 {
-                    studyExp[i] /= 2;
+                    if (studyExp[i] >= 0)
+                    {
+                        studyExp[i] /= 2;
+                    }
+                    else
+                    {
+                        studyExp[i] *= 2;
+                    }
                 }
-                else
-                {
-                    studyExp[i] *= 2;
-                }
+                alreadyPenalty = true;
             }
         }
         TutorialOpenChat(3);
@@ -1042,7 +1058,7 @@ public class Player : MonoBehaviour
         {
             //GameObject.Find("Square (4)").GetComponent<OpenGUIButton>().target = canvas.Find("PC").gameObject;
             //GameObject.Find("Square (4)").GetComponent<CPBlockCall>().c = canvas.Find("PC").GetComponent<CPBlock>();
-            #region 통금 시간 (임시 비활성화)
+#region 통금 시간 (임시 비활성화)
             //int r;
             //if (scores.Count == 0)
             //{
@@ -1091,7 +1107,7 @@ public class Player : MonoBehaviour
             //{
             //    GameObject.Find("Text (TMP) (3)").GetComponent<TextMeshPro>().text = $"외출 금지 시간\n{new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4):hh\\:mm}~08:00";
             //}
-            #endregion
+#endregion
         }
         if (currentScene == "BusStop")
         {

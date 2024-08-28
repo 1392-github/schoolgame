@@ -7,12 +7,16 @@ using UnityEngine.UI;
 public class StartButton : MonoBehaviour
 {
     public List<ExperData> exp;
+    public List<NameAndVal<int>> expmul;
     public GameObject expCheck;
+    public GameObject timeSelect;
     public Transform expScroll;
     public InputField name;
     public InputField length;
     Dictionary<Experimental, Toggle> expSelect;
-    public SaveFile2 defaultSave;
+    public Dropdown mulDropdown;
+    public SaveFile3 defaultSave;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +29,7 @@ public class StartButton : MonoBehaviour
             g.transform.Find("Text (Legacy) (1)").GetComponent<Text>().text = item.desc;
             expSelect.Add(item.value, g.transform.Find("Toggle").GetComponent<Toggle>());
         }
+        mulDropdown.options = expmul.Select(c => new Dropdown.OptionData(c.name)).ToList();
     }
     public void Click()
     {
@@ -50,5 +55,9 @@ public class StartButton : MonoBehaviour
         }
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{name.text}", JsonUtility.ToJson(defaultSave));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
+    }
+    public void ChangeMul(int i)
+    {
+        defaultSave.reqexpm = expmul[i].value;
     }
 }

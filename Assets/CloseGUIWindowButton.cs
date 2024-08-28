@@ -7,8 +7,8 @@ public class CloseGUIWindowButton : MonoBehaviour
     public bool isTutorialEnd;
     public void Click()
     {
-        Player player = GameObject.Find("Player").GetComponent<Player>();
-        if (player.tutorial && player.scores.Count != 0 && isTutorialEnd)
+        Player player = GameObject.Find("Player")?.GetComponent<Player>();
+        if (player != null && player.tutorial && player.scores.Count != 0 && isTutorialEnd)
         {
             player.End2();
         }
