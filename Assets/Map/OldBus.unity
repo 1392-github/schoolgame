@@ -602,6 +602,8 @@ MonoBehaviour:
   args: 0
   pos: {x: 5, y: 0.6, z: 0}
   enable: 1
+  DestDoorName: 
+  direction: 0
 --- !u!61 &1061938209
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -818,7 +820,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "~~~\uD559\uAD50 \uAE30\uC219\uC0AC\n(~~~\uD559\uAD50 \uAE30\uC219\uC0AC
-    \u2192)"
+    \u2192)\n(10\uBD84 0\uCD08 \uB0A8\uC74C)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

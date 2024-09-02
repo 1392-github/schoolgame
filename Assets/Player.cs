@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -458,15 +457,16 @@ public class Player : MonoBehaviour
             if (currentScene == "BusStop")
             {
                 TimeSpan t = time.TimeOfDay;
-                bool b1 = true;
-                bool b2 = true; 
+                bool b1 = mapArgs != data.busStop.Count - 1;
+                bool b2 = mapArgs != 0;
                 for (int i = 0; i < busTime1.Length; i++)
                 {
                     TimeSpan bt1 = busTime1[i];
                     TimeSpan bt2 = busTime2[i];
                     if (b1)
                     {
-                        if (t >= bt1 && t <= bt1 + new TimeSpan(0, 5, 0))
+                        //if (t >= bt1 && t <= bt1 + new TimeSpan(0, 5, 0))
+                        if (DateTimeCalc2.Between(t, bt1, DateTimeCalc2.Add(bt1, new TimeSpan(0, 5, 0))))
                         {
                             bus1.SetActive(true);
                             busBaseTime1 = bt1;
@@ -475,7 +475,11 @@ public class Player : MonoBehaviour
                         else
                         {
                             bus1.SetActive(false);
-                            //busStopText1.text = "";
+                        }
+                        if (b1 && DateTimeCalc2.Sub(bt1, t) <= new TimeSpan(1, 0, 0))
+                        {
+                            b1 = false;
+                            busStopText2.text = $"{data.busStop[^1].name} 방향 ({DateTimeCalc2.Sub(bt1, t):m\\분\\ ss\\초})";
                         }
                     }
                     if (b2)
@@ -490,6 +494,11 @@ public class Player : MonoBehaviour
                         {
                             bus2.SetActive(false);
                         }
+                        if (b2 && DateTimeCalc2.Sub(bt2, t) <= new TimeSpan(1, 0, 0))
+                        {
+                            b2 = false;
+                            busStopText1.text = $"{data.busStop[0].name} 방향 ({DateTimeCalc2.Sub(bt2, t):m\\분\\ ss\\초})";
+                        }
                     }
                 }
             }
@@ -497,25 +506,32 @@ public class Player : MonoBehaviour
             {
                 if (mapArgs == (busDirection ? 0 : data.busStop.Count - 1))
                 {
-                    busDoor.gameObject.SetActive(true);
-                    return;
-                }
-                TimeSpan t = time.TimeOfDay;
-                if (t >= busBaseTime && t <= busBaseTime + new TimeSpan(0, 5, 0))
-                {
+                    busLocD.text = $"{data.busStop[mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n(0분 00초 남음)";
                     busDoor.gameObject.SetActive(true);
                 }
-                if (t >= busBaseTime + new TimeSpan(0, 5, 0) && t <= busBaseTime + new TimeSpan(0, 20, 0))
+                else
                 {
-                    busDoor.gameObject.SetActive(false);
+                    TimeSpan t = time.TimeOfDay;
+                    //if (t >= busBaseTime && t <= busBaseTime + new TimeSpan(0, 5, 0))
+                    if (DateTimeCalc2.Between(t, busBaseTime, DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 5, 0))))
+                    {
+                        busDoor.gameObject.SetActive(true);
+                    }
+                    //if (t >= busBaseTime + new TimeSpan(0, 5, 0) && t <= busBaseTime + new TimeSpan(0, 20, 0))
+                    if (DateTimeCalc2.Between(t, DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 5, 0)), DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 20, 0))))
+                    {
+                        busDoor.gameObject.SetActive(false);
+                    }
+                    bool overflow;
+                    if (t >= DateTimeCalc2.Add2(busBaseTime, new TimeSpan(0, 20, 0), out overflow) && (!overflow || t <= new TimeSpan(1, 0, 0)))
+                    {
+                        mapArgs += busDirection ? -1 : 1;
+                        busBaseTime = DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 20, 0));
+                    }
+                    busDoor.args = mapArgs;
+                    TimeSpan tm = DateTimeCalc2.Sub(busBaseTime + new TimeSpan(0, 20, 0), time.TimeOfDay);
+                    busLocD.text = $"{data.busStop[mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n({tm:m\\분\\ ss}초 남음)";
                 }
-                if (t >= busBaseTime + new TimeSpan(0, 20, 0))
-                {
-                    mapArgs += busDirection ? -1 : 1;
-                    busBaseTime += new TimeSpan(0, 20, 0);
-                }
-                busDoor.args = mapArgs;
-                busLocD.text = $"{data.busStop[mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)";
             }
             if (currentScene == "Unnamed3")
             {
@@ -594,7 +610,7 @@ public class Player : MonoBehaviour
                 }
                 problem.SetActive(false);
                 cntProblemItem = -1;
-                timeSpeed = new TimeSpan(0, 0, 30);
+                timeSpeed = new TimeSpan(0, 1, 0);
             }
         }
         xpDisplay.text = $"{exp} XP";
@@ -864,7 +880,6 @@ public class Player : MonoBehaviour
     public void StartClass()
     {
         inClass = true;
-        timeSpeed = new TimeSpan(0, 10, 0);
         if (currentScene == "Classroom" && mapArgs == clas[0])
         {
             if (tutorial && time.Date == new DateTime(2024, 3, 5) && schedule == 0)
@@ -917,9 +932,17 @@ public class Player : MonoBehaviour
                 End2();
             }
         }
+        else if (length != 0 && time.Date == endTime)
+        {
+            timeSpeed = TimeSpan.Zero;
+            end = true;
+            endEffectDuring = true;
+            endEffect.gameObject.SetActive(true);
+            endEffect.transform.SetAsLastSibling();
+        }
         else
         {
-            timeSpeed = new TimeSpan(0, 0, 30);
+            timeSpeed = new TimeSpan(0, 1, 0);
         }
         if (time.DayOfWeek == DayOfWeek.Monday && time.Date != new DateTime(2024, 3, 4)) 
         {
@@ -1054,8 +1077,8 @@ public class Player : MonoBehaviour
                 timeSpeed = new TimeSpan(0, 10, 0);
             }
         }
-        if (currentScene == "Dormitory1F")
-        {
+        //if (currentScene == "Dormitory1F")
+        //{
             //GameObject.Find("Square (4)").GetComponent<OpenGUIButton>().target = canvas.Find("PC").gameObject;
             //GameObject.Find("Square (4)").GetComponent<CPBlockCall>().c = canvas.Find("PC").GetComponent<CPBlock>();
 #region 통금 시간 (임시 비활성화)
@@ -1108,7 +1131,7 @@ public class Player : MonoBehaviour
             //    GameObject.Find("Text (TMP) (3)").GetComponent<TextMeshPro>().text = $"외출 금지 시간\n{new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4):hh\\:mm}~08:00";
             //}
 #endregion
-        }
+        //}
         if (currentScene == "BusStop")
         {
             if (mapArgs == 0)
@@ -1132,8 +1155,12 @@ public class Player : MonoBehaviour
             bus2.GetComponent<Door>().args = mapArgs + 65536;
             busTime1 = GetBusTime(mapArgs, false);
             busTime2 = GetBusTime(mapArgs, true);
-            GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>().text = $"{data.busStop[0].name} 방향";
-            GameObject.Find("Text (TMP) (2)").GetComponent<TextMeshPro>().text = $"{data.busStop[^1].name} 방향";
+            busStopText1 = GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>();
+            busStopText2 = GameObject.Find("Text (TMP) (2)").GetComponent<TextMeshPro>();
+            busStopText1.text = $"{data.busStop[0].name} 방향";
+            busStopText2.text = $"{data.busStop[^1].name} 방향";
+            bus1.SetActive(false);
+            bus2.SetActive(false);
         }
         if (currentScene == "Bus")
         {
@@ -1280,11 +1307,7 @@ public class Player : MonoBehaviour
         }
         return busStopTime.Select(c =>
         {
-            TimeSpan a = c + new TimeSpan(0, id * 20, 0);
-            if (a >= new TimeSpan(1, 0, 0, 0))
-            {
-                a -= new TimeSpan(1, 0, 0, 0);
-            }
+            TimeSpan a = DateTimeCalc2.Add(c, new TimeSpan(0, id * 20, 0));
             return a;
         }).ToArray();
     }
