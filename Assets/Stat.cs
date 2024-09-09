@@ -18,9 +18,19 @@ public class Stat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        string examStat = "";
+        for (int i = 7; i >= 0; i--)
+        {
+            examStat += $"{i + 1}등급 이상 처음 날짜 : {player.firstGrade[i]}\n";
+        }
+        for (int i = 7; i >= 0; i--)
+        {
+            examStat += $"{i + 1}등급 이상 연속 횟수 : {player.repeatGrade[i]}번 (최대 {player.repeatGradeMax[i]}번)\n";
+        }
         text.text = $@"시작 시간 : {player.startTime:yyyy년 M월 d일 H시 m분 s초}
 전체 플레이 타임 : {TimeSpanToString(DateTime.Now - player.startTime)}
 순수 플레이 타임 : {TimeSpanToString(player.totalPlayTime)}
-모든 능력치 합 : {player.studyExp.Sum()}";
+모든 능력치 합 : {player.studyExp.Sum()}
+{examStat}";
     }
 }

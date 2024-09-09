@@ -76,6 +76,6 @@ public class AchGenerator : MonoBehaviour
     }
     public void AchRep1Para()
     {
-        para = new object[] {player.repeatAll1};
+        para = new object[] { player.repeatGrade[0] };
     }
 }

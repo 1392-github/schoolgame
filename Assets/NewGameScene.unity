@@ -703,15 +703,7 @@ MonoBehaviour:
   - name: "\uB9F5 \uB514\uC790\uC778 \uAC1C\uC120"
     desc: 
     value: 1
-  expmul:
-  - name: Normal (1x)
-    value: 1
-  - name: Midlong (3x)
-    value: 3
-  - name: Long (10x)
-    value: 10
-  - name: Ultra Long (30x)
-    value: 30
+  diff: fffffffffdfffffff6ffffffe2ffffff01000000030000000a0000001e00000064000000
   expCheck: {fileID: 6755829044480099700, guid: d91fe5e1bbbc897469635dd777647fbd, type: 3}
   timeSelect: {fileID: 0}
   expScroll: {fileID: 710949544}
@@ -719,13 +711,12 @@ MonoBehaviour:
   length: {fileID: 1458154024}
   mulDropdown: {fileID: 1721642791}
   defaultSave:
-    version: 3
-    versionName: 1.09
+    version: 4
+    versionName: 1.11
     time: 2024-03-04 08:00:00
     timeSpeed: 00:00:30
     money: 0
     exp: 0
-    level: 0
     studyExp: 0000000000000000000000000000000000000000
     scores: []
     map: DormitoryRoom
@@ -744,20 +735,24 @@ MonoBehaviour:
     nextBusStopTimeChange: 2024-04-01
     inventory: 
     speed: 1
-    repeatAll1: 0
-    weeklyGoalSubject: -1
-    weeklyGoalValue: 0
-    weeklyGoalReward: 0
-    weeklyGoalTime: 2024-03-11
-    weeklyGoalCompleted: 0
+    goalSubject: -1
+    goalValue: 0
+    goalReward: 0
     stat: 
     experimental: 
     startTime: 
     totalPlayTime: 0:00:00:00
-    endDate: 0001-01-01
+    length: 0
     end: 0
-    reqexpm: 1
+    difficulty: 1
+    repeatGradeMax: 0000000000000000000000000000000000000000000000000000000000000000
+    costWeight: 100
+    costWeightStatus: 0
     hash: 
+    stockCost: e8030000e8030000e8030000e8030000e8030000
+    stockAmount: 0000000000000000000000000000000000000000
+    stockStatus: 0000000000
+    stockCostChanged: 0000000000000000000000000000000000000000
 --- !u!1 &377280792
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +970,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB2A5\uB825\uCE58 \uC694\uAD6C\uB7C9 \uBC30\uC218"
+  m_Text: "\uB09C\uC774\uB3C4"
 --- !u!222 &420507948
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1473,7 +1468,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 100
   m_Viewport: {fileID: 15303149}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1680322190}
@@ -1671,7 +1666,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: "\uBCF4\uD1B5 (1x)"
 --- !u!222 &716451201
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2958,8 +2953,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 275, y: -200}
-  m_SizeDelta: {x: -650, y: 100}
+  m_AnchoredPosition: {x: 140, y: -200}
+  m_SizeDelta: {x: -380, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1721642791
 MonoBehaviour:
@@ -3007,9 +3002,27 @@ MonoBehaviour:
   m_CaptionImage: {fileID: 0}
   m_ItemText: {fileID: 502493880}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Value: 4
   m_Options:
-    m_Options: []
+    m_Options:
+    - m_Text: "\uAC00\uC7A5 \uC26C\uC6C0 (0.01x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uB9E4\uC6B0 \uC26C\uC6C0 (0.03x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uC26C\uC6C0 (0.1x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uC57D\uAC04 \uC26C\uC6C0 (0.3x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uBCF4\uD1B5 (1x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uC57D\uAC04 \uC5B4\uB824\uC6C0 (3x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uC5B4\uB824\uC6C0 (10x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uB9E4\uC6B0 \uC5B4\uB824\uC6C0 (30x)"
+      m_Image: {fileID: 0}
+    - m_Text: "\uAC00\uC7A5 \uC5B4\uB824\uC6C0 (100x)"
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

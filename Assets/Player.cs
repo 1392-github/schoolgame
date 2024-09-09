@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
 {
     #region 저장 데이터
     public int exp;
-    public int lv;
     public int save;
     public int money;
     public DateTime time;
@@ -34,19 +33,23 @@ public class Player : MonoBehaviour
     public DateTime nextBusStopTimeChange;
     public List<int> inventory;
     public int speed;
-    public int repeatAll1;
-    public int weeklyGoalSubject;
-    public int weeklyGoalValue;
-    public int weeklyGoalReward;
-    public DateTime weeklyGoalTime;
-    public bool weeklyGoalCompleted;
+    public int goalSubject;
+    public int goalValue;
+    public int goalReward;
     public int[] stat;
     public List<Experimental> experimental;
     public DateTime startTime;
     public TimeSpan totalPlayTime;
     public int length;
     public bool end;
-    public int reqexpm;
+    public int difficulty;
+    public int costWeight;
+    public bool costWeightStatus;
+    public int[] repeatGradeMax;
+    public int[] stockCost;
+    public int[] stockAmount;
+    public bool[] stockStatus;
+    public int[] stockCostChanged;
     #endregion
     #region 저장 데이터가 아닌 변수들
     public int sbindex;
@@ -103,7 +106,7 @@ public class Player : MonoBehaviour
     Image problemImage;
     string problemAnswer;
     Text speedDisplay;
-    Text weeklyGoalDisplay;
+    Text goalDisplay;
     public GameObject itemContent;
     Transform inventoryDisplay;
     GameObject inventoryDisplay2;
@@ -164,6 +167,12 @@ public class Player : MonoBehaviour
     public object[] chatExtra;
     public GameObject mobileOnlyUI;
     bool alreadyPenalty;
+    public string[] firstGrade;
+    public int[] repeatGrade;
+    public GameObject stockItem;
+    public Transform stockList;
+    public Transform[] stockItems;
+    InputField[] stockInput;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -201,11 +210,10 @@ public class Player : MonoBehaviour
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
-        SaveFile3 save = (SaveFile3)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        SaveFile4 save = (SaveFile4)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
         timeSpeed = TimeSpan.Parse(save.timeSpeed);
         exp = save.exp;
-        lv = save.level;
         money = save.money;
         studyExp = save.studyExp;
         scores = save.scores;
@@ -226,14 +234,11 @@ public class Player : MonoBehaviour
         busStopTime = save.busStopTime.Select(c => TimeSpan.ParseExact(c, "hh\\:mm", null)).ToList();
         nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
         speed = save.speed;
-        repeatAll1 = save.repeatAll1;
         experimental = save.experimental;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
-        weeklyGoalSubject = save.weeklyGoalSubject;
-        weeklyGoalValue = save.weeklyGoalValue;
-        weeklyGoalReward = save.weeklyGoalReward;
-        weeklyGoalTime = DateTime.ParseExact(save.weeklyGoalTime, "yyyy-MM-dd", null);
-        weeklyGoalCompleted = save.weeklyGoalCompleted;
+        goalSubject = save.goalSubject;
+        goalValue = save.goalValue;
+        goalReward = save.goalReward;
         stat = save.stat;
         if (stat.Length < data.stat.Count)
         {
@@ -243,7 +248,14 @@ public class Player : MonoBehaviour
         totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
         length = save.length;
         end = save.end;
-        reqexpm = save.reqexpm;
+        difficulty = save.difficulty;
+        costWeight = save.costWeight;
+        costWeightStatus = save.costWeightStatus;
+        repeatGradeMax = save.repeatGradeMax;
+        stockAmount = save.stockAmount;
+        stockCost = save.stockCost;
+        stockCostChanged = save.stockCostChanged;
+        stockStatus = save.stockStatus;
         #endregion
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
@@ -252,6 +264,9 @@ public class Player : MonoBehaviour
         dialogText = dialog.transform.Find("DialogText").Find("Viewport").Find("Content").GetComponent<Text>();
         msgScroll = canvas.Find("MsgScroll").GetComponent<ScrollRect>();
         msg = msgScroll.transform.Find("Viewport").Find("Msg").GetComponent<Text>();
+        firstGrade = new string[8];
+        repeatGrade = new int[8];
+        CalcuateRankStat();
         achGen.Start2();
         if (clas[0] == -1)
         {
@@ -325,12 +340,12 @@ public class Player : MonoBehaviour
         problemTimerDisplay = problem.transform.Find("Timer").GetComponent<Text>();
         problemAnswerInput = problem.transform.Find("Answer").GetComponent<InputField>();
         speedDisplay = GameObject.Find("SpeedDisplay").GetComponent<Text>();
-        weeklyGoalDisplay = GameObject.Find("WeeklyGoalText").GetComponent<Text>();
-        if (weeklyGoalSubject == -1)
+        goalDisplay = GameObject.Find("WeeklyGoalText").GetComponent<Text>();
+        if (goalSubject == -1)
         {
-            weeklyGoalSubject = Random.Range(0, 5);
-            weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.7f));
-            weeklyGoalReward = (int)(Mathf.Clamp(weeklyGoalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+            goalSubject = Random.Range(0, 5);
+            goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.7f));
+            goalReward = (int)(Mathf.Clamp(goalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
         }
         updateWeeklyGoalDisplay();
         cntProblemItem = -1;
@@ -358,12 +373,15 @@ public class Player : MonoBehaviour
         {
             oldStudyExp[i] = studyExp[i];
         }
-        data.NeedExpForGrade = data.NeedExpForGrade.Select(c => c * reqexpm).ToList();
+        data.NeedExpForGrade = data.NeedExpForGrade.Select(c => difficulty > 0 ? c * difficulty : c * -difficulty / 100).ToList();
         if (Application.platform == RuntimePlatform.Android)
         {
             mobileOnlyUI.SetActive(true);
             speedDisplay.GetComponent<RectTransform>().offsetMin = new Vector2(300, 0);
         }
+        stockInput = new InputField[5];
+        stockItems = new Transform[5];
+        StockUIUpdate();
     }
     void Update()
     {
@@ -734,13 +752,12 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        SaveFile3 save = new SaveFile3();
-        save.version = 3;
-        save.versionName = "1.09";
+        SaveFile4 save = new SaveFile4();
+        save.version = 4;
+        save.versionName = "1.11";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
         save.exp = exp;
-        save.level = lv;
         save.money = money;
         save.studyExp = studyExp;
         save.map = currentScene;
@@ -760,19 +777,23 @@ public class Player : MonoBehaviour
         save.nextBusStopTimeChange = nextBusStopTimeChange.ToString("yyyy-MM-dd");
         save.inventory = inventory;
         save.speed = speed;
-        save.repeatAll1 = repeatAll1;
-        save.weeklyGoalSubject = weeklyGoalSubject;
-        save.weeklyGoalValue = weeklyGoalValue;
-        save.weeklyGoalReward = weeklyGoalReward;
-        save.weeklyGoalTime = weeklyGoalTime.ToString("yyyy-MM-dd");
-        save.weeklyGoalCompleted = weeklyGoalCompleted;
+        save.goalSubject = goalSubject;
+        save.goalValue = goalValue;
+        save.goalReward = goalReward;
         save.stat = stat;
         save.experimental = experimental;
         save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
         save.totalPlayTime = totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
         save.length = length;
         save.end = end;
-        save.reqexpm = reqexpm;
+        save.difficulty = difficulty;
+        save.repeatGradeMax = repeatGradeMax;
+        save.costWeight = costWeight;
+        save.costWeightStatus = costWeightStatus;
+        save.stockAmount = stockAmount;
+        save.stockCost = stockCost;
+        save.stockCostChanged = stockCostChanged;
+        save.stockStatus = stockStatus;
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
     }
     public void StartDay()
@@ -810,6 +831,50 @@ public class Player : MonoBehaviour
             }
         }
         alreadyPenalty = false;
+        if (time.Date != new DateTime(2024, 3, 4))
+        {
+            if (costWeightStatus)
+            {
+                costWeight += Random.Range(1, 11);
+            }
+            else
+            {
+                costWeight -= Random.Range(1, 11);
+                if (costWeight < 30)
+                {
+                    costWeight = 30;
+                }
+            }
+            if (Random.Range(0, 10) == 0)
+            {
+                costWeightStatus = !costWeightStatus;
+            }
+            updateShop();
+            for (int i = 0; i < 5; i++)
+            {
+                if (stockStatus[i])
+                {
+                    stockCostChanged[i] = Random.Range(1, 101);
+                    stockCost[i] += stockCostChanged[i];
+                }
+                else
+                {
+                    int prevcost = stockCost[i];
+                    stockCostChanged[i] = Random.Range(-100, 0);
+                    stockCost[i] += stockCostChanged[i];
+                    if (stockCost[i] < 1)
+                    {
+                        stockCost[i] = 1;
+                        stockCostChanged[i] = stockCost[i] - prevcost;
+                    }
+                }
+                if (Random.Range(0, 10) == 0)
+                {
+                    stockStatus[i] = !stockStatus[i];
+                }
+            }
+            StockUIUpdate();
+        }
     }
     public void Test()
     {
@@ -844,19 +909,11 @@ public class Player : MonoBehaviour
                 GiveAch(j);
             }
         }
-        if (avgRank == 1)
+        CalcuateRankStat();
+        achGen.AchRegen();
+        if (repeatGrade[0] == 10)
         {
-            repeatAll1++;
-            achGen.AchRegen();
-            if (repeatAll1 == 10)
-            {
-                GiveAch(9);
-            }
-        }
-        else
-        {
-            repeatAll1 = 0;
-            achGen.AchRegen();
+            GiveAch(9);
         }
         scores.Add(rslt);
         int r = (int)Math.Ceiling(avgRank);
@@ -884,8 +941,8 @@ public class Player : MonoBehaviour
         {
             if (tutorial && time.Date == new DateTime(2024, 3, 5) && schedule == 0)
             {
-                studyExp[weeklyGoalSubject] = weeklyGoalValue;
-                GiveExp(weeklyGoalReward);
+                studyExp[goalSubject] = goalValue;
+                GiveExp(goalReward);
                 TutorialOpenChat(9);
             }
             else
@@ -1403,19 +1460,18 @@ public class Player : MonoBehaviour
         {
             GiveAch(12);
         }
-        if (studyExp[weeklyGoalSubject] >= weeklyGoalValue && !weeklyGoalCompleted)
+        if (studyExp[goalSubject] >= goalValue)
         {
-            //weeklyGoalCompleted = true;
-            GiveExp(weeklyGoalReward);
-            weeklyGoalSubject = Random.Range(0, 5);
-            weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-            weeklyGoalReward = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+            GiveExp(goalReward);
+            goalSubject = Random.Range(0, 5);
+            goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
+            goalReward = (int)(Mathf.Clamp(goalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
             updateWeeklyGoalDisplay();
         }
     }
     void updateWeeklyGoalDisplay()
     {
-        weeklyGoalDisplay.text = $"{data.subjectName[weeklyGoalSubject]} {weeklyGoalValue} 이상 → {weeklyGoalReward} XP";
+        goalDisplay.text = $"{data.subjectName[goalSubject]} {goalValue} 이상 → {goalReward} XP";
     }
     public void updateInventory()
     {
@@ -1474,7 +1530,7 @@ public class Player : MonoBehaviour
             }
             Transform b = Instantiate(buyItemContent).transform;
             b.SetParent(buyItemDisplay, false);
-            b.Find("Name").GetComponent<Text>().text = $"{d.name} ({d.cost}원)";
+            b.Find("Name").GetComponent<Text>().text = $"{d.name} ({d.cost * costWeight / 100}원)";
             d.descExt.Invoke();
             b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, descExt);
             int i2 = i;
@@ -1483,12 +1539,12 @@ public class Player : MonoBehaviour
     }
     public void BuyItem(int id)
     {
-        if (money < data.item[id].cost)
+        if (money < data.item[id].cost * costWeight / 100)
         {
             OpenDialog("돈이 부족합니다");
             return;
         }
-        money -= data.item[id].cost;
+        money -= data.item[id].cost * costWeight / 100;
         inventory.Add(id);
         updateInventory();
     }
@@ -1778,9 +1834,88 @@ public class Player : MonoBehaviour
     }
     public void TutorialEvent1()
     {
-        weeklyGoalSubject = Random.Range(0, 5);
-        weeklyGoalValue = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-        weeklyGoalReward = (int)(Mathf.Clamp(studyExp[weeklyGoalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+        goalSubject = Random.Range(0, 5);
+        goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
+        goalReward = (int)(Mathf.Clamp(studyExp[goalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
         updateWeeklyGoalDisplay();
+    }
+    public void CalcuateRankStat()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            firstGrade[i] = "없음";
+        }
+        foreach (TestScore score in scores)
+        {
+            int avg = Mathf.CeilToInt(score.grade.Sum() / 5f) - 1;
+            for (int i = 0; i < 8; i++)
+            {
+                if (avg <= i)
+                {
+                    if (firstGrade[i] == "없음")
+                    {
+                        firstGrade[i] = score.date;
+                    }
+                    repeatGrade[i]++;
+                    if (repeatGrade[i] > repeatGradeMax[i])
+                    {
+                        repeatGradeMax[i] = repeatGrade[i];
+                    }
+                }
+                else
+                {
+                    repeatGrade[i] = 0;
+                }
+            }
+        }
+    }
+    public void StockUIUpdate()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Transform st;
+            if (stockItems[i] == null)
+            {
+                st = Instantiate(stockItem, stockList).transform;
+                int i2 = i;
+                st.Find("BuyButton").GetComponent<Button>().onClick.AddListener(() => BuyStock(i2));
+                st.Find("SellButton").GetComponent<Button>().onClick.AddListener(() => SellStock(i2));
+                stockInput[i] = st.Find("AmountInput").GetComponent<InputField>();
+                stockItems[i] = st;
+            }
+            else
+            {
+                st = stockItems[i];
+            }
+            st.Find("Info").GetComponent<Text>().text = $"{i + 1}번 ({stockCost[i]}원) ({stockAmount[i]}주) <color={(stockCostChanged[i] > 0 ? "red" : "blue")}>{stockCostChanged[i]:▲ 0;▼ 0;\"\"}</color>";
+        }
+    }
+    public void BuyStock(int id)
+    {
+        int amount = int.Parse(stockInput[id].text);
+        if (stockCost[id] * amount > money)
+        {
+            OpenDialog("돈이 부족합니다");
+        }
+        else
+        {
+            money -= stockCost[id] * amount;
+            stockAmount[id] += amount;
+            StockUIUpdate();
+        }
+    }
+    public void SellStock(int id)
+    {
+        int amount = int.Parse(stockInput[id].text);
+        if (amount > stockAmount[id])
+        {
+            OpenDialog("주식이 부족합니다");
+        }
+        else
+        {
+            money += stockCost[id] * amount;
+            stockAmount[id] -= amount;
+            StockUIUpdate();
+        }
     }
 }

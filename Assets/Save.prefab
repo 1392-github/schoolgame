@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504f80e9484fb8a4cbf06460e6dc0ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deleteButton2: {fileID: 0}
+  deleteCheck: {fileID: 0}
 --- !u!1 &1291198770062221058
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f032b2d32c32342a4843e15b81c5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unsupported: {fileID: 0}
 --- !u!1 &1291198770410930109
 GameObject:
   m_ObjectHideFlags: 0

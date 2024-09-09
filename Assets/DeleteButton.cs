@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class DeleteButton : MonoBehaviour
 {
+    DeleteButton2 deleteButton2;
+    GameObject deleteCheck;
+    void Start()
+    {
+        deleteCheck = GameObject.Find("Canvas").transform.Find("DeleteCheck").gameObject;
+        deleteButton2 = deleteCheck.transform.Find("Button (Legacy)").GetComponent<DeleteButton2>();
+    }
     public void Click()
     {
-        System.IO.File.Delete(Application.persistentDataPath + $"/{transform.parent.Find("Name").GetComponent<UnityEngine.UI.Text>().text}");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
+        deleteButton2.saveName = transform.parent.Find("Name").GetComponent<UnityEngine.UI.Text>().text;
+        deleteCheck.SetActive(true);
     }
 }
