@@ -31,7 +31,11 @@ public class StatUpgrade : MonoBehaviour
             return;
         }
         during = true;
-        if (sxp.Length > 0 && sxp[0] == '-') xpInput.text = sxp.Remove(0, 1);
+        if (sxp.Length > 0 && sxp[0] == '-')
+        {
+            sxp = sxp.Remove(0, 1);
+            xpInput.text = sxp;
+        }
         if (int.TryParse(sxp, out xp))
         {
             if (xp > GetCost())
@@ -40,9 +44,7 @@ public class StatUpgrade : MonoBehaviour
                 xpInput.text = xp.ToString();
             }
             chance = (float)xp / GetCost();
-            Debug.Log(xp);
-            Debug.Log(chance);
-            chanceInput.text = (chance * 100).ToString();
+            chanceInput.text = (chance * 100).ToString("0.##########");
         }
         during = false;
     }
@@ -53,7 +55,11 @@ public class StatUpgrade : MonoBehaviour
             return;
         }
         during = true;
-        if (sch.Length > 0 && sch[0] == '-') chanceInput.text = sch.Remove(0, 1);
+        if (sch.Length > 0 && sch[0] == '-')
+        {
+            sch = sch.Remove(0, 1);
+            chanceInput.text = sch;
+        }
         if (float.TryParse(sch, out chance))
         {
             chance /= 100;
@@ -71,11 +77,15 @@ public class StatUpgrade : MonoBehaviour
     public void ChanceInputEnd()
     {
         during = true;
-        chanceInput.text = (chance * 100).ToString();
+        chanceInput.text = (chance * 100).ToString("0.##########");
         during = false;
     }
     public void Upgrade()
     {
+        if (xp < 0)
+        {
+            return;
+        }
         if (player.end)
         {
             player.OpenDialog("이미 종료된 게임입니다");
@@ -91,12 +101,12 @@ public class StatUpgrade : MonoBehaviour
         if (Random.Range(0f, 1f) <= chance)
         {
             player.stat[id]++;
-            player.SendMessage($"{data.stat[id].name} 업그레이드에 성공했습니다 (Lv {player.stat[id]-1} ({before}) → Lv {player.stat[id]} ({prop.GetValue(player)}))");
+            player.SendMessage($"{data.stat[id].name} 업그레이드에 성공했습니다 (Lv {player.stat[id] - 1} ({before}) → Lv {player.stat[id]} ({prop.GetValue(player)}))");
         }
         else
         {
             player.stat[id]--;
-            player.SendMessage($"{data.stat[id].name} 업그레이드에 실패했습니다 (Lv {player.stat[id]+1} ({before}) → Lv {player.stat[id]} ({prop.GetValue(player)}))");
+            player.SendMessage($"{data.stat[id].name} 업그레이드에 실패했습니다 (Lv {player.stat[id] + 1} ({before}) → Lv {player.stat[id]} ({prop.GetValue(player)}))");
         }
         if (player.stat[id] < -20)
         {

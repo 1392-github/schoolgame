@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public int LvIncome => (int)(9860 * Mathf.Pow(1.025f, stat[1]));
+    public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
     public float nextDayStudyExp => 1 - 0.2f * Mathf.Pow(0.98f, stat[2]);
     public int classPlacementChance => Mathf.Clamp(10 + stat[3] * 2, 10, 100);
     public float problemTime => 60 * Mathf.Pow(0.99f, stat[4]);
@@ -235,6 +235,7 @@ public class Player : MonoBehaviour
         nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
         speed = save.speed;
         experimental = save.experimental;
+        mapInited = true;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
         goalSubject = save.goalSubject;
         goalValue = save.goalValue;
@@ -356,6 +357,10 @@ public class Player : MonoBehaviour
         for (int i = 0; i < data.stat.Count; i++)
         {
             if (data.stat[i].experimental != Experimental.NONE && !ExperimentalCheck(data.stat[i].experimental))
+            {
+                continue;
+            }
+            if (i == 2)
             {
                 continue;
             }
@@ -1045,6 +1050,10 @@ public class Player : MonoBehaviour
     }
     public void Move(string name, int args, Vector3 pos, string door = "", Direction2 doorDirection = 0)
     {
+        if (!mapInited)
+        {
+            return;
+        }
         if (name == "Main1F")
         {
             GiveAch(0);
@@ -1068,7 +1077,8 @@ public class Player : MonoBehaviour
             {
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }
-            actualSceneName = ExperimentalCheck(Experimental.NEW_MAP) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
+            //actualSceneName = ExperimentalCheck(Experimental.NEW_MAP) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
+            actualSceneName = name;
             currentScene = name;
             SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
             mapArgs = args;

@@ -27,33 +27,39 @@ EditorBuildSettings:
     path: Assets/NewGameScene.unity
     guid: 5698ac5f93ee8f848be9561bcf2f762b
   - enabled: 1
-    path: Assets/Map/OldDormitoryRoom.unity
-    guid: 0f8992cdc07d2d84fa723f415ee2fd4c
+    path: Assets/RankingScene.unity
+    guid: 93999db03f2d4f3408edceac15d53787
   - enabled: 1
-    path: Assets/Map/OldDormitory1F.unity
-    guid: 1b7a25741513dc5479ce7ac24b7564ed
-  - enabled: 1
-    path: Assets/Map/OldDormitory2F.unity
-    guid: 7f791e6728f9c6747b1a5fa97c94fa4c
-  - enabled: 1
-    path: Assets/Map/OldMain1F.unity
-    guid: 3aebac03bbbad3848a2d27152a02eda0
-  - enabled: 1
-    path: Assets/Map/OldClassroom.unity
-    guid: 3b8acd9a22e2df04ca39bf3e527219cd
-  - enabled: 1
-    path: Assets/Map/OldBusStop.unity
-    guid: 4382c8ecf983d444c825dd70a07f180f
-  - enabled: 1
-    path: Assets/Map/OldShop.unity
-    guid: efb7a04a78a98a041942ce5a2a8b6d60
-  - enabled: 1
-    path: Assets/Map/OldUnnamed3.unity
-    guid: 07db6d89248e66741b65deaee9c53804
-  - enabled: 1
-    path: Assets/Map/OldBus.unity
-    guid: 7dee489d073b16f4894b514f15440aa8
+    path: Assets/UserInfoScene.unity
+    guid: 39d6c6abfd9f4524ba97f67d125dd187
   - enabled: 1
     path: Assets/Map/DormitoryRoom.unity
+    guid: 54c748f8635a5b7499be40890077b372
+  - enabled: 1
+    path: Assets/Map/Dormitory1F.unity
+    guid: 270794d488b0a1446b8e753295f1126a
+  - enabled: 1
+    path: Assets/Map/Dormitory2F.unity
+    guid: e19fbf9d0cc30604c8e3af765519bcea
+  - enabled: 1
+    path: Assets/Map/Main1F.unity
+    guid: 803f8d8665b9dfe41b492210fe73d267
+  - enabled: 1
+    path: Assets/Map/Classroom.unity
+    guid: 07aedaae5975957489737d7f3a78ec1f
+  - enabled: 1
+    path: Assets/Map/BusStop.unity
+    guid: 9800185d64ef0a440bb0253b59ecde2f
+  - enabled: 1
+    path: Assets/Map/Shop.unity
+    guid: 22d2db6167b75c5469c3509fd8dce1c2
+  - enabled: 1
+    path: Assets/Map/Unnamed3.unity
+    guid: 1283674b480fd404fb6e013b36179edb
+  - enabled: 1
+    path: Assets/Map/Bus.unity
+    guid: 028daeda30256d9448cf3a77af70670b
+  - enabled: 1
+    path: Assets/Map/UnusedDormitoryRoom.unity
     guid: 0e81162188e25d64a976ea2b3bd32a4e
   m_configObjects: {}

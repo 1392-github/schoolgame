@@ -700,9 +700,6 @@ MonoBehaviour:
       \uC2DC\uC2A4\uD15C\uC744 \uC218\uC815\uD569\uB2C8\uB2E4 (\uD604\uC7AC\uB294
       \uC758\uBBF8\uC5C6\uC74C)"
     value: 0
-  - name: "\uB9F5 \uB514\uC790\uC778 \uAC1C\uC120"
-    desc: 
-    value: 1
   diff: fffffffffdfffffff6ffffffe2ffffff01000000030000000a0000001e00000064000000
   expCheck: {fileID: 6755829044480099700, guid: d91fe5e1bbbc897469635dd777647fbd, type: 3}
   timeSelect: {fileID: 0}
@@ -714,7 +711,7 @@ MonoBehaviour:
     version: 4
     versionName: 1.11
     time: 2024-03-04 08:00:00
-    timeSpeed: 00:00:30
+    timeSpeed: 00:01:00
     money: 0
     exp: 0
     studyExp: 0000000000000000000000000000000000000000

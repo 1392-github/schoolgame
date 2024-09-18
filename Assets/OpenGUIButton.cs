@@ -9,12 +9,12 @@ public class OpenGUIButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.Find("Player")?.GetComponent<Player>();
     }
 
     public void Click()
     {
-        if (target.name == "ScoreBoard")
+        if (player != null && target.name == "ScoreBoard")
         {
             player.sbindex = player.scores.Count - 1;
         }
