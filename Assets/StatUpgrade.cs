@@ -23,7 +23,7 @@ public class StatUpgrade : MonoBehaviour
         prop = typeof(Player).GetProperty(data.stat[id].prop);
         UpdateText();
     }
-    int GetCost() => (int)(data.stat[id].reqBase * Mathf.Pow(data.stat[id].reqExp, player.stat[id]));
+    int GetCost() => Mathf.Max((int)(data.stat[id].reqBase * Mathf.Pow(data.stat[id].reqExp, player.stat[id])), 1);
     public void XpInputChange(string sxp)
     {
         if (during)
@@ -101,22 +101,17 @@ public class StatUpgrade : MonoBehaviour
         if (Random.Range(0f, 1f) <= chance)
         {
             player.stat[id]++;
-            player.SendMessage($"{data.stat[id].name} 업그레이드에 성공했습니다 (Lv {player.stat[id] - 1} ({before}) → Lv {player.stat[id]} ({prop.GetValue(player)}))");
+            player.SendMessage($"{data.stat[id].name} 업그레이드에 성공했습니다 (Lv {player.stat[id] - 1} ({data.stat[id].prefix}{before}{data.stat[id].suffix}) → Lv {player.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix}))");
         }
         else
         {
             player.stat[id]--;
-            player.SendMessage($"{data.stat[id].name} 업그레이드에 실패했습니다 (Lv {player.stat[id] + 1} ({before}) → Lv {player.stat[id]} ({prop.GetValue(player)}))");
+            player.SendMessage($"{data.stat[id].name} 업그레이드에 실패했습니다 (Lv {player.stat[id] + 1} ({data.stat[id].prefix}{before}{data.stat[id].suffix}) → Lv {player.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix}))");
         }
-        if (player.stat[id] < -20)
-        {
-            player.stat[id] = -20;
-        }
+        data.stat[id].onUpgrade.Invoke();
         UpdateText();
         ChanceInputChance(chanceInput.text);
         ChanceInputEnd();
-        player.updateShop();
-        player.updateInventory();
     }
     public void UpdateText()
     {

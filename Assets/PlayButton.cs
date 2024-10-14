@@ -32,6 +32,10 @@ public class PlayButton : MonoBehaviour
         {
             buf.save = GetSaveFile<SaveFile4>();
         }
+        else if (version == 5)
+        {
+            buf.save = GetSaveFile<SaveFile5>();
+        }
         else
         {
             GameObject.Find("Canvas").transform.Find("UnsupportedError").gameObject.SetActive(true);
@@ -121,7 +125,7 @@ public class PlayButton : MonoBehaviour
             next.reqexpm = 1;
             buf.save = next;
         }
-        if (version <= 3) // 3 (1.09~1.10) => 4 (1.11~)
+        if (version <= 3) // 3 (1.09~1.10) => 4 (1.11~1.13)
         {
             SaveFile3 current = (SaveFile3)buf.save;
             SaveFile4 next = new SaveFile4();
@@ -169,6 +173,58 @@ public class PlayButton : MonoBehaviour
             {
                 next.stockStatus[i] = Random.Range(0, 2) == 0;
             }
+            buf.save = next;
+        }
+        if (version <= 4) // 4 (1.11~1.13) => 5 (1.14~)
+        {
+            SaveFile4 current = (SaveFile4)buf.save;
+            SaveFile5 next = new SaveFile5();
+            next.time = current.time;
+            next.timeSpeed = current.timeSpeed;
+            next.money = current.money;
+            next.exp = current.exp;
+            next.studyExp = current.studyExp;
+            next.scores = current.scores;
+            next.map = current.map;
+            next.mapextra = current.mapextra;
+            next.x = current.x;
+            next.y = current.y;
+            next.schindex = current.schindex;
+            next.inclass = current.inclass;
+            next.inschool = current.inschool;
+            next.achCompleted = current.achCompleted;
+            next.clas = current.clas;
+            next.duringClassPlacement = current.duringClassPlacement;
+            next.startClassPlacement = current.startClassPlacement;
+            next.endClassPlacement = current.endClassPlacement;
+            next.busStopTime = current.busStopTime;
+            next.nextBusStopTimeChange = current.nextBusStopTimeChange;
+            next.inventory = current.inventory;
+            next.speed = current.speed;
+            next.goalSubject = current.goalSubject;
+            next.goalValue = current.goalValue;
+            next.goalReward = current.goalReward;
+            next.stat = new int[6];
+            if (current.stat.Length != 0)
+            {
+                next.stat[0] = current.stat[0];
+                next.stat[1] = current.stat[1];
+                next.stat[2] = current.stat[3];
+                next.stat[3] = current.stat[4];
+            }
+            next.experimental = current.experimental;
+            next.startTime = current.startTime;
+            next.totalPlayTime = current.totalPlayTime;
+            next.length = current.length;
+            next.end = current.end;
+            next.difficulty = current.difficulty;
+            next.repeatGradeMax = current.repeatGradeMax;
+            next.costWeight = current.costWeight;
+            next.costWeightStatus = current.costWeightStatus;
+            next.stockCost = current.stockCost;
+            next.stockAmount = current.stockAmount;
+            next.stockStatus = current.stockStatus;
+            next.stockCostChanged = current.stockCostChanged;
             buf.save = next;
         }
         SceneManager.LoadScene("GlobalScene");

@@ -9,4 +9,5 @@ public class StatType
     public string prefix;
     public string suffix;
     public Experimental experimental = Experimental.NONE;
+    public UnityEngine.Events.UnityEvent onUpgrade;
 }

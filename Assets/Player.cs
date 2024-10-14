@@ -50,6 +50,9 @@ public class Player : MonoBehaviour
     public int[] stockAmount;
     public bool[] stockStatus;
     public int[] stockCostChanged;
+    public List<Quest> quest;
+    public Quest1[] pendingQuest;
+    public bool tutorial;
     #endregion
     #region 저장 데이터가 아닌 변수들
     public int sbindex;
@@ -57,7 +60,6 @@ public class Player : MonoBehaviour
     //public int needExpForLvUP;
     //public int maxLevel;
     public GameObject gradeDoor;
-    public bool tutorial;
     public TimeSpan blockTime;
     public int blockTimeSpace;
     bool left;
@@ -68,9 +70,6 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     GameObject dialog;
     Text dialogText;
-    ScrollRect msgScroll;
-    Text msg;
-    int msgScrollDown;
     GameObject classPlaceInput;
     Text classPlaceDDay;
     public Text busStopTimeDisplay;
@@ -156,7 +155,6 @@ public class Player : MonoBehaviour
     bool endEffectDuring;
     int[] oldStudyExp;
     public GameObject studyExpIncreaseEffect;
-    public Toggle isFixMsgScroll;
     public Transform studyExpPanel;
     public bool pause;
     public GameObject tutorialArrow;
@@ -173,6 +171,16 @@ public class Player : MonoBehaviour
     public Transform stockList;
     public Transform[] stockItems;
     InputField[] stockInput;
+    public GameObject alertItem;
+    public Transform alertList;
+    public Text questAmount;
+    public GameObject questDialog;
+    public GameObject questItem;
+    public Transform questList;
+    int currentQuestLevel;
+    public Text newQuestText;
+    public GameObject newQuestDialog;
+    public GameObject shopDialog;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -190,8 +198,10 @@ public class Player : MonoBehaviour
         }
     }
     public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
-    public int classPlacementChance => Mathf.Clamp(10 + stat[3] * 2, 10, 100);
-    public float problemTime => 60 * Mathf.Pow(0.99f, stat[4]);
+    public int classPlacementChance => Mathf.Clamp(10 + stat[2] * 2, 10, 100);
+    public float problemTime => 60 * Mathf.Pow(0.99f, stat[3]);
+    public int maxQuest => stat[4] <= 0 ? 1 : stat[4] + 1;
+    public int questTime => stat[5] <= 0 ? 1 : stat[5] + 1;
     #endregion
     void OnEnable()
     {
@@ -209,7 +219,7 @@ public class Player : MonoBehaviour
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
-        SaveFile4 save = (SaveFile4)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        SaveFile5 save = (SaveFile5)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
         timeSpeed = TimeSpan.Parse(save.timeSpeed);
         exp = save.exp;
@@ -221,7 +231,6 @@ public class Player : MonoBehaviour
         inSchool = save.inschool;
         clas = save.clas;
         inventory = save.inventory;
-        tutorial = GameObject.Find("SaveData").GetComponent<SaveBuffer>().tutorial;
         achCompleted = save.achCompleted;
         if (achCompleted.Length < data.achievement.Count)
         {
@@ -256,14 +265,15 @@ public class Player : MonoBehaviour
         stockCost = save.stockCost;
         stockCostChanged = save.stockCostChanged;
         stockStatus = save.stockStatus;
+        quest = save.quest;
+        pendingQuest = save.pendingQuest;
+        tutorial = save.tutorial;
         #endregion
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
         canvas = GameObject.Find("Canvas").transform;
         dialog = canvas.Find("Dialog").gameObject;
         dialogText = dialog.transform.Find("DialogText").Find("Viewport").Find("Content").GetComponent<Text>();
-        msgScroll = canvas.Find("MsgScroll").GetComponent<ScrollRect>();
-        msg = msgScroll.transform.Find("Viewport").Find("Msg").GetComponent<Text>();
         firstGrade = new string[8];
         repeatGrade = new int[8];
         CalcuateRankStat();
@@ -341,7 +351,7 @@ public class Player : MonoBehaviour
         problemAnswerInput = problem.transform.Find("Answer").GetComponent<InputField>();
         speedDisplay = GameObject.Find("SpeedDisplay").GetComponent<Text>();
         goalDisplay = GameObject.Find("WeeklyGoalText").GetComponent<Text>();
-        if (goalSubject == -1)
+        if (!ExperimentalCheck(Experimental.QUEST) && goalSubject == -1)
         {
             goalSubject = Random.Range(0, 5);
             goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.7f));
@@ -356,10 +366,6 @@ public class Player : MonoBehaviour
         for (int i = 0; i < data.stat.Count; i++)
         {
             if (data.stat[i].experimental != Experimental.NONE && !ExperimentalCheck(data.stat[i].experimental))
-            {
-                continue;
-            }
-            if (i == 2)
             {
                 continue;
             }
@@ -386,6 +392,18 @@ public class Player : MonoBehaviour
         stockInput = new InputField[5];
         stockItems = new Transform[5];
         StockUIUpdate();
+        if (ExperimentalCheck(Experimental.QUEST))
+        {
+            if (pendingQuest[0].reward == 0)
+            {
+                UpdatePendingQuest();
+            }
+            else
+            {
+                UpdateNewQuest();
+            }
+            UpdateQuestList();
+        }
     }
     void Update()
     {
@@ -470,10 +488,6 @@ public class Player : MonoBehaviour
                 }
             }
         //}
-        if (GetKeyDown(KeyCode.M))
-        {
-            msgScroll.gameObject.SetActive(!msgScroll.gameObject.activeSelf);
-        }
         if (mapInited)
         {
             if (currentScene == "BusStop")
@@ -738,16 +752,9 @@ public class Player : MonoBehaviour
                 oldStudyExp[i] = studyExp[i];
             }
         }
-    }
-    void LateUpdate()
-    {
-        if (msgScrollDown > 0)
+        if (ExperimentalCheck(Experimental.QUEST) && GetKeyDown(KeyCode.Q))
         {
-            msgScrollDown--;
-            if (msgScrollDown == 0)
-            {
-                msgScroll.verticalNormalizedPosition = 0;
-            }
+            questDialog.SetActive(true);
         }
     }
     void Save()
@@ -756,9 +763,9 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        SaveFile4 save = new SaveFile4();
-        save.version = 4;
-        save.versionName = "1.11";
+        SaveFile5 save = new SaveFile5();
+        save.version = 5;
+        save.versionName = "1.14";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
         save.exp = exp;
@@ -798,6 +805,9 @@ public class Player : MonoBehaviour
         save.stockCost = stockCost;
         save.stockCostChanged = stockCostChanged;
         save.stockStatus = stockStatus;
+        save.tutorial = tutorial;
+        save.quest = quest;
+        save.pendingQuest = pendingQuest;
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
     }
     public void StartDay()
@@ -877,6 +887,33 @@ public class Player : MonoBehaviour
                 }
             }
             StockUIUpdate();
+        }
+        if (ExperimentalCheck(Experimental.QUEST))
+        {
+            for (int i = quest.Count - 1; i >= 0; i--)
+            {
+                Quest q = quest[i];
+                if (DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null) > time.Date)
+                {
+                    continue;
+                }
+                bool fail = false;
+                for (int j = 0; j < 5; j++)
+                {
+                    if (studyExp[j] < q.req[j])
+                    {
+                        fail = true;
+                        break;
+                    }
+                }
+                if (fail)
+                {
+                    SendMessage($"퀘스트를 실패하여 {q.reward} XP를 잃었습니다");
+                    exp -= q.reward;
+                    quest.RemoveAt(i);
+                }
+            }
+            UpdateQuestList();
         }
     }
     public void Test()
@@ -1068,6 +1105,7 @@ public class Player : MonoBehaviour
         {
             TutorialOpenChat(7);
         }
+        shopDialog.SetActive(false);
         if (name != currentScene || args != mapArgs)
         {
             mapInited = false;
@@ -1315,8 +1353,7 @@ public class Player : MonoBehaviour
     }
     public void SendMessage(string text)
     {
-        msgScrollDown = 2;
-        msg.text += "\n" + text;
+        Instantiate(alertItem, alertList).transform.Find("Text (Legacy)").GetComponent<Text>().text = text;
     }
     public void GiveAch(int id)
     {
@@ -1468,17 +1505,47 @@ public class Player : MonoBehaviour
         {
             GiveAch(12);
         }
-        if (studyExp[goalSubject] >= goalValue)
+        if (ExperimentalCheck(Experimental.QUEST))
         {
-            GiveExp(goalReward);
-            goalSubject = Random.Range(0, 5);
-            goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-            goalReward = (int)(Mathf.Clamp(goalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
-            updateWeeklyGoalDisplay();
+            for (int i = quest.Count - 1; i >= 0; i--)
+            {
+                Quest q = quest[i];
+                bool complete = true;
+                for (int j = 0; j < 5; j++)
+                {
+                    if (studyExp[j] < q.req[j])
+                    {
+                        complete = false;
+                        break;
+                    }
+                }
+                if (complete)
+                {
+                    SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
+                    exp += q.reward;
+                    quest.RemoveAt(i);
+                }
+            }
+            UpdateQuestList();
+        }
+        else
+        {
+            if (studyExp[goalSubject] >= goalValue)
+            {
+                GiveExp(goalReward);
+                goalSubject = Random.Range(0, 5);
+                goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
+                goalReward = (int)(Mathf.Clamp(goalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+                updateWeeklyGoalDisplay();
+            }
         }
     }
     void updateWeeklyGoalDisplay()
     {
+        if (ExperimentalCheck(Experimental.QUEST))
+        {
+            return;
+        }
         goalDisplay.text = $"{data.subjectName[goalSubject]} {goalValue} 이상 → {goalReward} XP";
     }
     public void updateInventory()
@@ -1925,5 +1992,141 @@ public class Player : MonoBehaviour
             stockAmount[id] -= amount;
             StockUIUpdate();
         }
+    }
+    public void UpdateQuestCount()
+    {
+        if (!ExperimentalCheck(Experimental.QUEST))
+        {
+            return;
+        }
+        questAmount.text = $"{quest.Count} / {maxQuest}";
+        if (quest.Count >= maxQuest)
+        {
+            questAmount.color = Color.red;
+        }
+        else
+        {
+            questAmount.color = new Color32(50, 50, 50, 255);
+        }
+    }
+    public void UpdateNewQuest()
+    {
+        if (!ExperimentalCheck(Experimental.QUEST))
+        {
+            return;
+        }
+        Quest1 quest = pendingQuest[currentQuestLevel];
+        string req = "";
+        for (int i = 0; i < 5; i++)
+        {
+            int r = quest.req[i];
+            if (r != 0)
+            {
+                req += $"{data.subjectName[i]} +{r} ({studyExp[i] + r}) 이상\n";
+            }
+        }
+        newQuestText.text = $"기간 : {questTime}일 (~{GetDate2() + new TimeSpan(questTime, 0, 0, 0):yyyy-MM-dd} 8시까지)\n(기간은 퀘스트를 받은 당일 기준의 \"퀘스트 기간\" 강화에 의해 결정됩니다)\n성공 보상 : {quest.reward} XP\n실패 패널티: -{quest.reward} XP\n{req}(기간 및 요구량의 괄호 안 내용은 지금 받을 때 기준이며, 괄호 밖 부분 및 성공 보상 / 실패 패널티는 받는 시간과 무관합니다)";
+    }
+    public void ChangeQuestLevel(int lv)
+    {
+        currentQuestLevel = lv;
+        UpdateNewQuest();
+    }
+    public void UpdatePendingQuest()
+    {
+        if (!ExperimentalCheck(Experimental.QUEST))
+        {
+            return;
+        }
+        pendingQuest[0].req = new int[5];
+        int sub = Random.Range(0, 5);
+        pendingQuest[0].req[sub] = Mathf.Max((int)(studyExp[sub] * Random.Range(0.1f, 0.3f)), 10);
+        pendingQuest[0].reward = (int)(Random.Range(0.3f, 0.5f) * Mathf.Max(pendingQuest[0].req[sub], 500));
+        for (int i = 1; i < 5; i++)
+        {
+            pendingQuest[i].req = (int[])pendingQuest[i-1].req.Clone();
+            int sub2 = 0;
+            do
+            {
+                sub2 = Random.Range(0, 5);
+            } while (pendingQuest[i].req[sub2] != 0);
+            for (int j = 0; j < 5; j++)
+            {
+                if (pendingQuest[i].req[j] != 0)
+                {
+                    pendingQuest[i].req[j] = (int)(pendingQuest[i].req[j] * Random.Range(1.5f, 2f));
+                }
+            }
+            pendingQuest[i].req[sub2] = Mathf.Max((int)(studyExp[sub2] * Random.Range(1.1f, 1.3f)), 10);
+            pendingQuest[i].reward = (int)(pendingQuest[i - 1].reward * Random.Range(1.5f, 2f));
+        }
+        UpdateNewQuest();
+    }
+    public DateTime GetDate2()
+    {
+        DateTime d = time.Date;
+        if (time.TimeOfDay < new TimeSpan(8, 0, 0))
+        {
+            return d - DateTimeCalc2.day;
+        }
+        else
+        {
+            return d;
+        }
+    }
+    public void AcceptQuest()
+    {
+        if (quest.Count >= maxQuest)
+        {
+            OpenDialog($"최대 퀘스트 수({maxQuest}개)에 도달했습니다");
+            return;
+        }
+        Quest1 q1 = pendingQuest[currentQuestLevel];
+        int[] r = new int[5];
+        for (int i = 0; i < 5; i++)
+        {
+            r[i] = q1.req[i] == 0 ? 0 : studyExp[i] + q1.req[i];
+        }
+        quest.Add(new Quest() {req = r, reward = q1.reward, timeLimit = (GetDate2() + new TimeSpan(questTime, 0, 0, 0)).ToString("yyyy-MM-dd")});
+        newQuestDialog.SetActive(false);
+        UpdatePendingQuest();
+        UpdateQuestList();
+    }
+    public void RefreshQuest()
+    {
+        if (money >= 300000)
+        {
+            money -= 300000;
+            UpdatePendingQuest();
+        }
+        else
+        {
+            OpenDialog("돈이 부족합니다");
+        }
+    }
+    public void UpdateQuestList()
+    {
+        if (!ExperimentalCheck(Experimental.QUEST))
+        {
+            return;
+        }
+        foreach (Transform item in questList)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (Quest q in quest)
+        {
+            string req = "";
+            for (int i = 0; i < 5; i++)
+            {
+                if (q.req[i] != 0)
+                {
+                    req += $"\n<color={(q.req[i] <= studyExp[i] ? "green" : "red")}>{data.subjectName[i]} {q.req[i]} 이상 ({studyExp[i]})</color>";
+                }
+            }
+            DateTime d = DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null);
+            Instantiate(questItem, questList).transform.Find("Text").GetComponent<Text>().text = $"기간 : {d.Year}년 {d.Month}월 {d.Day}일 8시까지 (D-{(d - GetDate2()).TotalDays})\n성공 보상 : {q.reward} XP\n실패 패널티 : -{q.reward} XP{req}";
+        }
+        UpdateQuestCount();
     }
 }

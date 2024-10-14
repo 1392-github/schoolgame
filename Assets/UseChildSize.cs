@@ -8,6 +8,7 @@ public class UseChildSize : MonoBehaviour
     RectTransform self;
     public bool width = true;
     public bool height = true;
+    public int extra;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,6 @@ public class UseChildSize : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        self.sizeDelta = new Vector2(width ? child.sizeDelta.x : self.sizeDelta.x, height ? child.sizeDelta.y : self.sizeDelta.y);
+        self.sizeDelta = new Vector2(width ? child.sizeDelta.x + extra : self.sizeDelta.x, height ? child.sizeDelta.y + extra : self.sizeDelta.y);
     }
 }

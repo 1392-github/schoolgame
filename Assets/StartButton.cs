@@ -9,13 +9,12 @@ public class StartButton : MonoBehaviour
     public List<ExperData> exp;
     public List<int> diff;
     public GameObject expCheck;
-    public GameObject timeSelect;
     public Transform expScroll;
     public InputField name;
     public InputField length;
     Dictionary<Experimental, Toggle> expSelect;
     public Dropdown mulDropdown;
-    public SaveFile4 defaultSave;
+    public SaveFile5 defaultSave;
 
     // Start is called before the first frame update
     void Start()
@@ -57,11 +56,28 @@ public class StartButton : MonoBehaviour
         {
             defaultSave.stockStatus[i] = Random.Range(0, 2) == 0;
         }
+        if (defaultSave.experimental.Contains(Experimental.QUEST))
+        {
+            defaultSave.pendingQuest = new Quest1[5];
+        }
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{name.text}", JsonUtility.ToJson(defaultSave));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
     }
     public void ChangeMul(int i)
     {
         defaultSave.difficulty = diff[i];
+    }
+    public void ChangeTutorial(bool check)
+    {
+        defaultSave.tutorial = check;
+        if (check)
+        {
+            length.text = "1";
+            length.interactable = false;
+        }
+        else
+        {
+            length.interactable = true;
+        }
     }
 }
