@@ -190,7 +190,6 @@ public class Player : MonoBehaviour
         }
     }
     public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
-    public float nextDayStudyExp => 1 - 0.2f * Mathf.Pow(0.98f, stat[2]);
     public int classPlacementChance => Mathf.Clamp(10 + stat[3] * 2, 10, 100);
     public float problemTime => 60 * Mathf.Pow(0.99f, stat[4]);
     #endregion
@@ -804,7 +803,6 @@ public class Player : MonoBehaviour
     public void StartDay()
     {
         schedule = -1;
-        studyExp = studyExp.Select(c => c > 0 ? (int)(c * nextDayStudyExp) : c).ToArray();
         inSchool = true;
         timeSpeed = new TimeSpan(0, 1, 0);
         if (time.Date == endClassPlacement)
