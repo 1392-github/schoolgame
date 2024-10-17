@@ -765,7 +765,7 @@ public class Player : MonoBehaviour
         }
         SaveFile5 save = new SaveFile5();
         save.version = 5;
-        save.versionName = "1.14";
+        save.versionName = "14";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
         save.exp = exp;
@@ -2057,7 +2057,7 @@ public class Player : MonoBehaviour
                     pendingQuest[i].req[j] = (int)(pendingQuest[i].req[j] * Random.Range(1.5f, 2f));
                 }
             }
-            pendingQuest[i].req[sub2] = Mathf.Max((int)(studyExp[sub2] * Random.Range(1.1f, 1.3f)), 10);
+            pendingQuest[i].req[sub2] = Mathf.Max((int)(studyExp[sub2] * Random.Range(0.1f, 0.3f)), 10);
             pendingQuest[i].reward = (int)(pendingQuest[i - 1].reward * Random.Range(1.5f, 2f));
         }
         UpdateNewQuest();

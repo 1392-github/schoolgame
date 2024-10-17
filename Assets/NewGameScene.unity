@@ -811,7 +811,7 @@ MonoBehaviour:
   mulDropdown: {fileID: 1721642791}
   defaultSave:
     version: 5
-    versionName: 1.14
+    versionName: 14
     time: 2024-03-04 08:00:00
     timeSpeed: 00:01:00
     money: 0
@@ -853,21 +853,16 @@ MonoBehaviour:
     stockCostChanged: 0000000000000000000000000000000000000000
     quest: []
     pendingQuest:
-    - timeLimit: 
-      reward: 0
-      req: []
-    - timeLimit: 
-      reward: 0
-      req: []
-    - timeLimit: 
-      reward: 0
-      req: []
-    - timeLimit: 
-      reward: 0
-      req: []
-    - timeLimit: 
-      reward: 0
-      req: []
+    - reward: 0
+      req: 
+    - reward: 0
+      req: 
+    - reward: 0
+      req: 
+    - reward: 0
+      req: 
+    - reward: 0
+      req: 
     tutorial: 0
 --- !u!1 &315258585
 GameObject:
