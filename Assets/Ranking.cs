@@ -2,5 +2,5 @@
 public class Ranking
 {
     public string name;
-    public int score;
+    public long score;
 }

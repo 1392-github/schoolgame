@@ -11,6 +11,16 @@ public class LockDoorInClass : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         door = GetComponent<Door>();
+        if (player.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        {
+            door.destDoorID += player.mapArgs;
+        }
+        else
+        {
+            door.destDoorID = -1;
+        }
+        door.args = player.mapArgs / 10;
+        door.pos = new Vector3(1 + player.mapArgs % 10 * 3, 0.8f, 0);
     }
 
     // Update is called once per frame

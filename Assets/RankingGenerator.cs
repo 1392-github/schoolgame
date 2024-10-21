@@ -96,9 +96,9 @@ public class RankingGenerator : MonoBehaviour
             statButton.interactable = false;
             return;
         }
-        int[] gradeCut = Enumerable.Repeat(-1, 8).ToArray();
+        long[] gradeCut = Enumerable.Repeat(-1L, 8).ToArray();
         int rank = 0;
-        int rankSc = -1;
+        long rankSc = -1;
         for (int i = 0; i < score.Count; i++)
         {
             if (score[i].score != rankSc)

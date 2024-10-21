@@ -10,8 +10,7 @@ using Random = UnityEngine.Random;
 public class Player : MonoBehaviour
 {
     #region 저장 데이터
-    public int exp;
-    public int save;
+    public long exp;
     public int money;
     public DateTime time;
     public TimeSpan timeSpeed;
@@ -20,7 +19,7 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public string currentScene;
     public int mapArgs;
-    public int[] studyExp;
+    public long[] studyExp;
     public List<TestScore> scores;
     public bool enableCheat;
     public int schedule;
@@ -147,13 +146,12 @@ public class Player : MonoBehaviour
     public Transform chatOption;
     bool enableNext;
     string actualSceneName;
-    string doorName;
     Direction2 doorDirection;
     public DateTime endTime;
     public Image endEffect;
     float endEffectAlpha;
     bool endEffectDuring;
-    int[] oldStudyExp;
+    long[] oldStudyExp;
     public GameObject studyExpIncreaseEffect;
     public Transform studyExpPanel;
     public bool pause;
@@ -181,6 +179,8 @@ public class Player : MonoBehaviour
     public Text newQuestText;
     public GameObject newQuestDialog;
     public GameObject shopDialog;
+    int doorID = -1;
+    public GameObject gradeDoor2;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -378,7 +378,7 @@ public class Player : MonoBehaviour
         }
         updateInventory();
         endTime = new DateTime(2024, 3, 4) + new TimeSpan(length * 7, 0, 0, 0);
-        oldStudyExp = new int[5];
+        oldStudyExp = new long[5];
         for (int i = 0; i < 5; i++)
         {
             oldStudyExp[i] = studyExp[i];
@@ -403,6 +403,10 @@ public class Player : MonoBehaviour
                 UpdateNewQuest();
             }
             UpdateQuestList();
+        }
+        if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        {
+            GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
         }
     }
     void Update()
@@ -684,7 +688,7 @@ public class Player : MonoBehaviour
                     }
                 }
                 int achSum = data.achievement.Count(c => !c.name.EndsWith("(E)"));
-                int studyExpSum = studyExp.Sum();
+                long studyExpSum = studyExp.Sum();
                 endingDisplayText.text = $@"엔딩 조건
 <color={(ach >= achSum ? "green" : "red")}>1 - 모든 업적 달성 (이름 끝에 (E)가 있는 업적 제외) ({ach}/{achSum})</color>
 <color={(stat[0] >= 150 ? "green" : "red")}>2 - 공부 효율 레벨 150 이상 달성 ({stat[0]}/150)</color>
@@ -1083,7 +1087,7 @@ public class Player : MonoBehaviour
             UpdateLv();
         }*/
     }
-    public void Move(string name, int args, Vector3 pos, string door = "", Direction2 doorDirection = 0)
+    public void Move(string name, int args, Vector3 pos, int destDoorId = -1, Direction2 doorDirection = 0)
     {
         if (!mapInited)
         {
@@ -1113,15 +1117,15 @@ public class Player : MonoBehaviour
             {
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }
-            //actualSceneName = ExperimentalCheck(Experimental.NEW_MAP) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
-            actualSceneName = name;
+            actualSceneName = ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
+            //actualSceneName = name;
             currentScene = name;
             SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
             mapArgs = args;
         }
         transform.position = pos;
         control = false;
-        doorName = door;
+        doorID = destDoorId;
         this.doorDirection = doorDirection;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -1133,15 +1137,46 @@ public class Player : MonoBehaviour
         SceneManager.SetActiveScene(scene);
         if (currentScene == "Main1F") // 본관 복도 생성
         {
-            for (int i = 0; i < 10; i++)
+            if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
             {
-                GameObject door = Instantiate(gradeDoor);
-                door.transform.position = new Vector3(i * 3 + 1, 1.4f, 0);
-                door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
-                door.transform.Find("Door (2)").GetComponent<Door>().args = mapArgs * 10 + i;
-                if (mapArgs == 0 && i == clas[0])
+                for (int i = 0; i < 10; i++)
                 {
-                    door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                    GameObject door = Instantiate(gradeDoor2);
+                    door.transform.position = new Vector3(i * 4 - 17.5f, 3.5f, 0);
+                    door.transform.Find("Text").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
+                    Door door2 = door.GetComponent<Door>();
+                    door2.args = mapArgs * 10 + i;
+                    door2.doorID = door2.args;
+                    if (mapArgs == 0 && i == clas[0])
+                    {
+                        door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                    }
+                    door = Instantiate(gradeDoor2);
+                    door.transform.position = new Vector3(i * 4 - 15.5f, 3.5f, 0);
+                    door.transform.Find("Text").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
+                    door2 = door.GetComponent<Door>();
+                    door2.args = mapArgs * 10 + i;
+                    door2.doorID = door2.args + 100;
+                    if (mapArgs == 0 && i == clas[0])
+                    {
+                        door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    GameObject door = Instantiate(gradeDoor);
+                    door.transform.position = new Vector3(i * 3 + 1, 1.4f, 0);
+                    door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
+                    Door door2 = door.transform.Find("Door (2)").GetComponent<Door>();
+                    door2.args = mapArgs * 10 + i;
+                    door2.doorID = door2.args;
+                    if (mapArgs == 0 && i == clas[0])
+                    {
+                        door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                    }
                 }
             }
             if (mapArgs == 2)
@@ -1169,8 +1204,8 @@ public class Player : MonoBehaviour
         }
         if (currentScene == "Classroom") // 교실 생성
         {
-            GameObject.Find("Square (3)").GetComponent<Door>().args = mapArgs / 10;
-            GameObject.Find("Square (3)").GetComponent<Door>().pos = new Vector3(1 + mapArgs % 10 * 3, 0.8f, 0);
+            //GameObject.Find("Square (3)").GetComponent<Door>().args = mapArgs / 10;
+            //GameObject.Find("Square (3)").GetComponent<Door>().pos = new Vector3(1 + mapArgs % 10 * 3, 0.8f, 0);
             /*if (mapArgs != 9)
             {
                 GameObject.Find("EasterEgg").SetActive(false);
@@ -1184,7 +1219,7 @@ public class Player : MonoBehaviour
         //{
             //GameObject.Find("Square (4)").GetComponent<OpenGUIButton>().target = canvas.Find("PC").gameObject;
             //GameObject.Find("Square (4)").GetComponent<CPBlockCall>().c = canvas.Find("PC").GetComponent<CPBlock>();
-#region 통금 시간 (임시 비활성화)
+            #region 통금 시간 (이제 안 씀)
             //int r;
             //if (scores.Count == 0)
             //{
@@ -1233,7 +1268,7 @@ public class Player : MonoBehaviour
             //{
             //    GameObject.Find("Text (TMP) (3)").GetComponent<TextMeshPro>().text = $"외출 금지 시간\n{new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4):hh\\:mm}~08:00";
             //}
-#endregion
+            #endregion
         //}
         if (currentScene == "BusStop")
         {
@@ -1252,6 +1287,8 @@ public class Player : MonoBehaviour
             GameObject.Find("Square (6)").GetComponent<Door>().map = data.busStop[mapArgs].map;
             GameObject.Find("Square (6)").GetComponent<Door>().args = data.busStop[mapArgs].extra;
             GameObject.Find("Square (6)").GetComponent<Door>().pos = data.busStop[mapArgs].loc;
+            GameObject.Find("Square (6)").GetComponent<Door>().destDoorID = data.busStop[mapArgs].destDoorID;
+            GameObject.Find("Square (6)").GetComponent<Door>().direction = data.busStop[mapArgs].direction;
             bus1 = GameObject.Find("Square (7)");
             bus1.GetComponent<Door>().args = mapArgs;
             bus2 = GameObject.Find("Square (8)");
@@ -1287,25 +1324,36 @@ public class Player : MonoBehaviour
             GameObject.Find("Square").GetComponent<Door>().enable = false;
         }
         mapInited = true;
-        /*if (doorName != "")
+        if (doorID != -1 && ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
-            GameObject d = GameObject.Find(doorName);
+            Vector3 dpos = new Vector3(0, 0, 1);
+            foreach (Door d in FindObjectsOfType<Door>())
+            {
+                if (d.doorID == doorID)
+                {
+                    dpos = d.transform.position;
+                }
+            }
+            if (dpos == new Vector3(0, 0, 1))
+            {
+                OpenDialog($"Error : wrong door ID [{doorID}]");
+            }
             switch (doorDirection)
             {
                 case Direction2.left:
-                    transform.position = d.transform.position + Vector3.left;
+                    transform.position = dpos + Vector3.left;
                     break;
                 case Direction2.right:
-                    transform.position = d.transform.position + Vector3.right;
+                    transform.position = dpos + Vector3.right;
                     break;
                 case Direction2.up:
-                    transform.position = d.transform.position + Vector3.up;
+                    transform.position = dpos + Vector3.up;
                     break;
                 case Direction2.down:
-                    transform.position = d.transform.position + Vector3.down;
+                    transform.position = dpos + Vector3.down;
                     break;
             }
-        }*/
+        }
     }
     public void PrevScore()
     {
@@ -2082,7 +2130,7 @@ public class Player : MonoBehaviour
             return;
         }
         Quest1 q1 = pendingQuest[currentQuestLevel];
-        int[] r = new int[5];
+        long[] r = new long[5];
         for (int i = 0; i < 5; i++)
         {
             r[i] = q1.req[i] == 0 ? 0 : studyExp[i] + q1.req[i];

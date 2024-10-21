@@ -866,6 +866,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 347575346}
+  direction: 0
+  reverse: 0
 --- !u!1 &1164240227
 GameObject:
   m_ObjectHideFlags: 0

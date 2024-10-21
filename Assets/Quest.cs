@@ -2,6 +2,6 @@
 public class Quest
 {
     public string timeLimit;
-    public int reward;
-    public int[] req;
+    public long reward;
+    public long[] req;
 }

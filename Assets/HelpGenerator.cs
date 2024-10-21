@@ -13,8 +13,8 @@ public class HelpGenerator : MonoBehaviour
         {
             GameObject g = Instantiate(prefab);
             g.transform.SetParent(content, false);
-            g.transform.Find("Name").GetComponent<UnityEngine.UI.Text>().text = help.name;
-            g.transform.Find("Desc").GetComponent<UnityEngine.UI.Text>().text = help.description;
+            g.transform.Find("Name").GetComponent<UnityEngine.UI.Text>().text = "Q: " + help.name;
+            g.transform.Find("Desc").GetComponent<UnityEngine.UI.Text>().text = "A: " + help.description;
         }
     }
 }

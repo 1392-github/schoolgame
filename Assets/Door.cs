@@ -14,8 +14,9 @@ public class Door : MonoBehaviour
     public int args;
     public Vector3 pos;
     public bool enable = true;
-    public string DestDoorName;
+    public int destDoorID = -1;
     public Direction2 direction;
+    public int doorID;
     Player player;
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,7 @@ public class Door : MonoBehaviour
     {
         if (enable && collision.gameObject.name == "Player")
         {
-            player.Move(map, args, pos, DestDoorName, direction);
+            player.Move(map, args, pos, destDoorID, direction);
         }
     }
 }

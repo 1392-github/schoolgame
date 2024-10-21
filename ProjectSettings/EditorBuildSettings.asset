@@ -36,30 +36,36 @@ EditorBuildSettings:
     path: Assets/Map/DormitoryRoom.unity
     guid: 54c748f8635a5b7499be40890077b372
   - enabled: 1
-    path: Assets/Map/Dormitory1F.unity
+    path: Assets/Map/OldDormitoryRoom.unity
+    guid: 02be8b375567c1b41bdd5a9b61650af8
+  - enabled: 1
+    path: Assets/Map/OldDormitory1F.unity
     guid: 270794d488b0a1446b8e753295f1126a
   - enabled: 1
-    path: Assets/Map/Dormitory2F.unity
+    path: Assets/Map/OldDormitory2F.unity
     guid: e19fbf9d0cc30604c8e3af765519bcea
   - enabled: 1
-    path: Assets/Map/Main1F.unity
+    path: Assets/Map/OldMain1F.unity
     guid: 803f8d8665b9dfe41b492210fe73d267
   - enabled: 1
-    path: Assets/Map/Classroom.unity
+    path: Assets/Map/OldClassroom.unity
     guid: 07aedaae5975957489737d7f3a78ec1f
   - enabled: 1
-    path: Assets/Map/BusStop.unity
+    path: Assets/Map/OldBusStop.unity
     guid: 9800185d64ef0a440bb0253b59ecde2f
   - enabled: 1
-    path: Assets/Map/Shop.unity
+    path: Assets/Map/OldShop.unity
     guid: 22d2db6167b75c5469c3509fd8dce1c2
   - enabled: 1
-    path: Assets/Map/Unnamed3.unity
+    path: Assets/Map/OldUnnamed3.unity
     guid: 1283674b480fd404fb6e013b36179edb
   - enabled: 1
-    path: Assets/Map/Bus.unity
+    path: Assets/Map/OldBus.unity
     guid: 028daeda30256d9448cf3a77af70670b
   - enabled: 1
-    path: Assets/Map/UnusedDormitoryRoom.unity
-    guid: 0e81162188e25d64a976ea2b3bd32a4e
+    path: Assets/Map/Classroom.unity
+    guid: 99e8e1da1d32ae942bfff014752c9df1
+  - enabled: 1
+    path: Assets/Map/Main1F.unity
+    guid: 753888f7c8fd4824495ac5345658837e
   m_configObjects: {}

@@ -30,6 +30,7 @@ public static class Util
     public static T SendJSON2<T>(string url)
     {
         UnityWebRequest request = UnityWebRequest.Get("https://1392year.pythonanywhere.com/sch/" + url);
+        //UnityWebRequest request = UnityWebRequest.Get("http://127.0.0.1:3000/sch/" + url);
         request.SendWebRequest();
         while (!request.isDone) ;
         if (request.responseCode == 200)

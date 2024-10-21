@@ -10,7 +10,7 @@ public class StatUpgrade : MonoBehaviour
     public InputField xpInput;
     public InputField chanceInput;
     public Button button;
-    public int xp;
+    public long xp;
     public float chance;
     Player player;
     Data data;
@@ -23,7 +23,7 @@ public class StatUpgrade : MonoBehaviour
         prop = typeof(Player).GetProperty(data.stat[id].prop);
         UpdateText();
     }
-    int GetCost() => Mathf.Max((int)(data.stat[id].reqBase * Mathf.Pow(data.stat[id].reqExp, player.stat[id])), 1);
+    long GetCost() => (long)Mathf.Max(data.stat[id].reqBase * Mathf.Pow(data.stat[id].reqExp, player.stat[id]), 1);
     public void XpInputChange(string sxp)
     {
         if (during)
@@ -36,7 +36,7 @@ public class StatUpgrade : MonoBehaviour
             sxp = sxp.Remove(0, 1);
             xpInput.text = sxp;
         }
-        if (int.TryParse(sxp, out xp))
+        if (long.TryParse(sxp, out xp))
         {
             if (xp > GetCost())
             {

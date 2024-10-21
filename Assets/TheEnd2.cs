@@ -6,7 +6,7 @@ public class TheEnd2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int[] studyExp = GameObject.Find("EndDatePass").GetComponent<EndDatePass>().studyExp;
+        long[] studyExp = GameObject.Find("EndDatePass").GetComponent<EndDatePass>().studyExp;
         TestScore score = GameObject.Find("EndDatePass").GetComponent<EndDatePass>().score;
         Destroy(GameObject.Find("EndDatePass"));
         GetComponent<UnityEngine.UI.Text>().text = $@"최종 능력치

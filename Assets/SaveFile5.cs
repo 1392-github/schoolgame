@@ -8,8 +8,8 @@ public class SaveFile5 : SaveFile0
     public string time;
     public string timeSpeed;
     public int money;
-    public int exp;
-    public int[] studyExp;
+    public long exp;
+    public long[] studyExp;
     public List<TestScore> scores;
     public string map;
     public int mapextra;

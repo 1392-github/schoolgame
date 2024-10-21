@@ -183,7 +183,7 @@ public class PlayButton : MonoBehaviour
             next.timeSpeed = current.timeSpeed;
             next.money = current.money;
             next.exp = current.exp;
-            next.studyExp = current.studyExp;
+            next.studyExp = current.studyExp.Select(c => (long)c).ToArray();
             next.scores = current.scores;
             next.map = current.map;
             next.mapextra = current.mapextra;

@@ -391,7 +391,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB3C4\uC6C0\uB9D0"
+  m_Text: "\uC790\uC8FC \uBB3B\uB294 \uC9C8\uBB38"
 --- !u!222 &81182784
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -828,7 +828,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 15 (2024-10-17)
+  m_Text: 16 (2025-01-02)
 --- !u!222 &461864287
 CanvasRenderer:
   m_ObjectHideFlags: 0

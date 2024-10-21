@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[ExecuteAlways]
 public class HelpSizeFitter : MonoBehaviour
 {
-    RectTransform obj;
+    public RectTransform obj;
+    public RectTransform obj2;
     RectTransform self;
     bool enabled;
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class HelpSizeFitter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        self.sizeDelta = new Vector2(self.sizeDelta.x, enabled ? 100 + obj.sizeDelta.y : 100);
+        self.sizeDelta = new Vector2(self.sizeDelta.x, enabled ? obj2.sizeDelta.y + obj.sizeDelta.y : obj2.sizeDelta.y);
     }
     public void Click()
     {

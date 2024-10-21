@@ -60,6 +60,11 @@ public class StartButton : MonoBehaviour
         {
             defaultSave.pendingQuest = new Quest1[5];
         }
+        if (defaultSave.experimental.Contains(Experimental.IMPROVEMENT_DESIGN))
+        {
+            defaultSave.x = 0.5f;
+            defaultSave.y = 3f;
+        }
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{name.text}", JsonUtility.ToJson(defaultSave));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
     }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 public class UserInfo
 {
     public int rating;
-    public int dayScore;
-    public int monthScore;
-    public int yearScore;
-    public int allScore;
+    public long dayScore;
+    public long monthScore;
+    public long yearScore;
+    public long allScore;
     public float dayPercent;
     public float monthPercent;
     public float yearPercent;
