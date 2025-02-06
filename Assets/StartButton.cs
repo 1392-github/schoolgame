@@ -29,6 +29,13 @@ public class StartButton : MonoBehaviour
             expSelect.Add(item.value, g.transform.Find("Toggle").GetComponent<Toggle>());
         }
     }
+    void Update()
+    {
+        if (name.text == "1392chounhyuk")
+        {
+            defaultSave.hiddenLevelMode = true;
+        }
+    }
     public void Click()
     {
         foreach (KeyValuePair<Experimental, Toggle> item in expSelect)
@@ -51,7 +58,6 @@ public class StartButton : MonoBehaviour
         {
             defaultSave.length = int.Parse(length.text);
         }
-        defaultSave.costWeightStatus = Random.Range(0, 2) == 0;
         for (int i = 0; i < 5; i++)
         {
             defaultSave.stockStatus[i] = Random.Range(0, 2) == 0;

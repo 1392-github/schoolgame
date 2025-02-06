@@ -32,7 +32,7 @@ public class MoveScene : MonoBehaviour
     }
     public void Youtube()
     {
-        Application.OpenURL("https://www.youtube.com/@user-vb9by5mp9f");
+        Application.OpenURL("https://www.youtube.com/@Á¶¿îÇõ-c7n");
     }
     public void OfficalSite()
     {

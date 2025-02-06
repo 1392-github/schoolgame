@@ -17,7 +17,8 @@ public static class Util
     }
     public static T SendJSON<T>(string url, object obj)
     {
-        UnityWebRequest request = new UnityWebRequest("https://1392year.pythonanywhere.com/sch/" + url, "POST");
+        //UnityWebRequest request = new UnityWebRequest("https://1392year.pythonanywhere.com/sch/" + url, "POST");
+        UnityWebRequest request = UnityWebRequest.Get("http://127.0.0.1:3000/sch/" + url);
         request.uploadHandler = new UploadHandlerRaw(encoding.GetBytes(JsonUtility.ToJson(obj)));
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
@@ -29,8 +30,8 @@ public static class Util
     }
     public static T SendJSON2<T>(string url)
     {
-        UnityWebRequest request = UnityWebRequest.Get("https://1392year.pythonanywhere.com/sch/" + url);
-        //UnityWebRequest request = UnityWebRequest.Get("http://127.0.0.1:3000/sch/" + url);
+        //UnityWebRequest request = UnityWebRequest.Get("https://1392year.pythonanywhere.com/sch/" + url);
+        UnityWebRequest request = UnityWebRequest.Get("http://127.0.0.1:3000/sch/" + url);
         request.SendWebRequest();
         while (!request.isDone) ;
         if (request.responseCode == 200)

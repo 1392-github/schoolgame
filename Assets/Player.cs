@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -42,8 +43,6 @@ public class Player : MonoBehaviour
     public int length;
     public bool end;
     public int difficulty;
-    public int costWeight;
-    public bool costWeightStatus;
     public int[] repeatGradeMax;
     public int[] stockCost;
     public int[] stockAmount;
@@ -52,11 +51,13 @@ public class Player : MonoBehaviour
     public List<Quest> quest;
     public Quest1[] pendingQuest;
     public bool tutorial;
+    public bool hiddenLevelMode;
     #endregion
     #region 저장 데이터가 아닌 변수들
     public int sbindex;
     public string saveName;
     //public int needExpForLvUP;
+    public long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
     //public int maxLevel;
     public GameObject gradeDoor;
     public TimeSpan blockTime;
@@ -153,7 +154,7 @@ public class Player : MonoBehaviour
     bool endEffectDuring;
     long[] oldStudyExp;
     public GameObject studyExpIncreaseEffect;
-    public Transform studyExpPanel;
+    public RectTransform studyExpPanel;
     public bool pause;
     public GameObject tutorialArrow;
     Image currentTutorialImage;
@@ -181,6 +182,9 @@ public class Player : MonoBehaviour
     public GameObject shopDialog;
     int doorID = -1;
     public GameObject gradeDoor2;
+    public RectTransform weeklyPaneltra;
+    PropertyInfo[] statProp;
+    public GameObject oldExpPanel;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus
@@ -200,8 +204,8 @@ public class Player : MonoBehaviour
     public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
     public int classPlacementChance => Mathf.Clamp(10 + stat[2] * 2, 10, 100);
     public float problemTime => 60 * Mathf.Pow(0.99f, stat[3]);
-    public int maxQuest => stat[4] <= 0 ? 1 : stat[4] + 1;
-    public int questTime => stat[5] <= 0 ? 1 : stat[5] + 1;
+    public int maxQuest => stat[4] <= 0 ? 1 : (hiddenLevelMode ? stat[4] / 10 : stat[4]) + 1;
+    public int questTime => stat[5] <= 0 ? 1 : (hiddenLevelMode ? stat[5] / 10 : stat[5]) + 1;
     #endregion
     void OnEnable()
     {
@@ -258,8 +262,6 @@ public class Player : MonoBehaviour
         length = save.length;
         end = save.end;
         difficulty = save.difficulty;
-        costWeight = save.costWeight;
-        costWeightStatus = save.costWeightStatus;
         repeatGradeMax = save.repeatGradeMax;
         stockAmount = save.stockAmount;
         stockCost = save.stockCost;
@@ -268,6 +270,7 @@ public class Player : MonoBehaviour
         quest = save.quest;
         pendingQuest = save.pendingQuest;
         tutorial = save.tutorial;
+        hiddenLevelMode = save.hiddenLevelMode;
         #endregion
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
@@ -343,7 +346,6 @@ public class Player : MonoBehaviour
         inventoryDisplay2 = canvas.Find("Inventory").gameObject;
         inventoryDisplay = inventoryDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
         descExt = new object[0];
-        //UpdateLv();
         problem = canvas.Find("Problem").gameObject;
         problemText = problem.transform.Find("Text").Find("Viewport").Find("Content").GetComponent<Text>();
         problemImage = problem.transform.Find("Image").GetComponent<Image>();
@@ -407,6 +409,20 @@ public class Player : MonoBehaviour
         if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
+        }
+        if (hiddenLevelMode)
+        {
+            studyExpPanel.offsetMin = new Vector2(0, -300);
+            studyExpPanel.offsetMax = new Vector2(0, -150);
+            weeklyPaneltra.anchoredPosition = new Vector2(0, -335);
+            statProp = new PropertyInfo[data.stat.Count];
+            for (int i = 0; i < statProp.Length; i++)
+            {
+                statProp[i] = typeof(Player).GetProperty(data.stat[i].prop);
+            }
+            xpDisplay.transform.parent.GetComponent<Button>().enabled = false;
+            oldExpPanel.SetActive(true);
+            UpdateLv();
         }
     }
     void Update()
@@ -653,8 +669,11 @@ public class Player : MonoBehaviour
                 timeSpeed = new TimeSpan(0, 1, 0);
             }
         }
-        xpDisplay.text = $"{exp} XP";
-        xpDisplay2.text = $"{exp} XP";
+        if (!hiddenLevelMode)
+        {
+            xpDisplay.text = $"{exp} XP";
+            xpDisplay2.text = $"{exp} XP";
+        }
         //if (blockTime != TimeSpan.Zero && currentScene != "DormitoryRoom" && (time.TimeOfDay < new TimeSpan(8, 0, 0) || time.TimeOfDay > blockTime))
         //{
         //    xpFloat2 += (float)needExpForLvUP / 2 * (float)(speed * timeSpeed).TotalHours * Time.deltaTime;
@@ -803,8 +822,6 @@ public class Player : MonoBehaviour
         save.end = end;
         save.difficulty = difficulty;
         save.repeatGradeMax = repeatGradeMax;
-        save.costWeight = costWeight;
-        save.costWeightStatus = costWeightStatus;
         save.stockAmount = stockAmount;
         save.stockCost = stockCost;
         save.stockCostChanged = stockCostChanged;
@@ -812,6 +829,7 @@ public class Player : MonoBehaviour
         save.tutorial = tutorial;
         save.quest = quest;
         save.pendingQuest = pendingQuest;
+        save.hiddenLevelMode = hiddenLevelMode;
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
     }
     public void StartDay()
@@ -850,22 +868,6 @@ public class Player : MonoBehaviour
         alreadyPenalty = false;
         if (time.Date != new DateTime(2024, 3, 4))
         {
-            if (costWeightStatus)
-            {
-                costWeight += Random.Range(1, 11);
-            }
-            else
-            {
-                costWeight -= Random.Range(1, 11);
-                if (costWeight < 30)
-                {
-                    costWeight = 30;
-                }
-            }
-            if (Random.Range(0, 10) == 0)
-            {
-                costWeightStatus = !costWeightStatus;
-            }
             updateShop();
             for (int i = 0; i < 5; i++)
             {
@@ -1075,17 +1077,26 @@ public class Player : MonoBehaviour
         }
         TutorialOpenChat(4);
     }
-    public void GiveExp(int amount)
+    public void GiveExp(long amount, bool msg = true)
     {
         exp += amount;
-        SendMessage($"{amount} 경험치를 획득했습니다");
-        /*while (lv < maxLevel && exp >= needExpForLvUP)
+        if (msg)
         {
-            exp -= needExpForLvUP;
-            lv++;
-            SendMessage($"레벨 {lv+1}을 달성했습니다");
-            UpdateLv();
-        }*/
+            SendMessage($"{amount} 경험치를 획득했습니다");
+        }
+        if (hiddenLevelMode)
+        {
+            while (exp >= needExpForLvUP)
+            {
+                exp -= needExpForLvUP;
+                for (int i = 0; i < stat.Length; i++)
+                {
+                    stat[i]++;
+                }
+                SendMessage($"레벨 {stat[0] + 1}을 달성했습니다");
+                UpdateLv();
+            }
+        }
     }
     public void Move(string name, int args, Vector3 pos, int destDoorId = -1, Direction2 doorDirection = 0)
     {
@@ -1461,9 +1472,13 @@ public class Player : MonoBehaviour
             return a;
         }).ToArray();
     }
-    /*void UpdateLv()
+    void UpdateLv()
     {
-        needExpForLvUP = (int)(25 * Mathf.Pow(1.08f, lv));
+        if (!hiddenLevelMode)
+        {
+            return;
+        }
+        /*needExpForLvUP = (int)(25 * Mathf.Pow(1.08f, lv));
         if (lv <= 18)
         {
             studyLvBonus = Mathf.Pow(1.25f, lv);
@@ -1472,18 +1487,18 @@ public class Player : MonoBehaviour
         {
             studyLvBonus = 55 * Mathf.Pow(1.02f, lv - 18);
         }
-        LvIncome = Mathf.RoundToInt(9860 * Mathf.Pow(1.015f, lv));
-        if (lv == maxLevel)
+        LvIncome = Mathf.RoundToInt(9860 * Mathf.Pow(1.015f, lv));*/
+        //수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승\n
+        string lt = $"Lv {stat[0] + 1} ({exp}/{needExpForLvUP})\n";
+        for (int i = 0; i < statProp.Length; i++)
         {
-            lvInfo.text = $"Lv {lv + 1} ({exp})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 100%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
+            StatType st = data.stat[i];
+            lt += $"{st.name} {st.prefix}{statProp[i].GetValue(this)}{st.suffix}\n";
         }
-        else
-        {
-            lvInfo.text = $"Lv {lv + 1} ({exp}/{needExpForLvUP})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 {Mathf.Clamp(lv + 10, 10, 100)}%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
-        }
-        nextDayStudyExp = 1 - 0.05f * Mathf.Pow(0.99f, lv);
+        lvInfo.text = lt;
+        //nextDayStudyExp = 1 - 0.05f * Mathf.Pow(0.99f, lv);
         updateInventory();
-    }*/
+    }
     public bool isFriendable(int id)
     {
         if (id < 330)
@@ -1570,7 +1585,7 @@ public class Player : MonoBehaviour
                 if (complete)
                 {
                     SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
-                    exp += q.reward;
+                    GiveExp(q.reward);
                     quest.RemoveAt(i);
                 }
             }
@@ -1653,7 +1668,7 @@ public class Player : MonoBehaviour
             }
             Transform b = Instantiate(buyItemContent).transform;
             b.SetParent(buyItemDisplay, false);
-            b.Find("Name").GetComponent<Text>().text = $"{d.name} ({d.cost * costWeight / 100}원)";
+            b.Find("Name").GetComponent<Text>().text = $"{d.name} ({d.cost}원)";
             d.descExt.Invoke();
             b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, descExt);
             int i2 = i;
@@ -1662,12 +1677,12 @@ public class Player : MonoBehaviour
     }
     public void BuyItem(int id)
     {
-        if (money < data.item[id].cost * costWeight / 100)
+        if (money < data.item[id].cost)
         {
             OpenDialog("돈이 부족합니다");
             return;
         }
-        money -= data.item[id].cost * costWeight / 100;
+        money -= data.item[id].cost;
         inventory.Add(id);
         updateInventory();
     }
@@ -2015,7 +2030,7 @@ public class Player : MonoBehaviour
     }
     public void BuyStock(int id)
     {
-        int amount = int.Parse(stockInput[id].text);
+        int amount = stockInput[id].text == "" ? money / stockCost[id] : int.Parse(stockInput[id].text);
         if (stockCost[id] * amount > money)
         {
             OpenDialog("돈이 부족합니다");
@@ -2029,7 +2044,7 @@ public class Player : MonoBehaviour
     }
     public void SellStock(int id)
     {
-        int amount = int.Parse(stockInput[id].text);
+        int amount = stockInput[id].text == "" ? stockAmount[id] : int.Parse(stockInput[id].text);
         if (amount > stockAmount[id])
         {
             OpenDialog("주식이 부족합니다");
@@ -2169,7 +2184,7 @@ public class Player : MonoBehaviour
             {
                 if (q.req[i] != 0)
                 {
-                    req += $"\n<color={(q.req[i] <= studyExp[i] ? "green" : "red")}>{data.subjectName[i]} {q.req[i]} 이상 ({studyExp[i]})</color>";
+                    req += $"\n<color={(q.req[i] <= studyExp[i] ? "green" : "red")}>{data.subjectName[i]} {q.req[i]} 이상 (현재 {studyExp[i]}{(q.req[i] > studyExp[i] ? $", {q.req[i] - studyExp[i]} 남음" : "")})</color>";
                 }
             }
             DateTime d = DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null);

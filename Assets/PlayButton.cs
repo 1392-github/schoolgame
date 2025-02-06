@@ -219,8 +219,6 @@ public class PlayButton : MonoBehaviour
             next.end = current.end;
             next.difficulty = current.difficulty;
             next.repeatGradeMax = current.repeatGradeMax;
-            next.costWeight = current.costWeight;
-            next.costWeightStatus = current.costWeightStatus;
             next.stockCost = current.stockCost;
             next.stockAmount = current.stockAmount;
             next.stockStatus = current.stockStatus;

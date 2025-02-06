@@ -17,6 +17,6 @@ public class LvDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //text.text = (player.lv + 1).ToString();
+        text.text = (player.stat[0] + 1).ToString();
     }
 }

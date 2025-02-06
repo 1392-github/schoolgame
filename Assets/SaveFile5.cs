@@ -38,8 +38,6 @@ public class SaveFile5 : SaveFile0
     public bool end;
     public int difficulty;
     public int[] repeatGradeMax;
-    public int costWeight;
-    public bool costWeightStatus;
     public int[] stockCost;
     public int[] stockAmount;
     public bool[] stockStatus;
@@ -47,4 +45,5 @@ public class SaveFile5 : SaveFile0
     public List<Quest> quest; // experimental 2 (quest) only
     public Quest1[] pendingQuest; // experimental 2 (quest) only
     public bool tutorial;
+    public bool hiddenLevelMode;
 }
