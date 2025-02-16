@@ -83,6 +83,11 @@ public class RankingGenerator : MonoBehaviour
     public void Load()
     {
         List<Ranking> score = ((List<Ranking>)Util.SendJSON<Wrap<List<Ranking>>>("ranking", new GetRanking() { mode = mode, year = year, month = month, day = day })).OrderByDescending(c => c.score).ToList();
+        /*List<Ranking> score = new List<Ranking>();
+        for (int i = 0; i < 1000; i++)
+        {
+            score.Add(new Ranking() { name = i.ToString(), score = i });
+        }*/
         stat.text = "";
         foreach (Transform item in transform)
         {
@@ -107,15 +112,7 @@ public class RankingGenerator : MonoBehaviour
                 rankSc = score[i].score;
             }
             float rate = (float)rank / score.Count;
-            int grade;
-            if (rate <= 0.00390625f)
-            {
-                grade = 1;
-            }
-            else
-            {
-                grade = Mathf.CeilToInt(Mathf.Log(rate, 2)) + 9;
-            }
+            int grade = Util.Grade(rate);
             Transform t = Instantiate(rankingItem, transform).transform;
             t.Find("Rank").GetComponent<Text>().text = (rank + 1).ToString();
             Text gt = t.Find("Grade").GetComponent<Text>();
@@ -160,7 +157,7 @@ public class RankingGenerator : MonoBehaviour
                 }
                 else
                 {
-                    dayD.options = dayDropDown[System.DateTime.DaysInMonth(year, month) - 28];
+                    dayD.options = dayDropDown[DateTime.DaysInMonth(year, month) - 28];
                 }
             }
             monthD.interactable = true;

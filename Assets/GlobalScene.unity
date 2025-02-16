@@ -9897,7 +9897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &503942440
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10875,16 +10875,11 @@ MonoBehaviour:
   duringClassPlacement: 0
   inventory: 
   speed: 0
-  goalSubject: 0
-  goalValue: 0
-  goalReward: 0
   stat: 
   experimental: 
   length: 0
   end: 0
   difficulty: 0
-  costWeight: 0
-  costWeightStatus: 0
   repeatGradeMax: 
   stockCost: 
   stockAmount: 
@@ -11062,7 +11057,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &573825678
 GameObject:

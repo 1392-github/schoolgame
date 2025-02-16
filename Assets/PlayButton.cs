@@ -36,6 +36,10 @@ public class PlayButton : MonoBehaviour
         {
             buf.save = GetSaveFile<SaveFile5>();
         }
+        else if (version == 6)
+        {
+            buf.save = GetSaveFile<SaveFile6>();
+        }
         else
         {
             GameObject.Find("Canvas").transform.Find("UnsupportedError").gameObject.SetActive(true);
@@ -175,7 +179,7 @@ public class PlayButton : MonoBehaviour
             }
             buf.save = next;
         }
-        if (version <= 4) // 4 (1.11~1.13) => 5 (1.14~)
+        if (version <= 4) // 4 (1.11~1.13) => 5 (1.14~17)
         {
             SaveFile4 current = (SaveFile4)buf.save;
             SaveFile5 next = new SaveFile5();
@@ -223,6 +227,66 @@ public class PlayButton : MonoBehaviour
             next.stockAmount = current.stockAmount;
             next.stockStatus = current.stockStatus;
             next.stockCostChanged = current.stockCostChanged;
+            buf.save = next;
+        }
+        if (version <= 5) // 5 (14~17) => 6 (18~)
+        {
+            SaveFile5 current = (SaveFile5)buf.save;
+            SaveFile6 next = new SaveFile6();
+            next.time = current.time;
+            next.timeSpeed = current.timeSpeed;
+            next.money = current.money;
+            next.exp = current.exp;
+            next.studyExp = current.studyExp;
+            next.scores = current.scores;
+            next.map = current.map;
+            next.mapextra = current.mapextra;
+            next.x = current.x;
+            next.y = current.y;
+            next.schindex = current.schindex;
+            next.inclass = current.inclass;
+            next.inschool = current.inschool;
+            next.achCompleted = current.achCompleted;
+            next.clas = current.clas;
+            next.duringClassPlacement = current.duringClassPlacement;
+            next.startClassPlacement = current.startClassPlacement;
+            next.endClassPlacement = current.endClassPlacement;
+            next.busStopTime = current.busStopTime;
+            next.nextBusStopTimeChange = current.nextBusStopTimeChange;
+            next.inventory = current.inventory;
+            next.speed = current.speed;
+            next.stat = current.stat;
+            next.experimental = current.experimental;
+            next.startTime = current.startTime;
+            next.totalPlayTime = current.totalPlayTime;
+            next.length = current.length;
+            next.end = current.end;
+            next.difficulty = current.difficulty;
+            next.repeatGradeMax = current.repeatGradeMax;
+            next.stockCost = current.stockCost;
+            next.stockAmount = current.stockAmount;
+            next.stockStatus = current.stockStatus;
+            next.stockCostChanged = current.stockCostChanged;
+            next.quest = current.quest;
+            next.pendingQuest = current.pendingQuest;
+            next.tutorial = current.tutorial;
+            next.hiddenLevelMode = current.hiddenLevelMode;
+            if (next.experimental.Contains(Experimental.QUEST))
+            {
+                next.experimental.Remove(Experimental.QUEST);
+            }
+            else
+            {
+                long[] req = new long[5];
+                req[current.goalSubject] = current.goalValue;
+                next.quest = new List<Quest>();
+                next.quest.Add(new Quest() { req = req, reward = current.goalReward, timeLimit = "9999-12-31" });
+                next.pendingQuest = new Quest1[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    next.pendingQuest[i] = new Quest1();
+                }
+            }
             buf.save = next;
         }
         SceneManager.LoadScene("GlobalScene");

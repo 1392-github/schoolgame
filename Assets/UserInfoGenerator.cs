@@ -83,72 +83,28 @@ public class UserInfoGenerator : MonoBehaviour
             t.Find("DailyRankDisplay").GetComponent<Text>().text = d.dayRank == -1 ? "---" : d.dayRank.ToString();
             t.Find("DailyPercentDisplay").GetComponent<Text>().text = d.dayPercent == -1 ? "---" : (d.dayPercent * 100).ToString("0.####") + "%";
             grdText = t.Find("DailyGradeDisplay").GetComponent<Text>();
-            if (d.dayPercent == -1)
-            {
-                grd = 9;
-            }
-            else if (d.dayPercent <= 0.00390625f)
-            {
-                grd = 1;
-            }
-            else
-            {
-                grd = Mathf.CeilToInt(Mathf.Log(d.dayPercent, 2)) + 9;
-            }
+            grd = d.dayPercent == -1 ? 9 : Util.Grade(d.dayPercent);
             grdText.text = grd.ToString();
             grdText.color = gradeColor[grd - 1];
             t.Find("MonthlyScoreDisplay").GetComponent<Text>().text = d.monthScore == -1 ? "---" : d.monthScore.ToString();
             t.Find("MonthlyRankDisplay").GetComponent<Text>().text = d.monthRank == -1 ? "---" : d.monthRank.ToString();
             t.Find("MonthlyPercentDisplay").GetComponent<Text>().text = d.monthPercent == -1 ? "---" : (d.monthPercent * 100).ToString("0.####") + "%";
             grdText = t.Find("MonthlyGradeDisplay").GetComponent<Text>();
-            if (d.monthPercent == -1)
-            {
-                grd = 9;
-            }
-            else if (d.monthPercent <= 0.00390625f)
-            {
-                grd = 1;
-            }
-            else
-            {
-                grd = Mathf.CeilToInt(Mathf.Log(d.monthPercent, 2)) + 9;
-            }
+            grd = d.monthPercent == -1 ? 9 : Util.Grade(d.monthPercent);
             grdText.text = grd.ToString();
             grdText.color = gradeColor[grd - 1];
             t.Find("YearlyScoreDisplay").GetComponent<Text>().text = d.yearScore == -1 ? "---" : d.yearScore.ToString();
             t.Find("YearlyRankDisplay").GetComponent<Text>().text = d.yearRank == -1 ? "---" : d.yearRank.ToString();
             t.Find("YearlyPercentDisplay").GetComponent<Text>().text = d.yearPercent == -1 ? "---" : (d.yearPercent * 100).ToString("0.####") + "%";
             grdText = t.Find("YearlyGradeDisplay").GetComponent<Text>();
-            if (d.yearPercent == -1)
-            {
-                grd = 9;
-            }
-            else if (d.yearPercent <= 0.00390625f)
-            {
-                grd = 1;
-            }
-            else
-            {
-                grd = Mathf.CeilToInt(Mathf.Log(d.yearPercent, 2)) + 9;
-            }
+            grd = d.yearPercent == -1 ? 9 : Util.Grade(d.yearPercent);
             grdText.text = grd.ToString();
             grdText.color = gradeColor[grd - 1];
             t.Find("AllScoreDisplay").GetComponent<Text>().text = d.allScore == -1 ? "---" : d.allScore.ToString();
             t.Find("AllRankDisplay").GetComponent<Text>().text = d.allRank == -1 ? "---" : d.allRank.ToString();
             t.Find("AllPercentDisplay").GetComponent<Text>().text = d.allPercent == -1 ? "---" : (d.allPercent * 100).ToString("0.####") + "%";
             grdText = t.Find("AllGradeDisplay").GetComponent<Text>();
-            if (d.allPercent == -1)
-            {
-                grd = 9;
-            }
-            else if (d.allPercent <= 0.00390625f)
-            {
-                grd = 1;
-            }
-            else
-            {
-                grd = Mathf.CeilToInt(Mathf.Log(d.allPercent, 2)) + 9;
-            }
+            grd = d.allPercent == -1 ? 9 : Util.Grade(d.allPercent);
             grdText.text = grd.ToString();
             grdText.color = gradeColor[grd - 1];
         }

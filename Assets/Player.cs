@@ -33,9 +33,6 @@ public class Player : MonoBehaviour
     public DateTime nextBusStopTimeChange;
     public List<int> inventory;
     public int speed;
-    public int goalSubject;
-    public int goalValue;
-    public int goalReward;
     public int[] stat;
     public List<Experimental> experimental;
     public DateTime startTime;
@@ -223,7 +220,7 @@ public class Player : MonoBehaviour
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
-        SaveFile5 save = (SaveFile5)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        SaveFile6 save = (SaveFile6)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
         timeSpeed = TimeSpan.Parse(save.timeSpeed);
         exp = save.exp;
@@ -249,9 +246,6 @@ public class Player : MonoBehaviour
         experimental = save.experimental;
         mapInited = true;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
-        goalSubject = save.goalSubject;
-        goalValue = save.goalValue;
-        goalReward = save.goalReward;
         stat = save.stat;
         if (stat.Length < data.stat.Count)
         {
@@ -352,14 +346,6 @@ public class Player : MonoBehaviour
         problemTimerDisplay = problem.transform.Find("Timer").GetComponent<Text>();
         problemAnswerInput = problem.transform.Find("Answer").GetComponent<InputField>();
         speedDisplay = GameObject.Find("SpeedDisplay").GetComponent<Text>();
-        goalDisplay = GameObject.Find("WeeklyGoalText").GetComponent<Text>();
-        if (!ExperimentalCheck(Experimental.QUEST) && goalSubject == -1)
-        {
-            goalSubject = Random.Range(0, 5);
-            goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.7f));
-            goalReward = (int)(Mathf.Clamp(goalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
-        }
-        updateWeeklyGoalDisplay();
         cntProblemItem = -1;
         buyItemDisplay2 = canvas.Find("Shop").gameObject;
         buyItemDisplay = buyItemDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
@@ -394,18 +380,15 @@ public class Player : MonoBehaviour
         stockInput = new InputField[5];
         stockItems = new Transform[5];
         StockUIUpdate();
-        if (ExperimentalCheck(Experimental.QUEST))
+        if (pendingQuest[0].reward == 0)
         {
-            if (pendingQuest[0].reward == 0)
-            {
-                UpdatePendingQuest();
-            }
-            else
-            {
-                UpdateNewQuest();
-            }
-            UpdateQuestList();
+            UpdatePendingQuest();
         }
+        else
+        {
+            UpdateNewQuest();
+        }
+        UpdateQuestList();
         if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
@@ -623,7 +606,6 @@ public class Player : MonoBehaviour
             {
                 speed = 100;
             }
-            Time.fixedDeltaTime = 0.02f / speed;
         }
         if (GetKeyDown(KeyCode.Minus) && speed > 0)
         {
@@ -634,14 +616,6 @@ public class Player : MonoBehaviour
             else
             {
                 speed -= 1;
-            }
-            if (speed == 0)
-            {
-                Time.fixedDeltaTime = 0.02f;
-            }
-            else
-            {
-                Time.fixedDeltaTime = 0.02f / speed;
             }
         }
         if (GetKeyDown(KeyCode.I))
@@ -725,15 +699,6 @@ public class Player : MonoBehaviour
                 if (GetKeyDown(KeyCode.Alpha0 + i))
                 {
                     speed = i;
-                    if (speed == 0)
-                    {
-                        Time.fixedDeltaTime = 0.02f;
-                    }
-                    else
-                    {
-                        Time.fixedDeltaTime = 0.02f / speed;
-                    }
-
                 }
             }
         }
@@ -775,7 +740,7 @@ public class Player : MonoBehaviour
                 oldStudyExp[i] = studyExp[i];
             }
         }
-        if (ExperimentalCheck(Experimental.QUEST) && GetKeyDown(KeyCode.Q))
+        if (GetKeyDown(KeyCode.Q))
         {
             questDialog.SetActive(true);
         }
@@ -786,9 +751,9 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        SaveFile5 save = new SaveFile5();
-        save.version = 5;
-        save.versionName = "14";
+        SaveFile6 save = new SaveFile6();
+        save.version = 6;
+        save.versionName = "18";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
         save.exp = exp;
@@ -811,9 +776,6 @@ public class Player : MonoBehaviour
         save.nextBusStopTimeChange = nextBusStopTimeChange.ToString("yyyy-MM-dd");
         save.inventory = inventory;
         save.speed = speed;
-        save.goalSubject = goalSubject;
-        save.goalValue = goalValue;
-        save.goalReward = goalReward;
         save.stat = stat;
         save.experimental = experimental;
         save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -894,33 +856,30 @@ public class Player : MonoBehaviour
             }
             StockUIUpdate();
         }
-        if (ExperimentalCheck(Experimental.QUEST))
+        for (int i = quest.Count - 1; i >= 0; i--)
         {
-            for (int i = quest.Count - 1; i >= 0; i--)
+            Quest q = quest[i];
+            if (DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null) > time.Date)
             {
-                Quest q = quest[i];
-                if (DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null) > time.Date)
+                continue;
+            }
+            bool fail = false;
+            for (int j = 0; j < 5; j++)
+            {
+                if (studyExp[j] < q.req[j])
                 {
-                    continue;
-                }
-                bool fail = false;
-                for (int j = 0; j < 5; j++)
-                {
-                    if (studyExp[j] < q.req[j])
-                    {
-                        fail = true;
-                        break;
-                    }
-                }
-                if (fail)
-                {
-                    SendMessage($"퀘스트를 실패하여 {q.reward} XP를 잃었습니다");
-                    exp -= q.reward;
-                    quest.RemoveAt(i);
+                    fail = true;
+                    break;
                 }
             }
-            UpdateQuestList();
+            if (fail)
+            {
+                SendMessage($"퀘스트를 실패하여 {q.reward} XP를 잃었습니다");
+                GiveExp(-q.reward, false);
+                quest.RemoveAt(i);
+            }
         }
+        UpdateQuestList();
     }
     public void Test()
     {
@@ -987,8 +946,8 @@ public class Player : MonoBehaviour
         {
             if (tutorial && time.Date == new DateTime(2024, 3, 5) && schedule == 0)
             {
-                studyExp[goalSubject] = goalValue;
-                GiveExp(goalReward);
+                //studyExp[goalSubject] = goalValue;
+                //GiveExp(goalReward);
                 TutorialOpenChat(9);
             }
             else
@@ -1332,7 +1291,7 @@ public class Player : MonoBehaviour
         if (tutorial && currentScene == "Unnamed3" && time.Date == new DateTime(2024, 3, 4)) // 튜토리얼 6 출력 + 문 잠그기
         {
             TutorialOpenChat(5);
-            GameObject.Find("Square").GetComponent<Door>().enable = false;
+            GameObject.Find("Door").GetComponent<Door>().enable = false;
         }
         mapInited = true;
         if (doorID != -1 && ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
@@ -1431,7 +1390,7 @@ public class Player : MonoBehaviour
         LoadBusTime();
         if (tutorial && currentScene == "Unnamed3")
         {
-            GameObject.Find("Square").GetComponent<Door>().enable = true;
+            GameObject.Find("Door").GetComponent<Door>().enable = true;
             TutorialOpenChat(6);
         }
     }
@@ -1568,48 +1527,26 @@ public class Player : MonoBehaviour
         {
             GiveAch(12);
         }
-        if (ExperimentalCheck(Experimental.QUEST))
+        for (int i = quest.Count - 1; i >= 0; i--)
         {
-            for (int i = quest.Count - 1; i >= 0; i--)
+            Quest q = quest[i];
+            bool complete = true;
+            for (int j = 0; j < 5; j++)
             {
-                Quest q = quest[i];
-                bool complete = true;
-                for (int j = 0; j < 5; j++)
+                if (studyExp[j] < q.req[j])
                 {
-                    if (studyExp[j] < q.req[j])
-                    {
-                        complete = false;
-                        break;
-                    }
-                }
-                if (complete)
-                {
-                    SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
-                    GiveExp(q.reward);
-                    quest.RemoveAt(i);
+                    complete = false;
+                    break;
                 }
             }
-            UpdateQuestList();
-        }
-        else
-        {
-            if (studyExp[goalSubject] >= goalValue)
+            if (complete)
             {
-                GiveExp(goalReward);
-                goalSubject = Random.Range(0, 5);
-                goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-                goalReward = (int)(Mathf.Clamp(goalValue, 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
-                updateWeeklyGoalDisplay();
+                SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
+                GiveExp(q.reward, false);
+                quest.RemoveAt(i);
             }
         }
-    }
-    void updateWeeklyGoalDisplay()
-    {
-        if (ExperimentalCheck(Experimental.QUEST))
-        {
-            return;
-        }
-        goalDisplay.text = $"{data.subjectName[goalSubject]} {goalValue} 이상 → {goalReward} XP";
+        UpdateQuestList();
     }
     public void updateInventory()
     {
@@ -1972,10 +1909,10 @@ public class Player : MonoBehaviour
     }
     public void TutorialEvent1()
     {
-        goalSubject = Random.Range(0, 5);
-        goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-        goalReward = (int)(Mathf.Clamp(studyExp[goalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
-        updateWeeklyGoalDisplay();
+        //goalSubject = Random.Range(0, 5);
+        //goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
+        //goalReward = (int)(Mathf.Clamp(studyExp[goalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
+        //updateWeeklyGoalDisplay();
     }
     public void CalcuateRankStat()
     {
@@ -2058,10 +1995,6 @@ public class Player : MonoBehaviour
     }
     public void UpdateQuestCount()
     {
-        if (!ExperimentalCheck(Experimental.QUEST))
-        {
-            return;
-        }
         questAmount.text = $"{quest.Count} / {maxQuest}";
         if (quest.Count >= maxQuest)
         {
@@ -2074,10 +2007,6 @@ public class Player : MonoBehaviour
     }
     public void UpdateNewQuest()
     {
-        if (!ExperimentalCheck(Experimental.QUEST))
-        {
-            return;
-        }
         Quest1 quest = pendingQuest[currentQuestLevel];
         string req = "";
         for (int i = 0; i < 5; i++)
@@ -2097,10 +2026,6 @@ public class Player : MonoBehaviour
     }
     public void UpdatePendingQuest()
     {
-        if (!ExperimentalCheck(Experimental.QUEST))
-        {
-            return;
-        }
         pendingQuest[0].req = new int[5];
         int sub = Random.Range(0, 5);
         pendingQuest[0].req[sub] = Mathf.Max((int)(studyExp[sub] * Random.Range(0.1f, 0.3f)), 10);
@@ -2169,10 +2094,6 @@ public class Player : MonoBehaviour
     }
     public void UpdateQuestList()
     {
-        if (!ExperimentalCheck(Experimental.QUEST))
-        {
-            return;
-        }
         foreach (Transform item in questList)
         {
             Destroy(item.gameObject);

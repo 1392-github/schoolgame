@@ -14,7 +14,7 @@ public class StartButton : MonoBehaviour
     public InputField length;
     Dictionary<Experimental, Toggle> expSelect;
     public Dropdown mulDropdown;
-    public SaveFile5 defaultSave;
+    public SaveFile6 defaultSave;
 
     // Start is called before the first frame update
     void Start()
