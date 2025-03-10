@@ -54,6 +54,9 @@ EditorBuildSettings:
     path: Assets/Map/OldBusStop.unity
     guid: 9800185d64ef0a440bb0253b59ecde2f
   - enabled: 1
+    path: Assets/Map/OldHub.unity
+    guid: c555cf5a182e0e14591dfe5dc0a48c50
+  - enabled: 1
     path: Assets/Map/OldShop.unity
     guid: 22d2db6167b75c5469c3509fd8dce1c2
   - enabled: 1

@@ -251,8 +251,8 @@ public class PlayButton : MonoBehaviour
             next.duringClassPlacement = current.duringClassPlacement;
             next.startClassPlacement = current.startClassPlacement;
             next.endClassPlacement = current.endClassPlacement;
-            next.busStopTime = current.busStopTime;
-            next.nextBusStopTimeChange = current.nextBusStopTimeChange;
+            //next.busStopTime = current.busStopTime;
+            //next.nextBusStopTimeChange = current.nextBusStopTimeChange;
             next.inventory = current.inventory;
             next.speed = current.speed;
             next.stat = current.stat;

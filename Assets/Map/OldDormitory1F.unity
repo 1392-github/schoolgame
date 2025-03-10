@@ -1393,12 +1393,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d64f578ba941444ba0ede524458b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: BusStop
+  map: Hub
   args: 0
   pos: {x: 0.6, y: 1, z: 0}
   enable: 1
   destDoorID: 0
-  direction: 1
+  direction: 2
   doorID: 1
 --- !u!61 &1972409532
 BoxCollider2D:

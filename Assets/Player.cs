@@ -29,8 +29,8 @@ public class Player : MonoBehaviour
     public bool duringClassPlacement;
     public DateTime startClassPlacement;
     public DateTime endClassPlacement;
-    public List<TimeSpan> busStopTime;
-    public DateTime nextBusStopTimeChange;
+    //public List<TimeSpan> busStopTime;
+    //public DateTime nextBusStopTimeChange;
     public List<int> inventory;
     public int speed;
     public int[] stat;
@@ -240,8 +240,8 @@ public class Player : MonoBehaviour
         duringClassPlacement = save.duringClassPlacement;
         startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
         endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
-        busStopTime = save.busStopTime.Select(c => TimeSpan.ParseExact(c, "hh\\:mm", null)).ToList();
-        nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
+        //busStopTime = save.busStopTime.Select(c => TimeSpan.ParseExact(c, "hh\\:mm", null)).ToList();
+        //nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
         speed = save.speed;
         experimental = save.experimental;
         mapInited = true;
@@ -329,10 +329,10 @@ public class Player : MonoBehaviour
         {
             blockTime = new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4);
         }
-        if (busStopTime.Count == 0)
+        /*if (busStopTime.Count == 0)
         {
             ChangeBusStopTime();
-        }
+        }*/
         busStopDropdown.options = data.busStop.Select(c => new Dropdown.OptionData(c.name)).ToList();
         busDirectionDropdown.options[0].text = data.busStop[^1].name + " 방향";
         busDirectionDropdown.options[1].text = data.busStop[0].name + " 방향";
@@ -772,8 +772,8 @@ public class Player : MonoBehaviour
         save.duringClassPlacement = duringClassPlacement;
         save.startClassPlacement = startClassPlacement.ToString("yyyy-MM-dd");
         save.endClassPlacement = endClassPlacement.ToString("yyyy-MM-dd");
-        save.busStopTime = busStopTime.Select(c => c.ToString("hh\\:mm")).ToList();
-        save.nextBusStopTimeChange = nextBusStopTimeChange.ToString("yyyy-MM-dd");
+        //save.busStopTime = busStopTime.Select(c => c.ToString("hh\\:mm")).ToList();
+        //save.nextBusStopTimeChange = nextBusStopTimeChange.ToString("yyyy-MM-dd");
         save.inventory = inventory;
         save.speed = speed;
         save.stat = stat;
@@ -803,11 +803,11 @@ public class Player : MonoBehaviour
         {
             duringClassPlacement = false;
         }
-        if (time.Date == nextBusStopTimeChange)
+        /*if (time.Date == nextBusStopTimeChange)
         {
             nextBusStopTimeChange = new DateTime(time.Date.Month == 12 ? time.Date.Year + 1 : time.Date.Year, time.Date.Month == 12 ? 1 : time.Month + 1, 1);
             ChangeBusStopTime();
-        }
+        }*/
         if (tutorial)
         {
             if (time.Date == new DateTime(2024, 3, 4))
@@ -1161,9 +1161,9 @@ public class Player : MonoBehaviour
             }
             if (mapArgs == 0)
             {
-                GameObject.Find("Door (1)").GetComponent<Door>().map = "BusStop";
-                GameObject.Find("Door (1)").GetComponent<Door>().args = 1;
-                GameObject.Find("Door (1)").GetComponent<Door>().pos = new Vector3(0.6f, 1, 0);
+                GameObject.Find("Door (1)").GetComponent<Door>().map = "Hub";
+                GameObject.Find("Door (1)").GetComponent<Door>().args = 0;
+                GameObject.Find("Door (1)").GetComponent<Door>().destDoorID = 1;
                 Destroy(GameObject.Find("Text (TMP)"));
             }
             else
@@ -1240,7 +1240,7 @@ public class Player : MonoBehaviour
             //}
             #endregion
         //}
-        if (currentScene == "BusStop")
+        /*if (currentScene == "BusStop")
         {
             if (mapArgs == 0)
             {
@@ -1287,14 +1287,14 @@ public class Player : MonoBehaviour
             }
             busDoor = GameObject.Find("Square (5)").GetComponent<Door>();
             busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
-        }
+        }*/
         if (tutorial && currentScene == "Unnamed3" && time.Date == new DateTime(2024, 3, 4)) // 튜토리얼 6 출력 + 문 잠그기
         {
             TutorialOpenChat(5);
             GameObject.Find("Door").GetComponent<Door>().enable = false;
         }
         mapInited = true;
-        if (doorID != -1 && ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        if (doorID != -1)// && ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             Vector3 dpos = new Vector3(0, 0, 1);
             foreach (Door d in FindObjectsOfType<Door>())
@@ -1387,14 +1387,14 @@ public class Player : MonoBehaviour
     public void UpdateDDay()
     {
         classPlaceDDay.text = $"다음 반배정 : {startClassPlacement:yyyy-MM-dd} (D-{(startClassPlacement - time.Date).TotalDays})";
-        LoadBusTime();
+        //LoadBusTime();
         if (tutorial && currentScene == "Unnamed3")
         {
             GameObject.Find("Door").GetComponent<Door>().enable = true;
             TutorialOpenChat(6);
         }
     }
-    void ChangeBusStopTime()
+    /*void ChangeBusStopTime()
     {
         busStopTime.Clear();
         busStopTime.Add(new TimeSpan(8, 10, 0));
@@ -1430,7 +1430,7 @@ public class Player : MonoBehaviour
             TimeSpan a = DateTimeCalc2.Add(c, new TimeSpan(0, id * 20, 0));
             return a;
         }).ToArray();
-    }
+    }*/
     void UpdateLv()
     {
         if (!hiddenLevelMode)

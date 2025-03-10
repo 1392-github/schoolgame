@@ -382,7 +382,7 @@ MonoBehaviour:
   args: 0
   pos: {x: 0, y: 0, z: 0}
   enable: 1
-  destDoorID: 0
+  destDoorID: -1
   direction: 2
   doorID: 0
 --- !u!1 &427100220

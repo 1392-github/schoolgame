@@ -23,8 +23,8 @@ public class SaveFile6 : SaveFile0
     public bool duringClassPlacement; // reversed
     public string startClassPlacement;
     public string endClassPlacement; // reversed
-    public List<string> busStopTime;
-    public string nextBusStopTimeChange;
+    //public List<string> busStopTime;
+    //public string nextBusStopTimeChange;
     public List<int> inventory;
     public int speed;
     public int[] stat;

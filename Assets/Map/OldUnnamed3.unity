@@ -154,12 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d64f578ba941444ba0ede524458b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: BusStop
-  args: 3
+  map: Hub
+  args: 0
   pos: {x: 0.6, y: 1, z: 0}
   enable: 1
-  destDoorID: -1
-  direction: 0
+  destDoorID: 3
+  direction: 2
   doorID: 0
 --- !u!212 &25664152
 SpriteRenderer:
