@@ -810,8 +810,8 @@ MonoBehaviour:
   length: {fileID: 1458154024}
   mulDropdown: {fileID: 1721642791}
   defaultSave:
-    version: 6
-    versionName: 18
+    version: 7
+    versionName: 20
     time: 2024-03-04 08:00:00
     timeSpeed: 00:01:00
     money: 0
@@ -830,8 +830,6 @@ MonoBehaviour:
     duringClassPlacement: 0
     startClassPlacement: 2024-03-29
     endClassPlacement: 2024-04-01
-    busStopTime: []
-    nextBusStopTimeChange: 2024-04-01
     inventory: 
     speed: 1
     stat: 
@@ -842,10 +840,6 @@ MonoBehaviour:
     end: 0
     difficulty: 1
     repeatGradeMax: 0000000000000000000000000000000000000000000000000000000000000000
-    stockCost: e8030000e8030000e8030000e8030000e8030000
-    stockAmount: 0000000000000000000000000000000000000000
-    stockStatus: 0000000000
-    stockCostChanged: 0000000000000000000000000000000000000000
     quest: []
     pendingQuest:
     - reward: 0

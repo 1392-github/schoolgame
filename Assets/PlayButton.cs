@@ -40,6 +40,11 @@ public class PlayButton : MonoBehaviour
         {
             buf.save = GetSaveFile<SaveFile6>();
         }
+
+        else if (version == 7)
+        {
+            buf.save = GetSaveFile<SaveFile7>();
+        }
         else
         {
             GameObject.Find("Canvas").transform.Find("UnsupportedError").gameObject.SetActive(true);
@@ -277,10 +282,13 @@ public class PlayButton : MonoBehaviour
             }
             else
             {
-                long[] req = new long[5];
-                req[current.goalSubject] = current.goalValue;
-                next.quest = new List<Quest>();
-                next.quest.Add(new Quest() { req = req, reward = current.goalReward, timeLimit = "9999-12-31" });
+                if (current.goalSubject != -1)
+                {
+                    long[] req = new long[5];
+                    req[current.goalSubject] = current.goalValue;
+                    next.quest = new List<Quest>();
+                    next.quest.Add(new Quest() { req = req, reward = current.goalReward, timeLimit = "9999-12-31" });
+                }
                 next.pendingQuest = new Quest1[5];
                 for (int i = 0; i < 5; i++)
                 {

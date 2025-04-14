@@ -26,7 +26,7 @@ public class ScoreDisplay : MonoBehaviour
         else
         {
             TestScore score = player.scores[player.sbindex];
-            text.text = $"{score.date}\n국어  수학  사회  과학  영어\n   { score.grade[0]}     {score.grade[1]}     {score.grade[2]}     {score.grade[3]}     {score.grade[4]}\n{score.rank[0],4}{score.rank[1],6}{score.rank[2],6}{score.rank[3],6}{score.rank[4],6}\n평균 {score.grade.Average()}";
+            text.text = $"{score.date}\n국어  수학  사회  과학  영어\n{ score.grade[0]}     {score.grade[1]}     {score.grade[2]}     {score.grade[3]}     {score.grade[4]}\n{score.rank[0],4}{score.rank[1],6}{score.rank[2],6}{score.rank[3],6}{score.rank[4],6}\n평균 {score.grade.Average()}";
         }
     }
 }

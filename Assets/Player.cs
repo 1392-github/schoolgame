@@ -41,10 +41,10 @@ public class Player : MonoBehaviour
     public bool end;
     public int difficulty;
     public int[] repeatGradeMax;
-    public int[] stockCost;
-    public int[] stockAmount;
-    public bool[] stockStatus;
-    public int[] stockCostChanged;
+    //public int[] stockCost;
+    //public int[] stockAmount;
+    //public bool[] stockStatus;
+    //public int[] stockCostChanged;
     public List<Quest> quest;
     public Quest1[] pendingQuest;
     public bool tutorial;
@@ -163,10 +163,10 @@ public class Player : MonoBehaviour
     bool alreadyPenalty;
     public string[] firstGrade;
     public int[] repeatGrade;
-    public GameObject stockItem;
-    public Transform stockList;
-    public Transform[] stockItems;
-    InputField[] stockInput;
+    //public GameObject stockItem;
+    //public Transform stockList;
+    //public Transform[] stockItems;
+    //InputField[] stockInput;
     public GameObject alertItem;
     public Transform alertList;
     public Text questAmount;
@@ -188,14 +188,14 @@ public class Player : MonoBehaviour
     {
         get
         {
-            if (stat[0] <= 18)
-            {
-                return Mathf.Pow(1.25f, stat[0]);
-            }
-            else
-            {
-                return 55 * Mathf.Pow(1.03f, stat[0] - 18);
-            }
+            //if (stat[0] <= 18)
+            //{
+            //    return Mathf.Pow(1.25f, stat[0]);
+            //}
+            //else
+            //{
+                return Mathf.Pow(1.03f, stat[0]);
+            //}
         }
     }
     public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
@@ -257,10 +257,10 @@ public class Player : MonoBehaviour
         end = save.end;
         difficulty = save.difficulty;
         repeatGradeMax = save.repeatGradeMax;
-        stockAmount = save.stockAmount;
-        stockCost = save.stockCost;
-        stockCostChanged = save.stockCostChanged;
-        stockStatus = save.stockStatus;
+        //stockAmount = save.stockAmount;
+        //stockCost = save.stockCost;
+        //stockCostChanged = save.stockCostChanged;
+        //stockStatus = save.stockStatus;
         quest = save.quest;
         pendingQuest = save.pendingQuest;
         tutorial = save.tutorial;
@@ -377,9 +377,9 @@ public class Player : MonoBehaviour
             mobileOnlyUI.SetActive(true);
             speedDisplay.GetComponent<RectTransform>().offsetMin = new Vector2(300, 0);
         }
-        stockInput = new InputField[5];
-        stockItems = new Transform[5];
-        StockUIUpdate();
+        //stockInput = new InputField[5];
+        //stockItems = new Transform[5];
+        //StockUIUpdate();
         if (pendingQuest[0].reward == 0)
         {
             UpdatePendingQuest();
@@ -406,6 +406,10 @@ public class Player : MonoBehaviour
             xpDisplay.transform.parent.GetComponent<Button>().enabled = false;
             oldExpPanel.SetActive(true);
             UpdateLv();
+        }
+        if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        {
+            GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
         }
     }
     void Update()
@@ -585,7 +589,7 @@ public class Player : MonoBehaviour
             }
         }
         speedDisplay.text = $"Speed = {speed}";
-        if (GetKeyDown(KeyCode.Equals))
+        if (GetKeyDown(KeyCode.Equals) || GetKeyDown(KeyCode.KeypadPlus))
         {
             if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
@@ -607,7 +611,7 @@ public class Player : MonoBehaviour
                 speed = 100;
             }
         }
-        if (GetKeyDown(KeyCode.Minus) && speed > 0)
+        if ((GetKeyDown(KeyCode.Minus) || GetKeyDown(KeyCode.KeypadMinus)) && speed > 0)
         {
             if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
@@ -696,7 +700,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < 10; i++)
             {
-                if (GetKeyDown(KeyCode.Alpha0 + i))
+                if (GetKeyDown(KeyCode.Alpha0 + i) || GetKeyDown(KeyCode.Keypad0 + i))
                 {
                     speed = i;
                 }
@@ -784,10 +788,10 @@ public class Player : MonoBehaviour
         save.end = end;
         save.difficulty = difficulty;
         save.repeatGradeMax = repeatGradeMax;
-        save.stockAmount = stockAmount;
-        save.stockCost = stockCost;
-        save.stockCostChanged = stockCostChanged;
-        save.stockStatus = stockStatus;
+        //save.stockAmount = stockAmount;
+        //save.stockCost = stockCost;
+        //save.stockCostChanged = stockCostChanged;
+        //save.stockStatus = stockStatus;
         save.tutorial = tutorial;
         save.quest = quest;
         save.pendingQuest = pendingQuest;
@@ -831,30 +835,30 @@ public class Player : MonoBehaviour
         if (time.Date != new DateTime(2024, 3, 4))
         {
             updateShop();
-            for (int i = 0; i < 5; i++)
-            {
-                if (stockStatus[i])
-                {
-                    stockCostChanged[i] = Random.Range(1, 101);
-                    stockCost[i] += stockCostChanged[i];
-                }
-                else
-                {
-                    int prevcost = stockCost[i];
-                    stockCostChanged[i] = Random.Range(-100, 0);
-                    stockCost[i] += stockCostChanged[i];
-                    if (stockCost[i] < 1)
-                    {
-                        stockCost[i] = 1;
-                        stockCostChanged[i] = stockCost[i] - prevcost;
-                    }
-                }
-                if (Random.Range(0, 10) == 0)
-                {
-                    stockStatus[i] = !stockStatus[i];
-                }
-            }
-            StockUIUpdate();
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    if (stockStatus[i])
+            //    {
+            //        stockCostChanged[i] = Random.Range(1, 101);
+            //        stockCost[i] += stockCostChanged[i];
+            //    }
+            //    else
+            //    {
+            //        int prevcost = stockCost[i];
+            //        stockCostChanged[i] = Random.Range(-100, 0);
+            //        stockCost[i] += stockCostChanged[i];
+            //        if (stockCost[i] < 500)
+            //        {
+            //            stockCost[i] = 500;
+            //            stockCostChanged[i] = stockCost[i] - prevcost;
+            //        }
+            //    }
+            //    if (Random.Range(0, 10) == 0)
+            //    {
+            //        stockStatus[i] = !stockStatus[i];
+            //    }
+            //}
+            //StockUIUpdate();
         }
         for (int i = quest.Count - 1; i >= 0; i--)
         {
@@ -1944,55 +1948,55 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public void StockUIUpdate()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            Transform st;
-            if (stockItems[i] == null)
-            {
-                st = Instantiate(stockItem, stockList).transform;
-                int i2 = i;
-                st.Find("BuyButton").GetComponent<Button>().onClick.AddListener(() => BuyStock(i2));
-                st.Find("SellButton").GetComponent<Button>().onClick.AddListener(() => SellStock(i2));
-                stockInput[i] = st.Find("AmountInput").GetComponent<InputField>();
-                stockItems[i] = st;
-            }
-            else
-            {
-                st = stockItems[i];
-            }
-            st.Find("Info").GetComponent<Text>().text = $"{i + 1}번 ({stockCost[i]}원) ({stockAmount[i]}주) <color={(stockCostChanged[i] > 0 ? "red" : "blue")}>{stockCostChanged[i]:▲ 0;▼ 0;\"\"}</color>";
-        }
-    }
-    public void BuyStock(int id)
-    {
-        int amount = stockInput[id].text == "" ? money / stockCost[id] : int.Parse(stockInput[id].text);
-        if (stockCost[id] * amount > money)
-        {
-            OpenDialog("돈이 부족합니다");
-        }
-        else
-        {
-            money -= stockCost[id] * amount;
-            stockAmount[id] += amount;
-            StockUIUpdate();
-        }
-    }
-    public void SellStock(int id)
-    {
-        int amount = stockInput[id].text == "" ? stockAmount[id] : int.Parse(stockInput[id].text);
-        if (amount > stockAmount[id])
-        {
-            OpenDialog("주식이 부족합니다");
-        }
-        else
-        {
-            money += stockCost[id] * amount;
-            stockAmount[id] -= amount;
-            StockUIUpdate();
-        }
-    }
+    //public void StockUIUpdate()
+    //{
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        Transform st;
+    //        if (stockItems[i] == null)
+    //        {
+    //            st = Instantiate(stockItem, stockList).transform;
+    //            int i2 = i;
+    //            st.Find("BuyButton").GetComponent<Button>().onClick.AddListener(() => BuyStock(i2));
+    //            st.Find("SellButton").GetComponent<Button>().onClick.AddListener(() => SellStock(i2));
+    //            stockInput[i] = st.Find("AmountInput").GetComponent<InputField>();
+    //            stockItems[i] = st;
+    //        }
+    //        else
+    //        {
+    //            st = stockItems[i];
+    //        }
+    //        st.Find("Info").GetComponent<Text>().text = $"{i + 1}번 ({stockCost[i]}원) ({stockAmount[i]}주) <color={(stockCostChanged[i] > 0 ? "red" : "blue")}>{stockCostChanged[i]:▲ 0;▼ 0;\"\"}</color>";
+    //    }
+    //}
+    //public void BuyStock(int id)
+    //{
+    //    int amount = stockInput[id].text == "" ? money / stockCost[id] : int.Parse(stockInput[id].text);
+    //    if (stockCost[id] * amount > money)
+    //    {
+    //        OpenDialog("돈이 부족합니다");
+    //    }
+    //    else
+    //    {
+    //        money -= stockCost[id] * amount;
+    //        stockAmount[id] += amount;
+    //        StockUIUpdate();
+    //    }
+    //}
+    //public void SellStock(int id)
+    //{
+    //    int amount = stockInput[id].text == "" ? stockAmount[id] : int.Parse(stockInput[id].text);
+    //    if (amount > stockAmount[id])
+    //    {
+    //        OpenDialog("주식이 부족합니다");
+    //    }
+    //    else
+    //    {
+    //        money += stockCost[id] * amount;
+    //        stockAmount[id] -= amount;
+    //        StockUIUpdate();
+    //    }
+    //}
     public void UpdateQuestCount()
     {
         questAmount.text = $"{quest.Count} / {maxQuest}";

@@ -14,7 +14,7 @@ public class StartButton : MonoBehaviour
     public InputField length;
     Dictionary<Experimental, Toggle> expSelect;
     public Dropdown mulDropdown;
-    public SaveFile6 defaultSave;
+    public SaveFile7 defaultSave;
 
     // Start is called before the first frame update
     void Start()
@@ -58,10 +58,10 @@ public class StartButton : MonoBehaviour
         {
             defaultSave.length = int.Parse(length.text);
         }
-        for (int i = 0; i < 5; i++)
-        {
-            defaultSave.stockStatus[i] = Random.Range(0, 2) == 0;
-        }
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    defaultSave.stockStatus[i] = Random.Range(0, 2) == 0;
+        //}
         if (defaultSave.experimental.Contains(Experimental.QUEST))
         {
             defaultSave.pendingQuest = new Quest1[5];
