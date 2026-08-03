@@ -16,7 +16,7 @@ public class OpenGUIButton : MonoBehaviour
     {
         if (player != null && target.name == "ScoreBoard")
         {
-            player.sbindex = player.scores.Count - 1;
+            player.sbindex = GameData.scores.Count - 1;
         }
         target.SetActive(true);
     }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class StudyExpDisplay : MonoBehaviour
 {
-    Player player;
     Text text;
     public int index;
     float time;
@@ -16,7 +15,6 @@ public class StudyExpDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
         text = GetComponent<Text>();
         time = -1;
         anchor = GetComponent<RectTransform>().anchorMin;
@@ -27,20 +25,20 @@ public class StudyExpDisplay : MonoBehaviour
     {
         if (time == -1)
         {
-            if (oldValue != player.studyExp[index])
+            if (oldValue != GameData.studyExp[index])
             {
                 time = 0;
             }
         }
         else
         {
-            text.text = Convert((long)(oldValue + (player.studyExp[index] - oldValue) * time));
+            text.text = Convert((long)(oldValue + (GameData.studyExp[index] - oldValue) * time));
             time += Time.deltaTime;
             if (time >= 1)
             {
                 time = -1;
-                oldValue = player.studyExp[index];
-                text.text = Convert(player.studyExp[index]);
+                oldValue = GameData.studyExp[index];
+                text.text = Convert(GameData.studyExp[index]);
             }
         }
     }

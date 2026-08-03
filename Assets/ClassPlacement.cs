@@ -14,7 +14,7 @@ public class ClassPlacement : MonoBehaviour
     }
     public void OnSubmit(string text)
     {
-        player.clas = Enumerable.Repeat(-1, 1000).ToArray();
+        GameData.clas = Enumerable.Repeat(-1, 1000).ToArray();
         List<int> students = new List<int>();
         if (text != "")
         {
@@ -46,19 +46,19 @@ public class ClassPlacement : MonoBehaviour
                 return;
             }
         }
-        player.clas[0] = Random.Range(0, 10);
+        GameData.clas[0] = Random.Range(0, 10);
         foreach (int s in students)
         {
             if (Random.Range(0, 100) < player.classPlacementChance)
             {
-                player.clas[s] = player.clas[0];
+                GameData.clas[s] = GameData.clas[0];
             }
             else
             {
-                player.clas[s] = Random.Range(0, 9);
-                if (player.clas[s] == player.clas[0])
+                GameData.clas[s] = Random.Range(0, 9);
+                if (GameData.clas[s] == GameData.clas[0])
                 {
-                    player.clas[s] = 9;
+                    GameData.clas[s] = 9;
                 }
             }
         }
@@ -70,24 +70,24 @@ public class ClassPlacement : MonoBehaviour
             }
             do
             {
-                player.clas[i] = Random.Range(0, 10);
-            } while (player.clas.Count(c => c == player.clas[i]) > 33);
+                GameData.clas[i] = Random.Range(0, 10);
+            } while (GameData.clas.Count(c => c == GameData.clas[i]) > 33);
         }
         for (int i = 330; i < 660; i++)
         {
             do
             {
-                player.clas[i] = Random.Range(10, 20);
-            } while (player.clas.Count(c => c == player.clas[i]) > 33);
+                GameData.clas[i] = Random.Range(10, 20);
+            } while (GameData.clas.Count(c => c == GameData.clas[i]) > 33);
         }
         for (int i = 660; i < 1000; i++)
         {
             do
             {
-                player.clas[i] = Random.Range(20, 30);
-            } while (player.clas.Count(c => c == player.clas[i]) > 34);
+                GameData.clas[i] = Random.Range(20, 30);
+            } while (GameData.clas.Count(c => c == GameData.clas[i]) > 34);
         }
-        player.timeSpeed = new System.TimeSpan(0, 0, 30);
+        GameData.timeSpeed = new System.TimeSpan(0, 0, 30);
         transform.parent.gameObject.SetActive(false);
     }
 }

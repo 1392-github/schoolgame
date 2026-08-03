@@ -35,7 +35,7 @@ public class GetClass3 : MonoBehaviour
         List<string> s = new List<string>();
         for (int i = 0; i < 1000; i++)
         {
-            if (player.clas[i] == c2)
+            if (GameData.clas[i] == c2)
             {
                 if (player.isFriendable(i))
                 {

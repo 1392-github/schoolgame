@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class DeskClick : MonoBehaviour
 {
-    Player player;
-    void Start()
-    {
-        player = GameObject.Find("Player").GetComponent<Player>();
-    }
     public void Click()
     {
-        if (player.inSchool && !player.inClass)
+        if (GameData.inSchool && !GameData.inClass)
         {
-            player.timeSpeed = new System.TimeSpan(0, 5, 0);
+            GameData.timeSpeed = new System.TimeSpan(0, 5, 0);
         }
     }
 }

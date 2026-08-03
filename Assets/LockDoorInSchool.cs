@@ -10,7 +10,7 @@ public class LockDoorInSchool : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        if (player.mapArgs != 0)
+        if (GameData.mapArgs != 0)
         {
             Destroy(this);
         }
@@ -20,6 +20,6 @@ public class LockDoorInSchool : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        door.enable = !player.inSchool;
+        door.enable = !GameData.inSchool;
     }
 }

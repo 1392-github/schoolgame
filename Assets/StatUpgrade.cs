@@ -23,7 +23,7 @@ public class StatUpgrade : MonoBehaviour
         prop = typeof(Player).GetProperty(data.stat[id].prop);
         UpdateText();
     }
-    long GetCost() => (long)Mathf.Max(data.stat[id].reqBase * Mathf.Pow(data.stat[id].reqExp, player.stat[id]), 1);
+    long GetCost() => (long)Mathf.Max(data.stat[id].reqBase * Mathf.Pow(data.stat[id].reqExp, GameData.stat[id]), 1);
     public void XpInputChange(string sxp)
     {
         if (during)
@@ -86,27 +86,27 @@ public class StatUpgrade : MonoBehaviour
         {
             return;
         }
-        if (player.end)
+        if (GameData.end)
         {
             player.OpenDialog("이미 종료된 게임입니다");
             return;
         }
-        if (player.exp < xp)
+        if (GameData.exp < xp)
         {
             player.OpenDialog("XP가 부족합니다");
             return;
         }
-        player.exp -= xp;
+        GameData.exp -= xp;
         object before = prop.GetValue(player);
         if (Random.Range(0f, 1f) <= chance)
         {
-            player.stat[id]++;
-            player.SendMessage($"{data.stat[id].name} 업그레이드에 성공했습니다 (Lv {player.stat[id] - 1} ({data.stat[id].prefix}{before}{data.stat[id].suffix}) → Lv {player.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix}))");
+            GameData.stat[id]++;
+            player.SendMessage($"{data.stat[id].name} 업그레이드에 성공했습니다 (Lv {GameData.stat[id] - 1} ({data.stat[id].prefix}{before}{data.stat[id].suffix}) → Lv {GameData.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix}))");
         }
         else
         {
-            player.stat[id]--;
-            player.SendMessage($"{data.stat[id].name} 업그레이드에 실패했습니다 (Lv {player.stat[id] + 1} ({data.stat[id].prefix}{before}{data.stat[id].suffix}) → Lv {player.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix}))");
+            GameData.stat[id]--;
+            player.SendMessage($"{data.stat[id].name} 업그레이드에 실패했습니다 (Lv {GameData.stat[id] + 1} ({data.stat[id].prefix}{before}{data.stat[id].suffix}) → Lv {GameData.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix}))");
         }
         data.stat[id].onUpgrade.Invoke();
         UpdateText();
@@ -115,8 +115,8 @@ public class StatUpgrade : MonoBehaviour
     }
     public void UpdateText()
     {
-        text.text = $"{data.stat[id].name} Lv {player.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix})";
-        if (data.stat[id].max != 0 && player.stat[id] == data.stat[id].max)
+        text.text = $"{data.stat[id].name} Lv {GameData.stat[id]} ({data.stat[id].prefix}{prop.GetValue(player)}{data.stat[id].suffix})";
+        if (data.stat[id].max != 0 && GameData.stat[id] == data.stat[id].max)
         {
             button.interactable = false;
         }

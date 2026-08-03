@@ -16,11 +16,11 @@ public class Cheat : MonoBehaviour
     {
         if (cmd.StartsWith("setdate"))
         {
-            player.time = DateTime.Parse(cmd.Substring(8));
+            GameData.time = DateTime.Parse(cmd.Substring(8));
         }
         if (cmd.StartsWith("settimespeed"))
         {
-            player.timeSpeed = TimeSpan.Parse(cmd.Substring(13));
+            GameData.timeSpeed = TimeSpan.Parse(cmd.Substring(13));
         }
         if (cmd.StartsWith("test"))
         {
@@ -32,11 +32,11 @@ public class Cheat : MonoBehaviour
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    player.studyExp[j] = (int)(player.studyExp[j] * 0.8f);
+                    GameData.studyExp[j] = (int)(GameData.studyExp[j] * 0.8f);
                 }
                 for (int j = 0; j < 6; j++)
                 {
-                    player.studyExp[Random.Range(0, 5)] += Random.Range(1, 501);
+                    GameData.studyExp[Random.Range(0, 5)] += Random.Range(1, 501);
                 }
             }
         }
@@ -47,7 +47,7 @@ public class Cheat : MonoBehaviour
         string[] para = cmd.Split(' ');
         if (para[0] == "setsujexp")
         {
-            player.studyExp[int.Parse(para[1])] = int.Parse(para[2]);
+            GameData.studyExp[int.Parse(para[1])] = int.Parse(para[2]);
         }
         if (para[0] == "getach")
         {

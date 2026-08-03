@@ -15,21 +15,21 @@ public class TimeDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.length == 0)
+        if (GameData.length == 0)
         {
-            GetComponent<Text>().text = player.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(player.time - player.firstDay).TotalDays + 1}老瞒");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒");
         }
-        else if (player.end)
+        else if (GameData.end)
         {
-            GetComponent<Text>().text = player.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(player.time - player.firstDay).TotalDays + 1}老瞒 (En\\d)");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒 (En\\d)");
         }
-        else if (player.time.Date == player.endTime && player.time.TimeOfDay >= new System.TimeSpan(8, 0, 0))
+        else if (GameData.time.Date == player.endTime && GameData.time.TimeOfDay >= new System.TimeSpan(8, 0, 0))
         {
-            GetComponent<Text>().text = player.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(player.time - player.firstDay).TotalDays + 1}老瞒 (D-Da\\y)");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒 (D-Da\\y)");
         }
         else
         {
-            GetComponent<Text>().text = player.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(player.time - player.firstDay).TotalDays + 1}老瞒 (D-{(int)(player.endTime - player.time.Date).TotalDays + (player.time.TimeOfDay < new System.TimeSpan(8, 0, 0) ? 1 : 0)})");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒 (D-{(int)(player.endTime - GameData.time.Date).TotalDays + (GameData.time.TimeOfDay < new System.TimeSpan(8, 0, 0) ? 1 : 0)})");
         }
     }
 }

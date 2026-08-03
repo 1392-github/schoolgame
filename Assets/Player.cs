@@ -11,53 +11,46 @@ using Random = UnityEngine.Random;
 public class Player : MonoBehaviour
 {
     #region 저장 데이터
-    public string name;
-    public string school;
-    public int birth;
-    public long exp;
-    public int money;
-    public DateTime time;
-    public TimeSpan timeSpeed;
-    public bool inClass;
-    public bool inSchool;
-    public float moveSpeed;
-    public string currentScene;
-    public int mapArgs;
-    public long[] studyExp;
-    public List<TestScore> scores;
-    public bool enableCheat;
-    public int schedule;
-    public bool[] achCompleted;
-    public int[] clas;
-    public bool duringClassPlacement;
-    public DateTime startClassPlacement;
-    public DateTime endClassPlacement;
-    //public List<TimeSpan> busStopTime;
-    //public DateTime nextBusStopTimeChange;
-    public List<int> inventory;
-    public int speed;
-    public int[] stat;
-    public List<Experimental> experimental;
-    public DateTime startTime;
-    public TimeSpan totalPlayTime;
-    public int length;
-    public bool end;
-    public int difficulty;
-    public int[] repeatGradeMax;
-    //public int[] stockCost;
-    //public int[] stockAmount;
-    //public bool[] stockStatus;
-    //public int[] stockCostChanged;
-    public List<Quest> quest;
-    public Quest1[] pendingQuest;
-    public bool tutorial;
-    public bool hiddenLevelMode;
+    //public string name;
+    //public string school;
+    //public int birth;
+    //public long exp;
+    //public int money;
+    //public DateTime time;
+    //public TimeSpan timeSpeed;
+    //public bool inClass;
+    //public bool inSchool;
+    //public string currentScene;
+    //public int mapArgs;
+    //public long[] studyExp;
+    //public List<TestScore> scores;
+    //public int schedule;
+    //public bool[] achCompleted;
+    //public int[] clas;
+    //public bool duringClassPlacement;
+    //public DateTime startClassPlacement;
+    //public DateTime endClassPlacement;
+    //public List<int> inventory;
+    //public int speed;
+    //public int[] stat;
+    //public List<Experimental> experimental;
+    //public DateTime startTime;
+    //public TimeSpan totalPlayTime;
+    //public int length;
+    //public bool end;
+    //public int difficulty;
+    //public int[] repeatGradeMax;
+    //public List<Quest> quest;
+    //public Quest1[] pendingQuest;
+    //public bool tutorial;
+    //public bool hiddenLevelMode;
     #endregion
     #region 저장 데이터가 아닌 변수들
+    public float moveSpeed;
+    public bool enableCheat;
     public int sbindex;
     public string saveName;
-    //public int needExpForLvUP;
-    public long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
+    public long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, GameData.stat[0]));
     //public int maxLevel;
     public GameObject gradeDoor;
     public TimeSpan blockTime;
@@ -191,12 +184,12 @@ public class Player : MonoBehaviour
     public DateTime firstDay;
     #endregion
     #region 스탯 정보 속성
-    public float studyLvBonus => Mathf.Pow(1.03f, stat[0]);
-    public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
-    public int classPlacementChance => Mathf.Clamp(10 + stat[2] * 2, 10, 100);
-    public float problemTime => 60 * Mathf.Pow(0.99f, stat[3]);
-    public int maxQuest => stat[4] <= 0 ? 1 : (hiddenLevelMode ? stat[4] / 10 : stat[4]) + 1;
-    public int questTime => stat[5] <= 0 ? 1 : (hiddenLevelMode ? stat[5] / 10 : stat[5]) + 1;
+    public float studyLvBonus => Mathf.Pow(1.03f, GameData.stat[0]);
+    public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, GameData.stat[1]));
+    public int classPlacementChance => Mathf.Clamp(10 + GameData.stat[2] * 2, 10, 100);
+    public float problemTime => 60 * Mathf.Pow(0.99f, GameData.stat[3]);
+    public int maxQuest => GameData.stat[4] <= 0 ? 1 : (GameData.hiddenLevelMode ? GameData.stat[4] / 10 : GameData.stat[4]) + 1;
+    public int questTime => GameData.stat[5] <= 0 ? 1 : (GameData.hiddenLevelMode ? GameData.stat[5] / 10 : GameData.stat[5]) + 1;
     #endregion
     void OnEnable()
     {
@@ -215,58 +208,58 @@ public class Player : MonoBehaviour
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
         SaveFile8 save = GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
-        time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
-        timeSpeed = TimeSpan.Parse(save.timeSpeed);
-        name = save.name;
-        school = save.school;
-        birth = save.birth;
-        startYear = birth + 16;
+        GameData.time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
+        GameData.timeSpeed = TimeSpan.Parse(save.timeSpeed);
+        GameData.name = save.name;
+        GameData.school = save.school;
+        GameData.birth = save.birth;
+        startYear = GameData.birth + 16;
         firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
         if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
         if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
         suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
-        exp = save.exp;
-        money = save.money;
-        studyExp = save.studyExp;
-        scores = save.scores;
-        schedule = save.schindex;
-        inClass = save.inclass;
-        inSchool = save.inschool;
-        clas = save.clas;
-        inventory = save.inventory;
-        achCompleted = save.achCompleted;
-        if (achCompleted.Length < data.achievement.Count)
+        GameData.exp = save.exp;
+        GameData.money = save.money;
+        GameData.studyExp = save.studyExp;
+        GameData.scores = save.scores;
+        GameData.schedule = save.schindex;
+        GameData.inClass = save.inclass;
+        GameData.inSchool = save.inschool;
+        GameData.clas = save.clas;
+        GameData.inventory = save.inventory;
+        GameData.achCompleted = save.achCompleted;
+        if (GameData.achCompleted.Length < data.achievement.Count)
         {
-            achCompleted = achCompleted.Concat(new bool[data.achievement.Count - achCompleted.Length]).ToArray();
+            GameData.achCompleted = GameData.achCompleted.Concat(new bool[data.achievement.Count - GameData.achCompleted.Length]).ToArray();
         }
-        duringClassPlacement = save.duringClassPlacement;
-        startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
-        endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
+        GameData.duringClassPlacement = save.duringClassPlacement;
+        GameData.startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
+        GameData.endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
         //busStopTime = save.busStopTime.Select(c => TimeSpan.ParseExact(c, "hh\\:mm", null)).ToList();
         //nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
-        speed = save.speed;
-        experimental = save.experimental;
+        GameData.speed = save.speed;
+        GameData.experimental = save.experimental;
         mapInited = true;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
-        stat = save.stat;
-        if (stat.Length < data.stat.Count)
+        GameData.stat = save.stat;
+        if (GameData.stat.Length < data.stat.Count)
         {
-            stat = stat.Concat(new int[data.stat.Count - stat.Length]).ToArray();
+            GameData.stat = GameData.stat.Concat(new int[data.stat.Count - GameData.stat.Length]).ToArray();
         }
-        startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
-        totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
-        length = save.length;
-        end = save.end;
-        difficulty = save.difficulty;
-        repeatGradeMax = save.repeatGradeMax;
+        GameData.startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
+        GameData.totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
+        GameData.length = save.length;
+        GameData.end = save.end;
+        GameData.difficulty = save.difficulty;
+        GameData.repeatGradeMax = save.repeatGradeMax;
         //stockAmount = save.stockAmount;
         //stockCost = save.stockCost;
         //stockCostChanged = save.stockCostChanged;
         //stockStatus = save.stockStatus;
-        quest = save.quest;
-        pendingQuest = save.pendingQuest;
-        tutorial = save.tutorial;
-        hiddenLevelMode = save.hiddenLevelMode;
+        GameData.quest = save.quest;
+        GameData.pendingQuest = save.pendingQuest;
+        GameData.tutorial = save.tutorial;
+        GameData.hiddenLevelMode = save.hiddenLevelMode;
         #endregion
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
@@ -277,7 +270,7 @@ public class Player : MonoBehaviour
         repeatGrade = new int[8];
         CalcuateRankStat();
         achGen.Start2();
-        if (clas[0] == -1)
+        if (GameData.clas[0] == -1)
         {
             if (ExperimentalCheck(Experimental.FRIEND_SYSTEM))
             {
@@ -285,27 +278,27 @@ public class Player : MonoBehaviour
                 {
                     do
                     {
-                        clas[i] = Random.Range(0, 10);
-                    } while (clas.Count(c => c == clas[i]) > 33);
+                        GameData.clas[i] = Random.Range(0, 10);
+                    } while (GameData.clas.Count(c => c == GameData.clas[i]) > 33);
                 }
                 for (int i = 330; i < 660; i++)
                 {
                     do
                     {
-                        clas[i] = Random.Range(10, 20);
-                    } while (clas.Count(c => c == clas[i]) > 33);
+                        GameData.clas[i] = Random.Range(10, 20);
+                    } while (GameData.clas.Count(c => c == GameData.clas[i]) > 33);
                 }
                 for (int i = 660; i < 1000; i++)
                 {
                     do
                     {
-                        clas[i] = Random.Range(20, 30);
-                    } while (clas.Count(c => c == clas[i]) > 34);
+                        GameData.clas[i] = Random.Range(20, 30);
+                    } while (GameData.clas.Count(c => c == GameData.clas[i]) > 34);
                 }
             }
             else
             {
-                clas[0] = Random.Range(0, 10);
+                GameData.clas[0] = Random.Range(0, 10);
             }
         }
         classPlaceInput = canvas.Find("ClassPlaceInput").gameObject;
@@ -315,13 +308,13 @@ public class Player : MonoBehaviour
         //busDirectionDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy) (1)").GetComponent<Dropdown>();
         UpdateDDay();
         int r;
-        if (scores.Count == 0)
+        if (GameData.scores.Count == 0)
         {
             r = 9;
         }
         else
         {
-            r = (int)Math.Ceiling(scores[^1].grade.Average());
+            r = (int)Math.Ceiling(GameData.scores[^1].grade.Average());
         }
         if (r <= 3)
         {
@@ -367,13 +360,13 @@ public class Player : MonoBehaviour
             u.UpdateText();
         }
         updateInventory();
-        endTime = new DateTime(2024, 3, 4) + new TimeSpan(length * 7, 0, 0, 0);
+        endTime = new DateTime(2024, 3, 4) + new TimeSpan(GameData.length * 7, 0, 0, 0);
         oldStudyExp = new long[5];
         for (int i = 0; i < 5; i++)
         {
-            oldStudyExp[i] = studyExp[i];
+            oldStudyExp[i] = GameData.studyExp[i];
         }
-        data.NeedExpForGrade = data.NeedExpForGrade.Select(c => difficulty > 0 ? c * difficulty : c * -difficulty / 100).ToList();
+        data.NeedExpForGrade = data.NeedExpForGrade.Select(c => GameData.difficulty > 0 ? c * GameData.difficulty : c * -GameData.difficulty / 100).ToList();
         if (Application.platform == RuntimePlatform.Android)
         {
             mobileOnlyUI.SetActive(true);
@@ -382,7 +375,7 @@ public class Player : MonoBehaviour
         //stockInput = new InputField[5];
         //stockItems = new Transform[5];
         //StockUIUpdate();
-        if (pendingQuest[0].reward == 0)
+        if (GameData.pendingQuest[0].reward == 0)
         {
             UpdatePendingQuest();
         }
@@ -395,7 +388,7 @@ public class Player : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
         }
-        if (hiddenLevelMode)
+        if (GameData.hiddenLevelMode)
         {
             studyExpPanel.offsetMin = new Vector2(0, -300);
             studyExpPanel.offsetMax = new Vector2(0, -150);
@@ -418,9 +411,9 @@ public class Player : MonoBehaviour
     {
         if (!pause)
         {
-            time += timeSpeed * Time.deltaTime * speed;
+            GameData.time += GameData.timeSpeed * Time.deltaTime * GameData.speed;
         }
-        totalPlayTime += new TimeSpan(0, 0, 1) * Time.deltaTime;
+        GameData.totalPlayTime += new TimeSpan(0, 0, 1) * Time.deltaTime;
         if (enableCheat)
         {
             if (GetKeyDown(KeyCode.Slash))
@@ -448,7 +441,7 @@ public class Player : MonoBehaviour
             {
                 y = -moveSpeed;
             }
-            rb.velocity = new Vector3(x * speed, y * speed, 0);
+            rb.velocity = new Vector3(x * GameData.speed, y * GameData.speed, 0);
         }
         else
         {
@@ -488,22 +481,22 @@ public class Player : MonoBehaviour
         //}
         //else
         //{
-            if (TimeSpan.Parse(data.schedule[schedule].time) < time.TimeOfDay)
+            if (TimeSpan.Parse(data.schedule[GameData.schedule].time) < GameData.time.TimeOfDay)
             {
-                if (TimeSpan.Parse(data.schedule[schedule].time) > new TimeSpan(8, 0, 0) || time.TimeOfDay < new TimeSpan(14, 0, 0))
+                if (TimeSpan.Parse(data.schedule[GameData.schedule].time) > new TimeSpan(8, 0, 0) || GameData.time.TimeOfDay < new TimeSpan(14, 0, 0))
                 {
-                    data.schedule[schedule].work.Invoke();
-                    schedule++;
+                    data.schedule[GameData.schedule].work.Invoke();
+                    GameData.schedule++;
                 }
             }
         //}
         if (mapInited)
         {
-            if (currentScene == "BusStop")
+            if (GameData.currentScene == "BusStop")
             {
-                TimeSpan t = time.TimeOfDay;
-                bool b1 = mapArgs != data.busStop.Count - 1;
-                bool b2 = mapArgs != 0;
+                TimeSpan t = GameData.time.TimeOfDay;
+                bool b1 = GameData.mapArgs != data.busStop.Count - 1;
+                bool b2 = GameData.mapArgs != 0;
                 for (int i = 0; i < busTime1.Length; i++)
                 {
                     TimeSpan bt1 = busTime1[i];
@@ -547,16 +540,16 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            if (currentScene == "Bus")
+            if (GameData.currentScene == "Bus")
             {
-                if (mapArgs == (busDirection ? 0 : data.busStop.Count - 1))
+                if (GameData.mapArgs == (busDirection ? 0 : data.busStop.Count - 1))
                 {
-                    busLocD.text = $"{data.busStop[mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n(0분 00초 남음)";
+                    busLocD.text = $"{data.busStop[GameData.mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n(0분 00초 남음)";
                     busDoor.gameObject.SetActive(true);
                 }
                 else
                 {
-                    TimeSpan t = time.TimeOfDay;
+                    TimeSpan t = GameData.time.TimeOfDay;
                     //if (t >= busBaseTime && t <= busBaseTime + new TimeSpan(0, 5, 0))
                     if (DateTimeCalc2.Between(t, busBaseTime, DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 5, 0))))
                     {
@@ -570,58 +563,58 @@ public class Player : MonoBehaviour
                     bool overflow;
                     if (t >= DateTimeCalc2.Add2(busBaseTime, new TimeSpan(0, 20, 0), out overflow) && (!overflow || t <= new TimeSpan(1, 0, 0)))
                     {
-                        mapArgs += busDirection ? -1 : 1;
+                        GameData.mapArgs += busDirection ? -1 : 1;
                         busBaseTime = DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 20, 0));
                     }
-                    busDoor.args = mapArgs;
-                    TimeSpan tm = DateTimeCalc2.Sub(busBaseTime + new TimeSpan(0, 20, 0), time.TimeOfDay);
-                    busLocD.text = $"{data.busStop[mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n({tm:m\\분\\ ss}초 남음)";
+                    busDoor.args = GameData.mapArgs;
+                    TimeSpan tm = DateTimeCalc2.Sub(busBaseTime + new TimeSpan(0, 20, 0), GameData.time.TimeOfDay);
+                    busLocD.text = $"{data.busStop[GameData.mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n({tm:m\\분\\ ss}초 남음)";
                 }
             }
-            if (currentScene == "Unnamed3")
+            if (GameData.currentScene == "Unnamed3")
             {
-                moneyFloat += (float)(speed * timeSpeed).TotalHours * LvIncome * Time.deltaTime;
+                moneyFloat += (float)(GameData.speed * GameData.timeSpeed).TotalHours * LvIncome * Time.deltaTime;
                 int i = Mathf.FloorToInt(moneyFloat);
                 moneyFloat -= i;
-                money += i;
+                GameData.money += i;
             }
-            if (GetKeyDown(KeyCode.N) && currentScene == "DormitoryRoom" && !inSchool)
+            if (GetKeyDown(KeyCode.N) && GameData.currentScene == "DormitoryRoom" && !GameData.inSchool)
             {
-                timeSpeed = new TimeSpan(1, 0, 0);
+                GameData.timeSpeed = new TimeSpan(1, 0, 0);
             }
         }
-        speedDisplay.text = $"Speed = {speed}";
+        speedDisplay.text = $"Speed = {GameData.speed}";
         if (GetKeyDown(KeyCode.Equals) || GetKeyDown(KeyCode.KeypadPlus))
         {
             if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
-                if (speed == 0)
+                if (GameData.speed == 0)
                 {
-                    speed = 1;
+                    GameData.speed = 1;
                 }
                 else
                 {
-                    speed *= 2;
+                    GameData.speed *= 2;
                 }
             }
             else
             {
-                speed += 1;
+                GameData.speed += 1;
             }
-            if (speed > 100)
+            if (GameData.speed > 100)
             {
-                speed = 100;
+                GameData.speed = 100;
             }
         }
-        if ((GetKeyDown(KeyCode.Minus) || GetKeyDown(KeyCode.KeypadMinus)) && speed > 0)
+        if ((GetKeyDown(KeyCode.Minus) || GetKeyDown(KeyCode.KeypadMinus)) && GameData.speed > 0)
         {
             if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
-                speed /= 2;
+                GameData.speed /= 2;
             }
             else
             {
-                speed -= 1;
+                GameData.speed -= 1;
             }
         }
         if (GetKeyDown(KeyCode.I))
@@ -630,8 +623,8 @@ public class Player : MonoBehaviour
         }
         if (cntProblemItem != -1)
         {
-            problemTimer -= timeSpeed * Time.deltaTime * speed;
-            TimeSpan realTime = problemTimer / timeSpeed.TotalSeconds;
+            problemTimer -= GameData.timeSpeed * Time.deltaTime * GameData.speed;
+            TimeSpan realTime = problemTimer / GameData.timeSpeed.TotalSeconds;
             problemTimerDisplay.text = $"{Math.Floor(realTime.TotalMinutes)}:{realTime.Seconds} ({Math.Floor(problemTimer.TotalMinutes)}:{problemTimer.Seconds})";
             if (problemTimer <= TimeSpan.Zero)
             {
@@ -646,27 +639,27 @@ public class Player : MonoBehaviour
                 }
                 problem.SetActive(false);
                 cntProblemItem = -1;
-                timeSpeed = new TimeSpan(0, 1, 0);
+                GameData.timeSpeed = new TimeSpan(0, 1, 0);
             }
         }
-        if (!hiddenLevelMode)
+        if (!GameData.hiddenLevelMode)
         {
-            xpDisplay.text = $"{exp} XP";
-            xpDisplay2.text = $"{exp} XP";
+            xpDisplay.text = $"{GameData.exp} XP";
+            xpDisplay2.text = $"{GameData.exp} XP";
         }
         //if (blockTime != TimeSpan.Zero && currentScene != "DormitoryRoom" && (time.TimeOfDay < new TimeSpan(8, 0, 0) || time.TimeOfDay > blockTime))
         //{
         //    xpFloat2 += (float)needExpForLvUP / 2 * (float)(speed * timeSpeed).TotalHours * Time.deltaTime;
         //    int a = (int)xpFloat2;
         //    xpFloat2 %= 1;
-        //    exp -= a;
+        //    GameData.exp -= a;
         //    if (lv == maxLevel)
         //    {
-        //        lvInfo.text = $"Lv {lv + 1} ({exp})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 100%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
+        //        lvInfo.text = $"Lv {lv + 1} ({GameData.exp})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 100%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
         //    }
         //    else
         //    {
-        //        lvInfo.text = $"Lv {lv + 1} ({exp}/{needExpForLvUP})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 {Mathf.Clamp(lv + 10, 10, 100)}%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
+        //        lvInfo.text = $"Lv {lv + 1} ({GameData.exp}/{needExpForLvUP})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 {Mathf.Clamp(lv + 10, 10, 100)}%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
         //    }
         //    moneyFloat2 += LvIncome * 2 * (float)(speed * timeSpeed).TotalHours * Time.deltaTime;
         //    a = (int)moneyFloat2;
@@ -675,26 +668,26 @@ public class Player : MonoBehaviour
         //}
         if (GetKeyDown(KeyCode.E))
         {
-            if (length == 0)
+            if (GameData.length == 0)
             {
                 endingDisplay.SetActive(true);
                 int ach = 0;
                 for (int i = 0; i < data.achievement.Count; i++)
                 {
-                    if (!data.achievement[i].name.EndsWith("(E)") && achCompleted[i])
+                    if (!data.achievement[i].name.EndsWith("(E)") && GameData.achCompleted[i])
                     {
                         ach++;
                     }
                 }
                 int achSum = data.achievement.Count(c => !c.name.EndsWith("(E)"));
-                long studyExpSum = studyExp.Sum();
+                long studyExpSum = GameData.studyExp.Sum();
                 endingDisplayText.text = $@"엔딩 조건
 <color={(ach >= achSum ? "green" : "red")}>1 - 모든 업적 달성 (이름 끝에 (E)가 있는 업적 제외) ({ach}/{achSum})</color>
-<color={(stat[0] >= 150 ? "green" : "red")}>2 - 공부 효율 레벨 150 이상 달성 ({stat[0]}/150)</color>
-<color={(money >= 10000000 ? "green" : "red")}>3 - 돈 10000000 달성 ({money}/10000000)</color>
+<color={(GameData.stat[0] >= 150 ? "green" : "red")}>2 - 공부 효율 레벨 150 이상 달성 ({GameData.stat[0]}/150)</color>
+<color={(GameData.money >= 10000000 ? "green" : "red")}>3 - 돈 10000000 달성 ({GameData.money}/10000000)</color>
 <color={(studyExpSum >= 10000000 ? "green" : "red")}>4 - 모든 과목 능력치 합계 10000000 이상 ({studyExpSum}/10000000)</color>
 (엔딩을 볼 시 자동으로 저장되며, 엔딩을 본 이후에도 해당 파일을 계속 플레이할 수 있습니다)";
-                endButton.interactable = ach >= achSum && stat[0] >= 150 && money >= 10000000 && studyExpSum >= 10000000;
+                endButton.interactable = ach >= achSum && GameData.stat[0] >= 150 && GameData.money >= 10000000 && studyExpSum >= 10000000;
             }
         }
         GameObject selectedGameobject = GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject;
@@ -704,7 +697,7 @@ public class Player : MonoBehaviour
             {
                 if (GetKeyDown(KeyCode.Alpha0 + i) || GetKeyDown(KeyCode.Keypad0 + i))
                 {
-                    speed = i;
+                    GameData.speed = i;
                 }
             }
         }
@@ -716,9 +709,9 @@ public class Player : MonoBehaviour
             }
             menu.SetActive(true);
         }
-        if (speed == 0 && cntProblemItem != -1)
+        if (GameData.speed == 0 && cntProblemItem != -1)
         {
-            speed = 1;
+            GameData.speed = 1;
         }
         if (endEffectDuring)
         {
@@ -729,21 +722,21 @@ public class Player : MonoBehaviour
                 Save();
                 GameObject end = GameObject.Find("EndDatePass");
                 DontDestroyOnLoad(end);
-                end.GetComponent<EndDatePass>().studyExp = studyExp;
-                end.GetComponent<EndDatePass>().score = scores[^1];
+                end.GetComponent<EndDatePass>().studyExp = GameData.studyExp;
+                end.GetComponent<EndDatePass>().score = GameData.scores[^1];
                 SceneManager.LoadScene("EndScene2");
             }
         }
         for (int i = 0; i < 5; i++)
         {
-            if (oldStudyExp[i] != studyExp[i])
+            if (oldStudyExp[i] != GameData.studyExp[i])
             {
                 GameObject g = Instantiate(studyExpIncreaseEffect, studyExpPanel);
-                g.GetComponent<Text>().text = (studyExp[i] - oldStudyExp[i]).ToString("+0;-#");
+                g.GetComponent<Text>().text = (GameData.studyExp[i] - oldStudyExp[i]).ToString("+0;-#");
                 RectTransform rt = g.GetComponent<RectTransform>();
                 rt.anchorMin = new Vector2((i + 1) / 6f, 0.33f);
                 rt.anchorMax = rt.anchorMin;
-                oldStudyExp[i] = studyExp[i];
+                oldStudyExp[i] = GameData.studyExp[i];
             }
         }
         if (GetKeyDown(KeyCode.Q))
@@ -753,91 +746,91 @@ public class Player : MonoBehaviour
     }
     void Save()
     {
-        if (tutorial)
+        if (GameData.tutorial)
         {
             return;
         }
         SaveFile8 save = new SaveFile8();
         save.version = 8;
         save.versionName = "21";
-        save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
-        save.timeSpeed = timeSpeed.ToString();
-        save.name = name;
-        save.school = school;
-        save.birth = birth;
-        save.exp = exp;
-        save.money = money;
-        save.studyExp = studyExp;
-        save.map = currentScene;
-        save.mapextra = mapArgs;
-        save.scores = scores;
+        save.time = GameData.time.ToString("yyyy-MM-dd HH:mm:ss");
+        save.timeSpeed = GameData.timeSpeed.ToString();
+        save.name = GameData.name;
+        save.school = GameData.school;
+        save.birth = GameData.birth;
+        save.exp = GameData.exp;
+        save.money = GameData.money;
+        save.studyExp = GameData.studyExp;
+        save.map = GameData.currentScene;
+        save.mapextra = GameData.mapArgs;
+        save.scores = GameData.scores;
         save.x = transform.position.x;
         save.y = transform.position.y;
-        save.schindex = schedule;
-        save.inclass = inClass;
-        save.inschool = inSchool;
-        save.achCompleted = achCompleted;
-        save.clas = clas;
-        save.duringClassPlacement = duringClassPlacement;
-        save.startClassPlacement = startClassPlacement.ToString("yyyy-MM-dd");
-        save.endClassPlacement = endClassPlacement.ToString("yyyy-MM-dd");
+        save.schindex = GameData.schedule;
+        save.inclass = GameData.inClass;
+        save.inschool = GameData.inSchool;
+        save.achCompleted = GameData.achCompleted;
+        save.clas = GameData.clas;
+        save.duringClassPlacement = GameData.duringClassPlacement;
+        save.startClassPlacement = GameData.startClassPlacement.ToString("yyyy-MM-dd");
+        save.endClassPlacement = GameData.endClassPlacement.ToString("yyyy-MM-dd");
         //save.busStopTime = busStopTime.Select(c => c.ToString("hh\\:mm")).ToList();
         //save.nextBusStopTimeChange = nextBusStopTimeChange.ToString("yyyy-MM-dd");
-        save.inventory = inventory;
-        save.speed = speed;
-        save.stat = stat;
-        save.experimental = experimental;
-        save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
-        save.totalPlayTime = totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
-        save.length = length;
-        save.end = end;
-        save.difficulty = difficulty;
-        save.repeatGradeMax = repeatGradeMax;
+        save.inventory = GameData.inventory;
+        save.speed = GameData.speed;
+        save.stat = GameData.stat;
+        save.experimental = GameData.experimental;
+        save.startTime = GameData.startTime.ToString("yyyy-MM-dd HH:mm:ss");
+        save.totalPlayTime = GameData.totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
+        save.length = GameData.length;
+        save.end = GameData.end;
+        save.difficulty = GameData.difficulty;
+        save.repeatGradeMax = GameData.repeatGradeMax;
         //save.stockAmount = stockAmount;
         //save.stockCost = stockCost;
         //save.stockCostChanged = stockCostChanged;
         //save.stockStatus = stockStatus;
-        save.tutorial = tutorial;
-        save.quest = quest;
-        save.pendingQuest = pendingQuest;
-        save.hiddenLevelMode = hiddenLevelMode;
+        save.tutorial = GameData.tutorial;
+        save.quest = GameData.quest;
+        save.pendingQuest = GameData.pendingQuest;
+        save.hiddenLevelMode = GameData.hiddenLevelMode;
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
     }
     public void StartDay()
     {
-        schedule = -1;
-        inSchool = true;
-        timeSpeed = new TimeSpan(0, 1, 0);
-        if (time.Date == endClassPlacement)
+        GameData.schedule = -1;
+        GameData.inSchool = true;
+        GameData.timeSpeed = new TimeSpan(0, 1, 0);
+        if (GameData.time.Date == GameData.endClassPlacement)
         {
-            duringClassPlacement = false;
+            GameData.duringClassPlacement = false;
         }
         /*if (time.Date == nextBusStopTimeChange)
         {
             nextBusStopTimeChange = new DateTime(time.Date.Month == 12 ? time.Date.Year + 1 : time.Date.Year, time.Date.Month == 12 ? 1 : time.Month + 1, 1);
             ChangeBusStopTime();
         }*/
-        if (tutorial)
+        if (GameData.tutorial)
         {
-            if (time.Date == new DateTime(2024, 3, 4))
+            if (GameData.time.Date == new DateTime(2024, 3, 4))
             {
                 OpenChat(0);
             }
-            if (time.Date == new DateTime(2024, 3, 5))
+            if (GameData.time.Date == new DateTime(2024, 3, 5))
             {
                 OpenChat(8);
             }
-            if (time.Date == new DateTime(2024, 3, 9))
+            if (GameData.time.Date == new DateTime(2024, 3, 9))
             {
                 OpenChat(10);
             }
-            if (time.Date == new DateTime(2024, 3, 11))
+            if (GameData.time.Date == new DateTime(2024, 3, 11))
             {
                 OpenChat(11);
             }
         }
         alreadyPenalty = false;
-        if (time.Date != new DateTime(2024, 3, 4))
+        if (GameData.time.Date != new DateTime(2024, 3, 4))
         {
             updateShop();
             //for (int i = 0; i < 5; i++)
@@ -865,17 +858,17 @@ public class Player : MonoBehaviour
             //}
             //StockUIUpdate();
         }
-        for (int i = quest.Count - 1; i >= 0; i--)
+        for (int i = GameData.quest.Count - 1; i >= 0; i--)
         {
-            Quest q = quest[i];
-            if (DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null) > time.Date)
+            Quest q = GameData.quest[i];
+            if (DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null) > GameData.time.Date)
             {
                 continue;
             }
             bool fail = false;
             for (int j = 0; j < 5; j++)
             {
-                if (studyExp[j] < q.req[j])
+                if (GameData.studyExp[j] < q.req[j])
                 {
                     fail = true;
                     break;
@@ -885,7 +878,7 @@ public class Player : MonoBehaviour
             {
                 SendMessage($"퀘스트를 실패하여 {q.reward} XP를 잃었습니다");
                 GiveExp(-q.reward, false);
-                quest.RemoveAt(i);
+                GameData.quest.RemoveAt(i);
             }
         }
         UpdateQuestList();
@@ -893,15 +886,15 @@ public class Player : MonoBehaviour
     public void Test()
     {
         TestScore rslt = new TestScore();
-        rslt.date = time.ToString("yyyy-MM-dd");
+        rslt.date = GameData.time.ToString("yyyy-MM-dd");
         for (int i = 0; i < 5; i++)
         {
             rslt.grade[i] = 14;
             for (int j = 0; j < 13; j++)
             {
-                if (studyExp[i] > data.NeedExpForGrade[j+1])
+                if (GameData.studyExp[i] > data.NeedExpForGrade[j+1])
                 {
-                    if (Random.Range(data.NeedExpForGrade[j+1], data.NeedExpForGrade[j]+1) < studyExp[i])
+                    if (Random.Range(data.NeedExpForGrade[j+1], data.NeedExpForGrade[j]+1) < GameData.studyExp[i])
                     {
                         rslt.grade[i] = j + 1;
                     }
@@ -929,7 +922,7 @@ public class Player : MonoBehaviour
         {
             GiveAch(9);
         }
-        scores.Add(rslt);
+        GameData.scores.Add(rslt);
         int r = (int)Math.Ceiling(avgRank);
         if (r <= 3)
         {
@@ -950,10 +943,10 @@ public class Player : MonoBehaviour
     }
     public void StartClass()
     {
-        inClass = true;
-        if (currentScene == "Classroom" && mapArgs == clas[0])
+        GameData.inClass = true;
+        if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas[0])
         {
-            if (tutorial && time.Date == new DateTime(2024, 3, 5) && schedule == 0)
+            if (GameData.tutorial && GameData.time.Date == new DateTime(2024, 3, 5) && GameData.schedule == 0)
             {
                 //studyExp[goalSubject] = goalValue;
                 //GiveExp(goalReward);
@@ -968,16 +961,16 @@ public class Player : MonoBehaviour
         {
             if (!alreadyPenalty)
             {
-                money -= 50000;
+                GameData.money -= 50000;
                 for (int i = 0; i < 5; i++)
                 {
-                    if (studyExp[i] >= 0)
+                    if (GameData.studyExp[i] >= 0)
                     {
-                        studyExp[i] /= 2;
+                        GameData.studyExp[i] /= 2;
                     }
                     else
                     {
-                        studyExp[i] *= 2;
+                        GameData.studyExp[i] *= 2;
                     }
                 }
                 alreadyPenalty = true;
@@ -992,76 +985,76 @@ public class Player : MonoBehaviour
     }
     public void EndSchool()
     {
-        if (length != 0 && time.Date == endTime)
+        if (GameData.length != 0 && GameData.time.Date == endTime)
         {
-            if (tutorial)
+            if (GameData.tutorial)
             {
-                timeSpeed = TimeSpan.Zero;
+                GameData.timeSpeed = TimeSpan.Zero;
             }
             else
             {
                 End2();
             }
         }
-        else if (length != 0 && time.Date == endTime)
+        else if (GameData.length != 0 && GameData.time.Date == endTime)
         {
-            timeSpeed = TimeSpan.Zero;
-            end = true;
+            GameData.timeSpeed = TimeSpan.Zero;
+            GameData.end = true;
             endEffectDuring = true;
             endEffect.gameObject.SetActive(true);
             endEffect.transform.SetAsLastSibling();
         }
         else
         {
-            timeSpeed = new TimeSpan(0, 1, 0);
+            GameData.timeSpeed = new TimeSpan(0, 1, 0);
         }
-        if (time.DayOfWeek == DayOfWeek.Monday && time.Date != new DateTime(2024, 3, 4)) 
+        if (GameData.time.DayOfWeek == DayOfWeek.Monday && GameData.time.Date != new DateTime(2024, 3, 4)) 
         {
             TutorialOpenChat(12);
             Test();
         }
-        inClass = false;
-        inSchool = false;
-        if (time.Date == startClassPlacement)
+        GameData.inClass = false;
+        GameData.inSchool = false;
+        if (GameData.time.Date == GameData.startClassPlacement)
         {
-            duringClassPlacement = true;
-            endClassPlacement = startClassPlacement + new TimeSpan(3, 0, 0, 0);
-            int y = time.Month == 12 ? time.Year + 1 : time.Year;
-            int m = time.Month == 12 ? 1 : time.Month + 1;
-            startClassPlacement = new DateTime(y, m, DateTime.DaysInMonth(y, m));
-            while (startClassPlacement.DayOfWeek != DayOfWeek.Friday)
+            GameData.duringClassPlacement = true;
+            GameData.endClassPlacement = GameData.startClassPlacement + new TimeSpan(3, 0, 0, 0);
+            int y = GameData.time.Month == 12 ? GameData. time.Year + 1 : GameData.time.Year;
+            int m = GameData.time.Month == 12 ? 1 : GameData.time.Month + 1;
+            GameData.startClassPlacement = new DateTime(y, m, DateTime.DaysInMonth(y, m));
+            while (GameData.startClassPlacement.DayOfWeek != DayOfWeek.Friday)
             {
-                startClassPlacement -= new TimeSpan(1, 0, 0, 0);
+                GameData.startClassPlacement -= new TimeSpan(1, 0, 0, 0);
             }
             if (ExperimentalCheck(Experimental.FRIEND_SYSTEM))
             {
                 classPlaceInput.SetActive(true);
-                timeSpeed = TimeSpan.Zero;
+                GameData.timeSpeed = TimeSpan.Zero;
             }
             else
             {
-                clas[0] = Random.Range(0, 10);
+                GameData.clas[0] = Random.Range(0, 10);
             }
         }
         TutorialOpenChat(4);
     }
     public void GiveExp(long amount, bool msg = true)
     {
-        exp += amount;
+        GameData.exp += amount;
         if (msg)
         {
             SendMessage($"{amount} 경험치를 획득했습니다");
         }
-        if (hiddenLevelMode)
+        if (GameData.hiddenLevelMode)
         {
-            while (exp >= needExpForLvUP)
+            while (GameData.exp >= needExpForLvUP)
             {
-                exp -= needExpForLvUP;
-                for (int i = 0; i < stat.Length; i++)
+                GameData.exp -= needExpForLvUP;
+                for (int i = 0; i < GameData.stat.Length; i++)
                 {
-                    stat[i]++;
+                    GameData.stat[i]++;
                 }
-                SendMessage($"레벨 {stat[0] + 1}을 달성했습니다");
+                SendMessage($"레벨 {GameData.stat[0] + 1}을 달성했습니다");
                 UpdateLv();
             }
         }
@@ -1089,18 +1082,18 @@ public class Player : MonoBehaviour
             TutorialOpenChat(7);
         }
         shopDialog.SetActive(false);
-        if (name != currentScene || args != mapArgs)
+        if (name != GameData.currentScene || args != GameData.mapArgs)
         {
             mapInited = false;
-            if (!string.IsNullOrEmpty(currentScene))
+            if (!string.IsNullOrEmpty(GameData.currentScene))
             {
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }
             actualSceneName = ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
             //actualSceneName = name;
-            currentScene = name;
+            GameData.currentScene = name;
             SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
-            mapArgs = args;
+            GameData.mapArgs = args;
         }
         transform.position = pos;
         control = false;
@@ -1114,7 +1107,7 @@ public class Player : MonoBehaviour
             return;
         }
         SceneManager.SetActiveScene(scene);
-        if (currentScene == "Main1F") // 본관 복도 생성
+        if (GameData.currentScene == "Main1F") // 본관 복도 생성
         {
             if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
             {
@@ -1122,21 +1115,21 @@ public class Player : MonoBehaviour
                 {
                     GameObject door = Instantiate(gradeDoor2);
                     door.transform.position = new Vector3(i * 4 - 17.5f, 3.5f, 0);
-                    door.transform.Find("Text").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
+                    door.transform.Find("Text").GetComponent<TextMeshPro>().text = $"{GameData.mapArgs + 1}-{i + 1}";
                     Door door2 = door.GetComponent<Door>();
-                    door2.args = mapArgs * 10 + i;
+                    door2.args = GameData.mapArgs * 10 + i;
                     door2.doorID = door2.args;
-                    if (mapArgs == 0 && i == clas[0])
+                    if (GameData.mapArgs == 0 && i == GameData.clas[0])
                     {
                         door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
                     }
                     door = Instantiate(gradeDoor2);
                     door.transform.position = new Vector3(i * 4 - 15.5f, 3.5f, 0);
-                    door.transform.Find("Text").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
+                    door.transform.Find("Text").GetComponent<TextMeshPro>().text = $"{GameData.mapArgs + 1}-{i + 1}";
                     door2 = door.GetComponent<Door>();
-                    door2.args = mapArgs * 10 + i;
+                    door2.args = GameData.mapArgs * 10 + i;
                     door2.doorID = door2.args + 100;
-                    if (mapArgs == 0 && i == clas[0])
+                    if (GameData.mapArgs == 0 && i == GameData.clas[0])
                     {
                         door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
                     }
@@ -1148,27 +1141,27 @@ public class Player : MonoBehaviour
                 {
                     GameObject door = Instantiate(gradeDoor);
                     door.transform.position = new Vector3(i * 3 + 1, 1.4f, 0);
-                    door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{mapArgs + 1}-{i + 1}";
+                    door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{GameData.mapArgs + 1}-{i + 1}";
                     Door door2 = door.transform.Find("Door (2)").GetComponent<Door>();
-                    door2.args = mapArgs * 10 + i;
+                    door2.args = GameData.mapArgs * 10 + i;
                     door2.doorID = door2.args;
-                    if (mapArgs == 0 && i == clas[0])
+                    if (GameData.mapArgs == 0 && i == GameData.clas[0])
                     {
                         door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
                     }
                 }
             }
-            if (mapArgs == 2)
+            if (GameData.mapArgs == 2)
             {
                 Destroy(GameObject.Find("Door (3)"));
                 Destroy(GameObject.Find("Text (TMP) (1)"));
             }
             else
             {
-                GameObject.Find("Door (3)").GetComponent<Door>().args = mapArgs + 1;
-                GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>().text = $"↑ {mapArgs + 2}층";
+                GameObject.Find("Door (3)").GetComponent<Door>().args = GameData.mapArgs + 1;
+                GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>().text = $"↑ {GameData.mapArgs + 2}층";
             }
-            if (mapArgs == 0)
+            if (GameData.mapArgs == 0)
             {
                 GameObject.Find("Door (1)").GetComponent<Door>().map = "Hub";
                 GameObject.Find("Door (1)").GetComponent<Door>().args = 0;
@@ -1177,11 +1170,11 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameObject.Find("Door (1)").GetComponent<Door>().args = mapArgs - 1;
-                GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"↓ {mapArgs}층";
+                GameObject.Find("Door (1)").GetComponent<Door>().args = GameData.mapArgs - 1;
+                GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"↓ {GameData.mapArgs}층";
             }
         }
-        if (currentScene == "Classroom") // 교실 생성
+        if (GameData.currentScene == "Classroom") // 교실 생성
         {
             //GameObject.Find("Square (3)").GetComponent<Door>().args = mapArgs / 10;
             //GameObject.Find("Square (3)").GetComponent<Door>().pos = new Vector3(1 + mapArgs % 10 * 3, 0.8f, 0);
@@ -1189,9 +1182,9 @@ public class Player : MonoBehaviour
             {
                 GameObject.Find("EasterEgg").SetActive(false);
             }*/
-            if (mapArgs == clas[0] && inSchool)
+            if (GameData.mapArgs == GameData.clas[0] && GameData.inSchool)
             {
-                timeSpeed = new TimeSpan(0, 10, 0);
+                GameData.timeSpeed = new TimeSpan(0, 10, 0);
             }
         }
         //if (currentScene == "Dormitory1F")
@@ -1297,7 +1290,7 @@ public class Player : MonoBehaviour
             busDoor = GameObject.Find("Square (5)").GetComponent<Door>();
             busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
         }*/
-        if (tutorial && currentScene == "Unnamed3" && time.Date == new DateTime(2024, 3, 4)) // 튜토리얼 6 출력 + 문 잠그기
+        if (GameData.tutorial && GameData.currentScene == "Unnamed3" && GameData.time.Date == new DateTime(2024, 3, 4)) // 튜토리얼 6 출력 + 문 잠그기
         {
             TutorialOpenChat(5);
             GameObject.Find("Door").GetComponent<Door>().enable = false;
@@ -1338,7 +1331,7 @@ public class Player : MonoBehaviour
     {
         if (sbindex == 0)
         {
-            sbindex = scores.Count - 1;
+            sbindex = GameData.scores.Count - 1;
         }
         else
         {
@@ -1347,7 +1340,7 @@ public class Player : MonoBehaviour
     }
     public void NextScore()
     {
-        if (sbindex == scores.Count - 1)
+        if (sbindex == GameData.scores.Count - 1)
         {
             sbindex = 0;
         }
@@ -1384,20 +1377,20 @@ public class Player : MonoBehaviour
     }
     public void GiveAch(int id)
     {
-        if (achCompleted[id])
+        if (GameData.achCompleted[id])
         {
             return;
         }
         SendMessage($"업적 {data.achievement[id].name}을 달성했습니다");
         GiveExp(data.achievement[id].exp);
-        achCompleted[id] = true;
+        GameData.achCompleted[id] = true;
         achGen.AchRegen();
     }
     public void UpdateDDay()
     {
-        classPlaceDDay.text = $"다음 반배정 : {startClassPlacement:yyyy-MM-dd} (D-{(startClassPlacement - time.Date).TotalDays})";
+        classPlaceDDay.text = $"다음 반배정 : {GameData.startClassPlacement:yyyy-MM-dd} (D-{(GameData.startClassPlacement - GameData.time.Date).TotalDays})";
         //LoadBusTime();
-        if (tutorial && currentScene == "Unnamed3")
+        if (GameData.tutorial && GameData.currentScene == "Unnamed3")
         {
             GameObject.Find("Door").GetComponent<Door>().enable = true;
             TutorialOpenChat(6);
@@ -1442,7 +1435,7 @@ public class Player : MonoBehaviour
     }*/
     void UpdateLv()
     {
-        if (!hiddenLevelMode)
+        if (!GameData.hiddenLevelMode)
         {
             return;
         }
@@ -1457,7 +1450,7 @@ public class Player : MonoBehaviour
         }
         LvIncome = Mathf.RoundToInt(9860 * Mathf.Pow(1.015f, lv));*/
         //수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승\n
-        string lt = $"Lv {stat[0] + 1} ({exp}/{needExpForLvUP})\n";
+        string lt = $"Lv {GameData.stat[0] + 1} ({GameData.exp}/{needExpForLvUP})\n";
         for (int i = 0; i < statProp.Length; i++)
         {
             StatType st = data.stat[i];
@@ -1489,13 +1482,13 @@ public class Player : MonoBehaviour
             itemRemove = false;
             return;
         }
-        if (currentScene != "DormitoryRoom")
+        if (GameData.currentScene != "DormitoryRoom")
         {
             OpenDialog("이 장소에서는 이 아이템을 사용할 수 없습니다");
             itemRemove = false;
             return;
         }
-        if (time.TimeOfDay >= new TimeSpan(7, 0, 0) && time.TimeOfDay <= new TimeSpan(14, 50, 0))
+        if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(14, 50, 0))
         {
             OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
             itemRemove = false;
@@ -1525,24 +1518,24 @@ public class Player : MonoBehaviour
         // v1.0에서는 문제 풀 필요 없음
         int l = id % 10 + 1;
         giveStudyExp(id / 10, l, l * 2);
-        time += new TimeSpan(0, 1, 0) * problemTime;
+        GameData.time += new TimeSpan(0, 1, 0) * problemTime;
     }
     public void giveStudyExp(int sub, int min, int max)
     {
         int amount = Random.Range((int)(min * studyLvBonus), (int)(max * studyLvBonus) + 1);
-        studyExp[sub] += amount;
+        GameData.studyExp[sub] += amount;
         SendMessage($"{data.subjectName[sub]} 능력치가 {Mathf.Abs(amount)} {(amount >= 0 ? "증가" : "감소")}했습니다");
-        if (studyExp.All(c => c >= 1000000))
+        if (GameData.studyExp.All(c => c >= 1000000))
         {
             GiveAch(12);
         }
-        for (int i = quest.Count - 1; i >= 0; i--)
+        for (int i = GameData.quest.Count - 1; i >= 0; i--)
         {
-            Quest q = quest[i];
+            Quest q = GameData.quest[i];
             bool complete = true;
             for (int j = 0; j < 5; j++)
             {
-                if (studyExp[j] < q.req[j])
+                if (GameData.studyExp[j] < q.req[j])
                 {
                     complete = false;
                     break;
@@ -1552,7 +1545,7 @@ public class Player : MonoBehaviour
             {
                 SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
                 GiveExp(q.reward, false);
-                quest.RemoveAt(i);
+                GameData.quest.RemoveAt(i);
             }
         }
         UpdateQuestList();
@@ -1563,11 +1556,11 @@ public class Player : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
-        for (int i = 0; i < inventory.Count; i++)
+        for (int i = 0; i < GameData.inventory.Count; i++)
         {
             Transform b = Instantiate(itemContent).transform;
             b.SetParent(inventoryDisplay, false);
-            Item d = data.item[inventory[i]];
+            Item d = data.item[GameData.inventory[i]];
             b.Find("Name").GetComponent<Text>().text = d.name;
             d.descExt.Invoke();
             b.Find("Desc").GetComponent<Text>().text = String.Format(d.desc, descExt);
@@ -1577,16 +1570,16 @@ public class Player : MonoBehaviour
     }
     public void UseItem(int id)
     {
-        if (end)
+        if (GameData.end)
         {
             OpenDialog("이미 종료된 게임입니다");
             return;
         }
         itemRemove = true;
-        data.item[inventory[id]].use.Invoke();
+        data.item[GameData.inventory[id]].use.Invoke();
         if (itemRemove)
         {
-            inventory.RemoveAt(id);
+            GameData.inventory.RemoveAt(id);
         }
         updateInventory();
     }
@@ -1596,7 +1589,7 @@ public class Player : MonoBehaviour
     }
     public void ProblemOK()
     {
-        time += problemTimer;
+        GameData.time += problemTimer;
         problemTimer = TimeSpan.Zero;
     }
     public void updateShop()
@@ -1623,13 +1616,13 @@ public class Player : MonoBehaviour
     }
     public void BuyItem(int id)
     {
-        if (money < data.item[id].cost)
+        if (GameData.money < data.item[id].cost)
         {
             OpenDialog("돈이 부족합니다");
             return;
         }
-        money -= data.item[id].cost;
-        inventory.Add(id);
+        GameData.money -= data.item[id].cost;
+        GameData.inventory.Add(id);
         updateInventory();
     }
     public void generateSudoku()
@@ -1747,30 +1740,30 @@ public class Player : MonoBehaviour
         Save();
         GameObject end = GameObject.Find("EndDatePass");
         DontDestroyOnLoad(end);
-        end.GetComponent<EndDatePass>().endDate = time;
+        end.GetComponent<EndDatePass>().endDate = GameData.time;
         SceneManager.LoadScene("EndScene");
     }
     public void End2()
     {
-        timeSpeed = TimeSpan.Zero;
-        end = true;
+        GameData.timeSpeed = TimeSpan.Zero;
+        GameData.end = true;
         endEffectDuring = true;
         endEffect.gameObject.SetActive(true);
         endEffect.transform.SetAsLastSibling();
     }
     public bool ExperimentalCheck(Experimental e)
     {
-        return experimental.Contains(e);
+        return GameData.experimental.Contains(e);
     }
     public void Exit()
     {
-        if (currentScene == "Bus")
+        if (GameData.currentScene == "Bus")
         {
             OpenDialog("여기에서는 게임 종료를 할 수 없습니다");
         }
         else
         {
-            if (!tutorial)
+            if (!GameData.tutorial)
             {
                 Save();
             }
@@ -1860,7 +1853,7 @@ public class Player : MonoBehaviour
     }
     public void ChangeTimeSpeed(string speed)
     {
-        timeSpeed = TimeSpan.ParseExact(speed, "hh\\:mm\\:ss", null);
+        GameData.timeSpeed = TimeSpan.ParseExact(speed, "hh\\:mm\\:ss", null);
     }
     public void Pause(bool pause)
     {
@@ -1906,7 +1899,7 @@ public class Player : MonoBehaviour
     }
     public void TutorialOpenChat(int id)
     {
-        if (!alreadyTutorial.Contains(id) && tutorial)
+        if (!alreadyTutorial.Contains(id) && GameData.tutorial)
         {
             alreadyTutorial.Add(id);
             OpenChat(id);
@@ -1914,7 +1907,7 @@ public class Player : MonoBehaviour
     }
     public void ChatExtra1()
     {
-        chatExtra = new object[] {clas[0] + 1};
+        chatExtra = new object[] { GameData.clas[0] + 1};
     }
     public void TutorialEvent1()
     {
@@ -1929,7 +1922,7 @@ public class Player : MonoBehaviour
         {
             firstGrade[i] = "없음";
         }
-        foreach (TestScore score in scores)
+        foreach (TestScore score in GameData.scores)
         {
             int avg = Mathf.CeilToInt(score.grade.Sum() / 5f) - 1;
             for (int i = 0; i < 8; i++)
@@ -1941,9 +1934,9 @@ public class Player : MonoBehaviour
                         firstGrade[i] = score.date;
                     }
                     repeatGrade[i]++;
-                    if (repeatGrade[i] > repeatGradeMax[i])
+                    if (repeatGrade[i] > GameData.repeatGradeMax[i])
                     {
-                        repeatGradeMax[i] = repeatGrade[i];
+                        GameData.repeatGradeMax[i] = repeatGrade[i];
                     }
                 }
                 else
@@ -2004,8 +1997,8 @@ public class Player : MonoBehaviour
     //}
     public void UpdateQuestCount()
     {
-        questAmount.text = $"{quest.Count} / {maxQuest}";
-        if (quest.Count >= maxQuest)
+        questAmount.text = $"{GameData.quest.Count} / {maxQuest}";
+        if (GameData.quest.Count >= maxQuest)
         {
             questAmount.color = Color.red;
         }
@@ -2016,14 +2009,14 @@ public class Player : MonoBehaviour
     }
     public void UpdateNewQuest()
     {
-        Quest1 quest = pendingQuest[currentQuestLevel];
+        Quest1 quest = GameData.pendingQuest[currentQuestLevel];
         string req = "";
         for (int i = 0; i < 5; i++)
         {
             int r = quest.req[i];
             if (r != 0)
             {
-                req += $"{data.subjectName[i]} +{r} ({studyExp[i] + r}) 이상\n";
+                req += $"{data.subjectName[i]} +{r} ({GameData.studyExp[i] + r}) 이상\n";
             }
         }
         newQuestText.text = $"기간 : {questTime}일 (~{GetDate2() + new TimeSpan(questTime, 0, 0, 0):yyyy-MM-dd} 8시까지)\n(기간은 퀘스트를 받은 당일 기준의 \"퀘스트 기간\" 강화에 의해 결정됩니다)\n성공 보상 : {quest.reward} XP\n실패 패널티: -{quest.reward} XP\n{req}(기간 및 요구량의 괄호 안 내용은 지금 받을 때 기준이며, 괄호 밖 부분 및 성공 보상 / 실패 패널티는 받는 시간과 무관합니다)";
@@ -2035,34 +2028,34 @@ public class Player : MonoBehaviour
     }
     public void UpdatePendingQuest()
     {
-        pendingQuest[0].req = new int[5];
+        GameData.pendingQuest[0].req = new int[5];
         int sub = Random.Range(0, 5);
-        pendingQuest[0].req[sub] = Mathf.Max((int)(studyExp[sub] * Random.Range(0.1f, 0.3f)), 10);
-        pendingQuest[0].reward = (int)(Random.Range(0.3f, 0.5f) * Mathf.Max(pendingQuest[0].req[sub], 500));
+        GameData.pendingQuest[0].req[sub] = Mathf.Max((int)(GameData.studyExp[sub] * Random.Range(0.1f, 0.3f)), 10);
+        GameData.pendingQuest[0].reward = (int)(Random.Range(0.3f, 0.5f) * Mathf.Max(GameData.pendingQuest[0].req[sub], 500));
         for (int i = 1; i < 5; i++)
         {
-            pendingQuest[i].req = (int[])pendingQuest[i-1].req.Clone();
+            GameData.pendingQuest[i].req = (int[])GameData.pendingQuest[i-1].req.Clone();
             int sub2 = 0;
             do
             {
                 sub2 = Random.Range(0, 5);
-            } while (pendingQuest[i].req[sub2] != 0);
+            } while (GameData.pendingQuest[i].req[sub2] != 0);
             for (int j = 0; j < 5; j++)
             {
-                if (pendingQuest[i].req[j] != 0)
+                if (GameData.pendingQuest[i].req[j] != 0)
                 {
-                    pendingQuest[i].req[j] = (int)(pendingQuest[i].req[j] * Random.Range(1.5f, 2f));
+                    GameData.pendingQuest[i].req[j] = (int)(GameData.pendingQuest[i].req[j] * Random.Range(1.5f, 2f));
                 }
             }
-            pendingQuest[i].req[sub2] = Mathf.Max((int)(studyExp[sub2] * Random.Range(0.1f, 0.3f)), 10);
-            pendingQuest[i].reward = (int)(pendingQuest[i - 1].reward * Random.Range(1.5f, 2f));
+            GameData.pendingQuest[i].req[sub2] = Mathf.Max((int)(GameData.studyExp[sub2] * Random.Range(0.1f, 0.3f)), 10);
+            GameData.pendingQuest[i].reward = (int)(GameData.pendingQuest[i - 1].reward * Random.Range(1.5f, 2f));
         }
         UpdateNewQuest();
     }
     public DateTime GetDate2()
     {
-        DateTime d = time.Date;
-        if (time.TimeOfDay < new TimeSpan(8, 0, 0))
+        DateTime d = GameData.time.Date;
+        if (GameData.time.TimeOfDay < new TimeSpan(8, 0, 0))
         {
             return d - DateTimeCalc2.day;
         }
@@ -2073,27 +2066,27 @@ public class Player : MonoBehaviour
     }
     public void AcceptQuest()
     {
-        if (quest.Count >= maxQuest)
+        if (GameData.quest.Count >= maxQuest)
         {
             OpenDialog($"최대 퀘스트 수({maxQuest}개)에 도달했습니다");
             return;
         }
-        Quest1 q1 = pendingQuest[currentQuestLevel];
+        Quest1 q1 = GameData.pendingQuest[currentQuestLevel];
         long[] r = new long[5];
         for (int i = 0; i < 5; i++)
         {
-            r[i] = q1.req[i] == 0 ? 0 : studyExp[i] + q1.req[i];
+            r[i] = q1.req[i] == 0 ? 0 : GameData.studyExp[i] + q1.req[i];
         }
-        quest.Add(new Quest() {req = r, reward = q1.reward, timeLimit = (GetDate2() + new TimeSpan(questTime, 0, 0, 0)).ToString("yyyy-MM-dd")});
+        GameData.quest.Add(new Quest() {req = r, reward = q1.reward, timeLimit = (GetDate2() + new TimeSpan(questTime, 0, 0, 0)).ToString("yyyy-MM-dd")});
         newQuestDialog.SetActive(false);
         UpdatePendingQuest();
         UpdateQuestList();
     }
     public void RefreshQuest()
     {
-        if (money >= 300000)
+        if (GameData.money >= 300000)
         {
-            money -= 300000;
+            GameData.money -= 300000;
             UpdatePendingQuest();
         }
         else
@@ -2107,14 +2100,14 @@ public class Player : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
-        foreach (Quest q in quest)
+        foreach (Quest q in GameData.quest)
         {
             string req = "";
             for (int i = 0; i < 5; i++)
             {
                 if (q.req[i] != 0)
                 {
-                    req += $"\n<color={(q.req[i] <= studyExp[i] ? "green" : "red")}>{data.subjectName[i]} {q.req[i]} 이상 (현재 {studyExp[i]}{(q.req[i] > studyExp[i] ? $", {q.req[i] - studyExp[i]} 남음" : "")})</color>";
+                    req += $"\n<color={(q.req[i] <= GameData.studyExp[i] ? "green" : "red")}>{data.subjectName[i]} {q.req[i]} 이상 (현재 {GameData.studyExp[i]}{(q.req[i] > GameData.studyExp[i] ? $", {q.req[i] - GameData.studyExp[i]} 남음" : "")})</color>";
                 }
             }
             DateTime d = DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null);

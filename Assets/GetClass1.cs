@@ -33,11 +33,11 @@ public class GetClass1 : MonoBehaviour
                 }
                 if (player.isFriendable(i))
                 {
-                    text.text += $"{i:D3} {player.clas[i] - grade,2}반";
+                    text.text += $"{i:D3} {GameData.clas[i] - grade,2}반";
                 }
                 else
                 {
-                    text.text += $"<color=#808080>{i:D3} {player.clas[i] - grade,2}반</color>";
+                    text.text += $"<color=#808080>{i:D3} {GameData.clas[i] - grade,2}반</color>";
                 }
                 if (i != 999)
                 {
@@ -47,7 +47,7 @@ public class GetClass1 : MonoBehaviour
         }
         else
         {
-            text.text = $"000 {player.clas[0]+1}반";
+            text.text = $"000 {GameData.clas[0]+1}반";
         }
     }
 }

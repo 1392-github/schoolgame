@@ -33,7 +33,7 @@ public class GetClass2 : MonoBehaviour
                 {
                     grade = 19;
                 }
-                text.text = $"{player.clas[v] - grade}¹Ý";
+                text.text = $"{GameData.clas[v] - grade}¹Ý";
             }
         }
     }

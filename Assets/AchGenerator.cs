@@ -57,7 +57,7 @@ public class AchGenerator : MonoBehaviour
                 if (a.grade == i)
                 {
                     ach.Add(a);
-                    achc.Add(player.achCompleted[j]);
+                    achc.Add(GameData.achCompleted[j]);
                 }
             }
             Transform c = l.transform.Find("Viewport").Find("Content");
