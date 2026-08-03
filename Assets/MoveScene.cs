@@ -7,9 +7,6 @@ public class MoveScene : MonoBehaviour
 {
     SaveBuffer sb;
     public SaveFile4 tutorialDefaultSave;
-    public Transform noticeList;
-    public GameObject noticeItem;
-    public GameObject notice;
     void Start()
     {
         sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();

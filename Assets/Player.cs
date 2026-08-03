@@ -760,6 +760,7 @@ public class Player : MonoBehaviour
         save.quest = GameData.quest;
         save.pendingQuest = GameData.pendingQuest;
         save.hiddenLevelMode = GameData.hiddenLevelMode;
+        save.introCompleted = true;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public void StartDay()
