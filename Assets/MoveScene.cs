@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MoveScene : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class MoveScene : MonoBehaviour
     void Start()
     {
         sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
+        Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
     }
     public void Click(string scene)
     {

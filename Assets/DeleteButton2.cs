@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class DeleteButton2 : MonoBehaviour
@@ -7,7 +8,7 @@ public class DeleteButton2 : MonoBehaviour
     public string saveName;
     public void Click()
     {
-        System.IO.File.Delete(Application.persistentDataPath + $"/{saveName}");
+        File.Delete(Path.Combine(Application.persistentDataPath, "saves", saveName));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
     }
 }

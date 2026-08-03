@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,41 +11,6 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    #region 저장 데이터
-    //public string name;
-    //public string school;
-    //public int birth;
-    //public long exp;
-    //public int money;
-    //public DateTime time;
-    //public TimeSpan timeSpeed;
-    //public bool inClass;
-    //public bool inSchool;
-    //public string currentScene;
-    //public int mapArgs;
-    //public long[] studyExp;
-    //public List<TestScore> scores;
-    //public int schedule;
-    //public bool[] achCompleted;
-    //public int[] clas;
-    //public bool duringClassPlacement;
-    //public DateTime startClassPlacement;
-    //public DateTime endClassPlacement;
-    //public List<int> inventory;
-    //public int speed;
-    //public int[] stat;
-    //public List<Experimental> experimental;
-    //public DateTime startTime;
-    //public TimeSpan totalPlayTime;
-    //public int length;
-    //public bool end;
-    //public int difficulty;
-    //public int[] repeatGradeMax;
-    //public List<Quest> quest;
-    //public Quest1[] pendingQuest;
-    //public bool tutorial;
-    //public bool hiddenLevelMode;
-    #endregion
     #region 저장 데이터가 아닌 변수들
     public float moveSpeed;
     public bool enableCheat;
@@ -794,7 +760,7 @@ public class Player : MonoBehaviour
         save.quest = GameData.quest;
         save.pendingQuest = GameData.pendingQuest;
         save.hiddenLevelMode = GameData.hiddenLevelMode;
-        System.IO.File.WriteAllText(Application.persistentDataPath + $"/{saveName}", JsonUtility.ToJson(save));
+        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public void StartDay()
     {

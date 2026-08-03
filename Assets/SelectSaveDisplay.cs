@@ -10,15 +10,10 @@ public class SelectSaveDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (string file in Directory.GetFiles(Application.persistentDataPath))
+        foreach (string file in Directory.GetFiles(Path.Combine(Application.persistentDataPath, "saves")))
         {
-            string file2 = Path.GetFileName(file);
-            if (file2 == "Player.log" || file2 == "Player-prev.log")
-            {
-                continue;
-            }
             GameObject save = Instantiate(this.save);
-            save.transform.Find("Name").GetComponent<Text>().text = Path.GetFileName(file2);
+            save.transform.Find("Name").GetComponent<Text>().text = Path.GetFileName(file);
             save.transform.SetParent(transform, false);
         }
     }

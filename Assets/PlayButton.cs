@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +9,7 @@ public class PlayButton : MonoBehaviour
     SaveBuffer buf;
     T GetSaveFile<T>() where T : SaveFile0
     {
-        return JsonUtility.FromJson<T>(System.IO.File.ReadAllText(Application.persistentDataPath + $"/{buf.name}"));
+        return JsonUtility.FromJson<T>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "saves", buf.name)));
     }
     public void Play()
     {

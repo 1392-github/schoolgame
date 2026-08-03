@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,7 +68,7 @@ public class StartButton : MonoBehaviour
             defaultSave.x = 0.5f;
             defaultSave.y = 3f;
         }
-        System.IO.File.WriteAllText(Application.persistentDataPath + $"/{name.text}", JsonUtility.ToJson(defaultSave));
+        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", name.text), JsonUtility.ToJson(defaultSave));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
     }
     public void ChangeMul(int i)
