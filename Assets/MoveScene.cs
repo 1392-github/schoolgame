@@ -13,18 +13,6 @@ public class MoveScene : MonoBehaviour
     void Start()
     {
         sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
-        List<NameAndVal<string>> notice = Util.SendJSON2<Wrap<List<NameAndVal<string>>>>("notice")?.value;
-        if (notice == null || notice.Count == 0)
-        {
-            return;
-        }
-        this.notice.SetActive(true);
-        foreach (NameAndVal<string> n in notice)
-        {
-            Transform t = Instantiate(noticeItem, noticeList).transform;
-            t.Find("Name").GetComponent<Text>().text = n.name;
-            t.Find("Desc").GetComponent<Text>().text = n.value;
-        }
     }
     public void Click(string scene)
     {
@@ -42,7 +30,7 @@ public class MoveScene : MonoBehaviour
     {
         sb.tutorial = true;
         tutorialDefaultSave.startTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        sb.save = tutorialDefaultSave;
+        //sb.save = tutorialDefaultSave;
         UnityEngine.SceneManagement.SceneManager.LoadScene("GlobalScene");
     }
     #if UNITY_ANDROID

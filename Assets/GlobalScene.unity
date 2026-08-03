@@ -10817,6 +10817,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6d4386363d2cc4b90c6ee27017bfae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
+  school: 
+  birth: 0
   exp: 0
   money: 0
   inClass: 0
@@ -10839,10 +10842,6 @@ MonoBehaviour:
   end: 0
   difficulty: 0
   repeatGradeMax: 
-  stockCost: 
-  stockAmount: 
-  stockStatus: 
-  stockCostChanged: 
   quest: []
   pendingQuest: []
   tutorial: 0
@@ -10888,9 +10887,6 @@ MonoBehaviour:
   mobileOnlyUI: {fileID: 1728680417}
   firstGrade: []
   repeatGrade: 
-  stockItem: {fileID: 3565765717734564765, guid: 287595496be044143a2e14ce4e798312, type: 3}
-  stockList: {fileID: 604742835}
-  stockItems: []
   alertItem: {fileID: 4528228285106282689, guid: 37e1543166d922d45a711a10ba66b8a2, type: 3}
   alertList: {fileID: 682822521}
   questAmount: {fileID: 850413122}
@@ -10903,6 +10899,8 @@ MonoBehaviour:
   gradeDoor2: {fileID: 3478910605901502275, guid: 3742e5c3f2f5c4e44bfdddea9917a4ee, type: 3}
   weeklyPaneltra: {fileID: 503942440}
   oldExpPanel: {fileID: 313563435}
+  startYear: 0
+  suneungDays: {fileID: 11400000, guid: 0f6d76ef6c1ef414e90bfdba86007df0, type: 2}
 --- !u!212 &573470140
 SpriteRenderer:
   m_ObjectHideFlags: 0

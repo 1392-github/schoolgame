@@ -11,6 +11,9 @@ using Random = UnityEngine.Random;
 public class Player : MonoBehaviour
 {
     #region 저장 데이터
+    public string name;
+    public string school;
+    public int birth;
     public long exp;
     public int money;
     public DateTime time;
@@ -182,22 +185,13 @@ public class Player : MonoBehaviour
     public RectTransform weeklyPaneltra;
     PropertyInfo[] statProp;
     public GameObject oldExpPanel;
+    public int startYear;
+    public DateTime suneungDay;
+    public SuneungDays suneungDays;
+    public DateTime firstDay;
     #endregion
     #region 스탯 정보 속성
-    public float studyLvBonus
-    {
-        get
-        {
-            //if (stat[0] <= 18)
-            //{
-            //    return Mathf.Pow(1.25f, stat[0]);
-            //}
-            //else
-            //{
-                return Mathf.Pow(1.03f, stat[0]);
-            //}
-        }
-    }
+    public float studyLvBonus => Mathf.Pow(1.03f, stat[0]);
     public int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
     public int classPlacementChance => Mathf.Clamp(10 + stat[2] * 2, 10, 100);
     public float problemTime => 60 * Mathf.Pow(0.99f, stat[3]);
@@ -220,9 +214,17 @@ public class Player : MonoBehaviour
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
-        SaveFile6 save = (SaveFile6)GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        SaveFile8 save = GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
         timeSpeed = TimeSpan.Parse(save.timeSpeed);
+        name = save.name;
+        school = save.school;
+        birth = save.birth;
+        startYear = birth + 16;
+        firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
+        if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
+        if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
+        suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
         exp = save.exp;
         money = save.money;
         studyExp = save.studyExp;
@@ -755,11 +757,14 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        SaveFile6 save = new SaveFile6();
-        save.version = 6;
-        save.versionName = "18";
+        SaveFile8 save = new SaveFile8();
+        save.version = 8;
+        save.versionName = "21";
         save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
         save.timeSpeed = timeSpeed.ToString();
+        save.name = name;
+        save.school = school;
+        save.birth = birth;
         save.exp = exp;
         save.money = money;
         save.studyExp = studyExp;

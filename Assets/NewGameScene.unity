@@ -810,10 +810,14 @@ MonoBehaviour:
   length: {fileID: 1458154024}
   mulDropdown: {fileID: 1721642791}
   defaultSave:
-    version: 7
-    versionName: 20
+    version: 8
+    versionName: 21
     time: 2024-03-04 08:00:00
     timeSpeed: 00:01:00
+    introCompleted: 0
+    name: 
+    school: 
+    birth: 0
     money: 0
     exp: 0
     studyExp: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
