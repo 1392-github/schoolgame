@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class MoveScene : MonoBehaviour
+public class TitleManager : MonoBehaviour
 {
     SaveBuffer sb;
     public SaveFile4 tutorialDefaultSave;
