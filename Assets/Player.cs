@@ -296,9 +296,6 @@ public class Player : MonoBehaviour
         {
             ChangeBusStopTime();
         }*/
-        busStopDropdown.options = data.busStop.Select(c => new Dropdown.OptionData(c.name)).ToList();
-        busDirectionDropdown.options[0].text = data.busStop[^1].name + " 방향";
-        busDirectionDropdown.options[1].text = data.busStop[0].name + " 방향";
         lvInfo = canvas.Find("LvInfo").Find("Lv").GetComponent<Text>();
         inventoryDisplay2 = canvas.Find("Inventory").gameObject;
         inventoryDisplay = inventoryDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
@@ -460,85 +457,6 @@ public class Player : MonoBehaviour
         //}
         if (mapInited)
         {
-            if (GameData.currentScene == "BusStop")
-            {
-                TimeSpan t = GameData.time.TimeOfDay;
-                bool b1 = GameData.mapArgs != data.busStop.Count - 1;
-                bool b2 = GameData.mapArgs != 0;
-                for (int i = 0; i < busTime1.Length; i++)
-                {
-                    TimeSpan bt1 = busTime1[i];
-                    TimeSpan bt2 = busTime2[i];
-                    if (b1)
-                    {
-                        //if (t >= bt1 && t <= bt1 + new TimeSpan(0, 5, 0))
-                        if (DateTimeCalc2.Between(t, bt1, DateTimeCalc2.Add(bt1, new TimeSpan(0, 5, 0))))
-                        {
-                            bus1.SetActive(true);
-                            busBaseTime1 = bt1;
-                            b1 = false;
-                        }
-                        else
-                        {
-                            bus1.SetActive(false);
-                        }
-                        if (b1 && DateTimeCalc2.Sub(bt1, t) <= new TimeSpan(1, 0, 0))
-                        {
-                            b1 = false;
-                            busStopText2.text = $"{data.busStop[^1].name} 방향 ({DateTimeCalc2.Sub(bt1, t):m\\분\\ ss\\초})";
-                        }
-                    }
-                    if (b2)
-                    {
-                        if (t >= bt2 && t <= bt2 + new TimeSpan(0, 5, 0))
-                        {
-                            bus2.SetActive(true);
-                            busBaseTime2 = bt2;
-                            b2 = false;
-                        }
-                        else
-                        {
-                            bus2.SetActive(false);
-                        }
-                        if (b2 && DateTimeCalc2.Sub(bt2, t) <= new TimeSpan(1, 0, 0))
-                        {
-                            b2 = false;
-                            busStopText1.text = $"{data.busStop[0].name} 방향 ({DateTimeCalc2.Sub(bt2, t):m\\분\\ ss\\초})";
-                        }
-                    }
-                }
-            }
-            if (GameData.currentScene == "Bus")
-            {
-                if (GameData.mapArgs == (busDirection ? 0 : data.busStop.Count - 1))
-                {
-                    busLocD.text = $"{data.busStop[GameData.mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n(0분 00초 남음)";
-                    busDoor.gameObject.SetActive(true);
-                }
-                else
-                {
-                    TimeSpan t = GameData.time.TimeOfDay;
-                    //if (t >= busBaseTime && t <= busBaseTime + new TimeSpan(0, 5, 0))
-                    if (DateTimeCalc2.Between(t, busBaseTime, DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 5, 0))))
-                    {
-                        busDoor.gameObject.SetActive(true);
-                    }
-                    //if (t >= busBaseTime + new TimeSpan(0, 5, 0) && t <= busBaseTime + new TimeSpan(0, 20, 0))
-                    if (DateTimeCalc2.Between(t, DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 5, 0)), DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 20, 0))))
-                    {
-                        busDoor.gameObject.SetActive(false);
-                    }
-                    bool overflow;
-                    if (t >= DateTimeCalc2.Add2(busBaseTime, new TimeSpan(0, 20, 0), out overflow) && (!overflow || t <= new TimeSpan(1, 0, 0)))
-                    {
-                        GameData.mapArgs += busDirection ? -1 : 1;
-                        busBaseTime = DateTimeCalc2.Add(busBaseTime, new TimeSpan(0, 20, 0));
-                    }
-                    busDoor.args = GameData.mapArgs;
-                    TimeSpan tm = DateTimeCalc2.Sub(busBaseTime + new TimeSpan(0, 20, 0), GameData.time.TimeOfDay);
-                    busLocD.text = $"{data.busStop[GameData.mapArgs].name}\n({data.busStop[busDirection ? 0 : ^1].name} →)\n({tm:m\\분\\ ss}초 남음)";
-                }
-            }
             if (GameData.currentScene == "Unnamed3")
             {
                 moneyFloat += (float)(GameData.speed * GameData.timeSpeed).TotalHours * LvIncome * Time.deltaTime;
@@ -1037,10 +955,6 @@ public class Player : MonoBehaviour
         if (name == "Main1F")
         {
             GiveAch(0);
-        }
-        if (name == "BusStop")
-        {
-            TutorialOpenChat(1);
         }
         if (name == "Main1F")
         {
@@ -1726,18 +1640,11 @@ public class Player : MonoBehaviour
     }
     public void Exit()
     {
-        if (GameData.currentScene == "Bus")
+        if (!GameData.tutorial)
         {
-            OpenDialog("여기에서는 게임 종료를 할 수 없습니다");
+            Save();
         }
-        else
-        {
-            if (!GameData.tutorial)
-            {
-                Save();
-            }
-            SceneManager.LoadScene("TitleScene");
-        }
+        SceneManager.LoadScene("TitleScene");
     }
     public void OpenChat(int id)
     {
