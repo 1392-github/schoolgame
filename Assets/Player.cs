@@ -206,6 +206,8 @@ public class Player : MonoBehaviour
         GameData.speed = save.speed;
         GameData.experimental = save.experimental;
         mapInited = true;
+        GameData.currentScene = "";
+        GameData.mapArgs = 0;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
         GameData.stat = save.stat;
         if (GameData.stat.Length < data.stat.Count)
