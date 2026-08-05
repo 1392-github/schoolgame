@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b3d7abe8ebc066418764765736a7bd6, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: 
+  stats:
+  - name: "\uACF5\uBD80 \uD6A8\uC728"
+    reqBase: 30
+    reqExp: 1.07
+    max: 0
+    prop: studyLvBonus
+    prefix: 
+    suffix: 
+    experimental: -1
+  - name: "\uC218\uC785"
+    reqBase: 30
+    reqExp: 1.07
+    max: 0
+    prop: LvIncome
+    prefix: 
+    suffix: "\uC6D0/1\uC2DC\uAC04"
+    experimental: -1
+  - name: "\uBC18\uBC30\uC815 \uC131\uACF5\uD655\uB960"
+    reqBase: 300
+    reqExp: 1.1
+    max: 45
+    prop: classPlacementChance
+    prefix: 
+    suffix: '%'
+    experimental: 0
+  - name: "\uBB38\uC81C\uC9D1 \uC2DC\uAC04"
+    reqBase: 30
+    reqExp: 1.07
+    max: 0
+    prop: problemTime
+    prefix: 
+    suffix: "\uBD84"
+    experimental: -1
+  - name: "\uD018\uC2A4\uD2B8 \uCD5C\uB300 \uAC1C\uC218"
+    reqBase: 1000
+    reqExp: 1.5
+    max: 0
+    prop: maxQuest
+    prefix: 
+    suffix: "\uAC1C"
+    experimental: -1
+  - name: "\uD018\uC2A4\uD2B8 \uAE30\uAC04"
+    reqBase: 1000
+    reqExp: 1.5
+    max: 0
+    prop: questTime
+    prefix: 
+    suffix: "\uC77C"
+    experimental: -1

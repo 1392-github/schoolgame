@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19aa676bbb747d44890d8c586374ea79, type: 3}
+  m_Name: Items
+  m_EditorClassIdentifier: 
+  items:
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+  - name: "\uAD6D\uC5B4 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uAD6D\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+  - name: "\uC218\uD559 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uC218\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+  - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000

@@ -38,4 +38,8 @@ public static class GameData
     public static Quest1[] pendingQuest;
     public static bool tutorial;
     public static bool hiddenLevelMode;
+
+    public static bool init;
+    public static List<Item> items;
+    public static List<StatType> statTypes;
 }

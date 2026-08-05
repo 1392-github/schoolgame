@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,6 @@ public class Item
     public string name;
     public string desc;
     public int cost;
-    public UnityEngine.Events.UnityEvent descExt;
-    public UnityEngine.Events.UnityEvent use;
+    public Func<object[]> descExt;
+    public Func<bool> use;
 }

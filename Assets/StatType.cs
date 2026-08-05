@@ -1,4 +1,5 @@
-[System.Serializable]
+using System;
+[Serializable]
 public class StatType
 {
     public string name;
@@ -9,5 +10,5 @@ public class StatType
     public string prefix;
     public string suffix;
     public Experimental experimental = Experimental.NONE;
-    public UnityEngine.Events.UnityEvent onUpgrade;
+    public Action onUpgrade;
 }

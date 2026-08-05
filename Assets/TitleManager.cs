@@ -7,10 +7,28 @@ public class TitleManager : MonoBehaviour
 {
     SaveBuffer sb;
     public SaveFile4 tutorialDefaultSave;
+
+    public Items items;
+    public Stats stats;
     void Start()
     {
         sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
+        if (!GameData.init)
+        {
+            GameData.init = true;
+            GameData.items = items.items;
+            for (int i = 0; i < 50; i++)
+            {
+                int i2 = i;
+                GameData.items[i].descExt = () => ItemScripts.Item1Desc(i2 % 10 + 1);
+                GameData.items[i].use = () => ItemScripts.UseItem1(i2);
+            }
+            GameData.statTypes = stats.stats;
+            GameData.statTypes[0].onUpgrade = StatOnUpgradeScripts.OnStudyUpgrade;
+            GameData.statTypes[4].onUpgrade = StatOnUpgradeScripts.OnQuestMaxUpgrade;
+            GameData.statTypes[5].onUpgrade = StatOnUpgradeScripts.OnQuestTimeUpgrade;
+        }
     }
     public void Click(string scene)
     {

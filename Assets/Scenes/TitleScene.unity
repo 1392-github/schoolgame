@@ -717,9 +717,8 @@ MonoBehaviour:
     stockAmount: 0000000000000000000000000000000000000000
     stockStatus: 0000000000
     stockCostChanged: 0000000000000000000000000000000000000000
-  noticeList: {fileID: 0}
-  noticeItem: {fileID: 0}
-  notice: {fileID: 0}
+  items: {fileID: 11400000, guid: 052b81350a5f94848b3587b0d9f22aa4, type: 2}
+  stats: {fileID: 11400000, guid: 49d97d113ce94be4b9f3660e09bb0096, type: 2}
 --- !u!1 &461864284
 GameObject:
   m_ObjectHideFlags: 0

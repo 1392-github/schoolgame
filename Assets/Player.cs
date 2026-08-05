@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public bool enableCheat;
     public int sbindex;
     public string saveName;
+    public List<Schedule> schedule;
     public long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, GameData.stat[0]));
     //public int maxLevel;
     public GameObject gradeDoor;
@@ -69,7 +70,6 @@ public class Player : MonoBehaviour
     Transform inventoryDisplay;
     GameObject inventoryDisplay2;
     Transform canvas;
-    object[] descExt;
     int cntProblemItem;
     bool itemRemove;
     TimeSpan problemTimer;
@@ -210,9 +210,9 @@ public class Player : MonoBehaviour
         GameData.mapArgs = 0;
         Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
         GameData.stat = save.stat;
-        if (GameData.stat.Length < data.stat.Count)
+        if (GameData.stat.Length < GameData.statTypes.Count)
         {
-            GameData.stat = GameData.stat.Concat(new int[data.stat.Count - GameData.stat.Length]).ToArray();
+            GameData.stat = GameData.stat.Concat(new int[GameData.statTypes.Count - GameData.stat.Length]).ToArray();
         }
         GameData.startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
         GameData.totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
@@ -299,7 +299,6 @@ public class Player : MonoBehaviour
         lvInfo = canvas.Find("LvInfo").Find("Lv").GetComponent<Text>();
         inventoryDisplay2 = canvas.Find("Inventory").gameObject;
         inventoryDisplay = inventoryDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
-        descExt = new object[0];
         problem = canvas.Find("Problem").gameObject;
         problemText = problem.transform.Find("Text").Find("Viewport").Find("Content").GetComponent<Text>();
         problemImage = problem.transform.Find("Image").GetComponent<Image>();
@@ -311,9 +310,9 @@ public class Player : MonoBehaviour
         buyItemDisplay = buyItemDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
         updateShop();
         sudoku = new int[6, 6];
-        for (int i = 0; i < data.stat.Count; i++)
+        for (int i = 0; i < GameData.statTypes.Count; i++)
         {
-            if (data.stat[i].experimental != Experimental.NONE && !ExperimentalCheck(data.stat[i].experimental))
+            if (GameData.statTypes[i].experimental != Experimental.NONE && !ExperimentalCheck(GameData.statTypes[i].experimental))
             {
                 continue;
             }
@@ -331,7 +330,7 @@ public class Player : MonoBehaviour
         {
             oldStudyExp[i] = GameData.studyExp[i];
         }
-        data.NeedExpForGrade = data.NeedExpForGrade.Select(c => GameData.difficulty > 0 ? c * GameData.difficulty : c * -GameData.difficulty / 100).ToList();
+        //data.NeedExpForGrade = data.NeedExpForGrade.Select(c => GameData.difficulty > 0 ? c * GameData.difficulty : c * -GameData.difficulty / 100).ToList();
         if (Application.platform == RuntimePlatform.Android)
         {
             mobileOnlyUI.SetActive(true);
@@ -358,10 +357,10 @@ public class Player : MonoBehaviour
             studyExpPanel.offsetMin = new Vector2(0, -300);
             studyExpPanel.offsetMax = new Vector2(0, -150);
             weeklyPaneltra.anchoredPosition = new Vector2(0, -335);
-            statProp = new PropertyInfo[data.stat.Count];
+            statProp = new PropertyInfo[GameData.statTypes.Count];
             for (int i = 0; i < statProp.Length; i++)
             {
-                statProp[i] = typeof(Player).GetProperty(data.stat[i].prop);
+                statProp[i] = typeof(Player).GetProperty(GameData.statTypes[i].prop);
             }
             xpDisplay.transform.parent.GetComponent<Button>().enabled = false;
             oldExpPanel.SetActive(true);
@@ -371,6 +370,7 @@ public class Player : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
         }
+        StatOnUpgradeScripts.player = this;
     }
     void Update()
     {
@@ -446,14 +446,14 @@ public class Player : MonoBehaviour
         //}
         //else
         //{
-            if (TimeSpan.Parse(data.schedule[GameData.schedule].time) < GameData.time.TimeOfDay)
+        if (TimeSpan.Parse(schedule[GameData.schedule].time) < GameData.time.TimeOfDay)
+        {
+            if (TimeSpan.Parse(schedule[GameData.schedule].time) > new TimeSpan(8, 0, 0) || GameData.time.TimeOfDay < new TimeSpan(14, 0, 0))
             {
-                if (TimeSpan.Parse(data.schedule[GameData.schedule].time) > new TimeSpan(8, 0, 0) || GameData.time.TimeOfDay < new TimeSpan(14, 0, 0))
-                {
-                    data.schedule[GameData.schedule].work.Invoke();
-                    GameData.schedule++;
-                }
+                schedule[GameData.schedule].work.Invoke();
+                GameData.schedule++;
             }
+        }
         //}
         if (mapInited)
         {
@@ -507,27 +507,27 @@ public class Player : MonoBehaviour
         {
             inventoryDisplay2.SetActive(true);
         }
-        if (cntProblemItem != -1)
-        {
-            problemTimer -= GameData.timeSpeed * Time.deltaTime * GameData.speed;
-            TimeSpan realTime = problemTimer / GameData.timeSpeed.TotalSeconds;
-            problemTimerDisplay.text = $"{Math.Floor(realTime.TotalMinutes)}:{realTime.Seconds} ({Math.Floor(problemTimer.TotalMinutes)}:{problemTimer.Seconds})";
-            if (problemTimer <= TimeSpan.Zero)
-            {
-                if (problemAnswerInput.text == problemAnswer)
-                {
-                    int l = cntProblemItem % 10 + 1;
-                    giveStudyExp(cntProblemItem / 10, l, l * 2);
-                }
-                else
-                {
-                    giveStudyExp(cntProblemItem / 10, -20, -10);
-                }
-                problem.SetActive(false);
-                cntProblemItem = -1;
-                GameData.timeSpeed = new TimeSpan(0, 1, 0);
-            }
-        }
+        //if (cntProblemItem != -1)
+        //{
+        //    problemTimer -= GameData.timeSpeed * Time.deltaTime * GameData.speed;
+        //    TimeSpan realTime = problemTimer / GameData.timeSpeed.TotalSeconds;
+        //    problemTimerDisplay.text = $"{Math.Floor(realTime.TotalMinutes)}:{realTime.Seconds} ({Math.Floor(problemTimer.TotalMinutes)}:{problemTimer.Seconds})";
+        //    if (problemTimer <= TimeSpan.Zero)
+        //    {
+        //        if (problemAnswerInput.text == problemAnswer)
+        //        {
+        //            int l = cntProblemItem % 10 + 1;
+        //            giveStudyExp(cntProblemItem / 10, l, l * 2);
+        //        }
+        //        else
+        //        {
+        //            giveStudyExp(cntProblemItem / 10, -20, -10);
+        //        }
+        //        problem.SetActive(false);
+        //        cntProblemItem = -1;
+        //        GameData.timeSpeed = new TimeSpan(0, 1, 0);
+        //    }
+        //}
         if (!GameData.hiddenLevelMode)
         {
             xpDisplay.text = $"{GameData.exp} XP";
@@ -776,57 +776,51 @@ public class Player : MonoBehaviour
         rslt.date = GameData.time.ToString("yyyy-MM-dd");
         for (int i = 0; i < 5; i++)
         {
-            rslt.grade[i] = 14;
-            for (int j = 0; j < 13; j++)
-            {
-                if (GameData.studyExp[i] > data.NeedExpForGrade[j+1])
-                {
-                    if (Random.Range(data.NeedExpForGrade[j+1], data.NeedExpForGrade[j]+1) < GameData.studyExp[i])
-                    {
-                        rslt.grade[i] = j + 1;
-                    }
-                    else
-                    {
-                        rslt.grade[i] = j + 2;
-                    }
-                    break;
-                }
-            }
-            rslt.rank[i] = Random.Range(data.gradeRank[rslt.grade[i]-1], data.gradeRank[rslt.grade[i]]);
-            rslt.grade[i] = Mathf.Clamp(rslt.grade[i] - 5, 1, 9);
+            //rslt.grade[i] = 14;
+            //for (int j = 0; j < 13; j++)
+            //{
+            //    if (GameData.studyExp[i] > data.NeedExpForGrade[j+1])
+            //    {
+            //        if (Random.Range(data.NeedExpForGrade[j+1], data.NeedExpForGrade[j]+1) < GameData.studyExp[i])
+            //        {
+            //            rslt.grade[i] = j + 1;
+            //        }
+            //        else
+            //        {
+            //            rslt.grade[i] = j + 2;
+            //        }
+            //        break;
+            //    }
+            //}
+            //rslt.rank[i] = Random.Range(data.gradeRank[rslt.grade[i]-1], data.gradeRank[rslt.grade[i]]);
+            //rslt.grade[i] = Mathf.Clamp(rslt.grade[i] - 5, 1, 9);
+            // 시험 관련 대개편 예정, 임시로 항상 1등급이 나오도록 해둠
+            rslt.grade[i] = 1;
+            rslt.rank[i] = 1;
         }
-        double avgRank = rslt.grade.Average();
-        for (int j = 1; j < 9; j++)
-        {
-            if (avgRank <= 9 - j)
-            {
-                GiveAch(j);
-            }
-        }
-        CalcuateRankStat();
-        achGen.AchRegen();
-        if (repeatGrade[0] == 10)
-        {
-            GiveAch(9);
-        }
+        //double avgRank = rslt.grade.Average();
+        //for (int j = 1; j < 9; j++)
+        //{
+        //    if (avgRank <= 9 - j)
+        //    {
+        //        GiveAch(j);
+        //    }
+        //}
+        //CalcuateRankStat();
+        //achGen.AchRegen();
+        //if (repeatGrade[0] == 10)
+        //{
+        //    GiveAch(9);
+        //}
         GameData.scores.Add(rslt);
-        int r = (int)Math.Ceiling(avgRank);
-        if (r <= 3)
-        {
-            blockTime = TimeSpan.Zero;
-        }
-        else
-        {
-            blockTime = new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4);
-        }
-        if (rslt.rank.All(c => c == 1))
-        {
-            GiveAch(13);
-        }
-        if (rslt.rank.Any(c => c == 500))
-        {
-            GiveAch(14);
-        }
+        //if (rslt.rank.All(c => c == 1))
+        //{
+        //    GiveAch(13);
+        //}
+        //if (rslt.rank.Any(c => c == 500))
+        //{
+        //    GiveAch(14);
+        //}
     }
     public void StartClass()
     {
@@ -1336,7 +1330,7 @@ public class Player : MonoBehaviour
         string lt = $"Lv {GameData.stat[0] + 1} ({GameData.exp}/{needExpForLvUP})\n";
         for (int i = 0; i < statProp.Length; i++)
         {
-            StatType st = data.stat[i];
+            StatType st = GameData.statTypes[i];
             lt += $"{st.name} {st.prefix}{statProp[i].GetValue(this)}{st.suffix}\n";
         }
         lvInfo.text = lt;
@@ -1358,56 +1352,11 @@ public class Player : MonoBehaviour
             return id <= data.friendableStudent[2];
         }
     }
-    public void UseItem1(int id)
-    {
-        if (cntProblemItem != -1)
-        {
-            itemRemove = false;
-            return;
-        }
-        if (GameData.currentScene != "DormitoryRoom")
-        {
-            OpenDialog("이 장소에서는 이 아이템을 사용할 수 없습니다");
-            itemRemove = false;
-            return;
-        }
-        if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(14, 50, 0))
-        {
-            OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
-            itemRemove = false;
-            return;
-        }
-        /*
-        임시로 문제 푸는 기능 없앰
-        cntProblemItem = id;
-        Problem p = data.problem[id].value[Random.Range(0, data.problem[id].value.Count)];
-        problem.SetActive(true);
-        problem.transform.SetAsLastSibling();
-        if (p.imgContent == null)
-        {
-            problemText.gameObject.SetActive(true);
-            problemImage.gameObject.SetActive(false);
-            problemText.text = p.content;
-        }
-        else
-        {
-            problemText.gameObject.SetActive(false);
-            problemImage.gameObject.SetActive(true);
-            problemImage.sprite = p.imgContent;
-        }
-        problemAnswer = p.answer;
-        problemTimer = new TimeSpan(0, 1, 0) * problemTime;
-        timeSpeed = new TimeSpan(0, 0, 30) * (problemTime / 60);*/
-        // v1.0에서는 문제 풀 필요 없음
-        int l = id % 10 + 1;
-        giveStudyExp(id / 10, l, l * 2);
-        GameData.time += new TimeSpan(0, 1, 0) * problemTime;
-    }
     public void giveStudyExp(int sub, int min, int max)
     {
         int amount = Random.Range((int)(min * studyLvBonus), (int)(max * studyLvBonus) + 1);
         GameData.studyExp[sub] += amount;
-        SendMessage($"{data.subjectName[sub]} 능력치가 {Mathf.Abs(amount)} {(amount >= 0 ? "증가" : "감소")}했습니다");
+        SendMessage($"{Util.subjectName[sub]} 능력치가 {Mathf.Abs(amount)} {(amount >= 0 ? "증가" : "감소")}했습니다");
         if (GameData.studyExp.All(c => c >= 1000000))
         {
             GiveAch(12);
@@ -1443,10 +1392,9 @@ public class Player : MonoBehaviour
         {
             Transform b = Instantiate(itemContent).transform;
             b.SetParent(inventoryDisplay, false);
-            Item d = data.item[GameData.inventory[i]];
+            Item d = GameData.items[GameData.inventory[i]];
             b.Find("Name").GetComponent<Text>().text = d.name;
-            d.descExt.Invoke();
-            b.Find("Desc").GetComponent<Text>().text = String.Format(d.desc, descExt);
+            b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
             int i2 = i;
             b.Find("UseButton").GetComponent<Button>().onClick.AddListener(() => UseItem(i2));
         }
@@ -1458,17 +1406,11 @@ public class Player : MonoBehaviour
             OpenDialog("이미 종료된 게임입니다");
             return;
         }
-        itemRemove = true;
-        data.item[GameData.inventory[id]].use.Invoke();
-        if (itemRemove)
+        if (GameData.items[GameData.inventory[id]].use?.Invoke() ?? false)
         {
             GameData.inventory.RemoveAt(id);
         }
         updateInventory();
-    }
-    public void Item1Desc(int l)
-    {
-        descExt = new object[] { (int)(l * studyLvBonus), (int)(l * 2 * studyLvBonus) };
     }
     public void ProblemOK()
     {
@@ -1481,9 +1423,9 @@ public class Player : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
-        for (int i = 0; i < data.item.Count; i++)
+        for (int i = 0; i < GameData.items.Count; i++)
         {
-            Item d = data.item[i];
+            Item d = GameData.items[i];
             if (d.cost == 0)
             {
                 continue;
@@ -1491,20 +1433,19 @@ public class Player : MonoBehaviour
             Transform b = Instantiate(buyItemContent).transform;
             b.SetParent(buyItemDisplay, false);
             b.Find("Name").GetComponent<Text>().text = $"{d.name} ({d.cost}원)";
-            d.descExt.Invoke();
-            b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, descExt);
+            b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
             int i2 = i;
             b.Find("BuyButton").GetComponent<Button>().onClick.AddListener(() => BuyItem(i2));
         }
     }
     public void BuyItem(int id)
     {
-        if (GameData.money < data.item[id].cost)
+        if (GameData.money < GameData.items[id].cost)
         {
             OpenDialog("돈이 부족합니다");
             return;
         }
-        GameData.money -= data.item[id].cost;
+        GameData.money -= GameData.items[id].cost;
         GameData.inventory.Add(id);
         updateInventory();
     }
@@ -1892,7 +1833,7 @@ public class Player : MonoBehaviour
             int r = quest.req[i];
             if (r != 0)
             {
-                req += $"{data.subjectName[i]} +{r} ({GameData.studyExp[i] + r}) 이상\n";
+                req += $"{Util.subjectName[i]} +{r} ({GameData.studyExp[i] + r}) 이상\n";
             }
         }
         newQuestText.text = $"기간 : {questTime}일 (~{GetDate2() + new TimeSpan(questTime, 0, 0, 0):yyyy-MM-dd} 8시까지)\n(기간은 퀘스트를 받은 당일 기준의 \"퀘스트 기간\" 강화에 의해 결정됩니다)\n성공 보상 : {quest.reward} XP\n실패 패널티: -{quest.reward} XP\n{req}(기간 및 요구량의 괄호 안 내용은 지금 받을 때 기준이며, 괄호 밖 부분 및 성공 보상 / 실패 패널티는 받는 시간과 무관합니다)";
@@ -1983,7 +1924,7 @@ public class Player : MonoBehaviour
             {
                 if (q.req[i] != 0)
                 {
-                    req += $"\n<color={(q.req[i] <= GameData.studyExp[i] ? "green" : "red")}>{data.subjectName[i]} {q.req[i]} 이상 (현재 {GameData.studyExp[i]}{(q.req[i] > GameData.studyExp[i] ? $", {q.req[i] - GameData.studyExp[i]} 남음" : "")})</color>";
+                    req += $"\n<color={(q.req[i] <= GameData.studyExp[i] ? "green" : "red")}>{Util.subjectName[i]} {q.req[i]} 이상 (현재 {GameData.studyExp[i]}{(q.req[i] > GameData.studyExp[i] ? $", {q.req[i] - GameData.studyExp[i]} 남음" : "")})</color>";
                 }
             }
             DateTime d = DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null);

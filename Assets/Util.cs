@@ -3,5 +3,5 @@ using UnityEngine;
 using UnityEngine.Networking;
 public static class Util
 {
-    // 아무것도 없지만 나중에 쓸수 있으니 남겨둠
+    public static readonly string[] subjectName = { "국어", "수학", "사회", "과학", "영어" };
 }
