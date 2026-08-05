@@ -114,15 +114,13 @@ public class IntroController : MonoBehaviour
         }
         yield return StartCoroutine(TypeText($"[{schoolName} 교장] {birth}년생이로군!\n"));
         yield return StartCoroutine(TypeText("이제 입학을 할까?\n그럼 3년간 잘 다녀보도록!", 0.2f));
-        SaveBuffer sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
-        sb.save.name = name;
-        sb.save.school = schoolName;
-        sb.save.birth = birth;
-        DateTime firstDay = new DateTime(birth + 16, 3, 2, 8, 0, 0);
-        if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
-        if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
-        sb.save.time = firstDay.ToString("yyyy-MM-dd HH:mm:ss");
-        sb.save.introCompleted = true;
+        GameData.name = name;
+        GameData.school = schoolName;
+        GameData.birth = birth;
+        GameData.firstDay = new DateTime(birth + 16, 3, 2, 8, 0, 0);
+        if (GameData.firstDay.DayOfWeek == DayOfWeek.Saturday) GameData.firstDay = GameData.firstDay.AddDays(2);
+        if (GameData.firstDay.DayOfWeek == DayOfWeek.Sunday) GameData.firstDay = GameData.firstDay.AddDays(1);
+        GameData.time = GameData.firstDay;
         SceneManager.LoadScene("GlobalScene");
     }
 }

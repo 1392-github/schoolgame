@@ -218,6 +218,10 @@ public class Player : MonoBehaviour
         //GameData.pendingQuest = save.pendingQuest;
         //GameData.tutorial = save.tutorial;
         //GameData.hiddenLevelMode = save.hiddenLevelMode;
+        if (GameData.achCompleted.Length < data.achievement.Count)
+        {
+            GameData.achCompleted = GameData.achCompleted.Concat(new bool[data.achievement.Count - GameData.achCompleted.Length]).ToArray();
+        }
         #endregion
         mapInited = true;
         Move(GameData.currentScene, GameData.mapArgs, new Vector3(GameData.x, GameData.y, 0), forceLoad: true);

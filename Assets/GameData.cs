@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class GameData
@@ -60,7 +61,7 @@ public static class GameData
         name = save.name;
         school = save.school;
         birth = save.birth;
-        startYear = GameData.birth + 16;
+        startYear = birth + 16;
         firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
         if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
         if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
@@ -75,10 +76,6 @@ public static class GameData
         clas = save.clas;
         inventory = save.inventory;
         achCompleted = save.achCompleted;
-        //if (achCompleted.Length < data.achievement.Count)
-        //{
-        //    achCompleted = achCompleted.Concat(new bool[data.achievement.Count - achCompleted.Length]).ToArray();
-        //}
         duringClassPlacement = save.duringClassPlacement;
         startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
         endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
@@ -89,10 +86,10 @@ public static class GameData
         stat = save.stat;
         x = save.x;
         y = save.y;
-        //if (stat.Length < data.stat.Count)
-        //{
-        //    stat = stat.Concat(new int[data.stat.Count - stat.Length]).ToArray();
-        //}
+        if (stat.Length < statTypes.Count)
+        {
+            stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
+        }
         startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
         totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
         length = save.length;
