@@ -53,6 +53,7 @@ public static class GameData
     public static DateTime suneungDay;
     //public static SuneungDays suneungDays;
     public static DateTime firstDay;
+    public static string saveName;
     #endregion
     public static void Load(SaveFile8 save)
     {

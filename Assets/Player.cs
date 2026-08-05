@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public bool enableCheat;
     public int sbindex;
-    public string saveName;
     public List<Schedule> schedule;
     public long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, GameData.stat[0]));
     //public int maxLevel;
@@ -165,7 +164,6 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         data = GameObject.Find("Data").GetComponent<Data>();
-        saveName = GameObject.Find("SaveData").GetComponent<SaveBuffer>().name;
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
@@ -225,8 +223,6 @@ public class Player : MonoBehaviour
         #endregion
         mapInited = true;
         Move(GameData.currentScene, GameData.mapArgs, new Vector3(GameData.x, GameData.y, 0), forceLoad: true);
-        Destroy(GameObject.Find("SaveData"));
-        SaveBuffer.generated = false;
         canvas = GameObject.Find("Canvas").transform;
         dialog = canvas.Find("Dialog").gameObject;
         dialogText = dialog.transform.Find("DialogText").Find("Viewport").Find("Content").GetComponent<Text>();
@@ -677,7 +673,7 @@ public class Player : MonoBehaviour
         save.pendingQuest = GameData.pendingQuest;
         save.hiddenLevelMode = GameData.hiddenLevelMode;
         save.introCompleted = true;
-        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
+        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", GameData.saveName), JsonUtility.ToJson(save));
     }
     public void StartDay()
     {

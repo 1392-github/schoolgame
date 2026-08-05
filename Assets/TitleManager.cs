@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class TitleManager : MonoBehaviour
 {
-    SaveBuffer sb;
     public SaveFile4 tutorialDefaultSave;
 
     public Items items;
     public Stats stats;
     void Start()
     {
-        sb = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
         if (!GameData.init)
         {
@@ -41,13 +39,6 @@ public class TitleManager : MonoBehaviour
     public void OfficalSite()
     {
         Application.OpenURL("https://1392year.pythonanywhere.com/w/ÇÐ±³3");
-    }
-    public void Tutorial()
-    {
-        sb.tutorial = true;
-        tutorialDefaultSave.startTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        //sb.save = tutorialDefaultSave;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GlobalScene");
     }
     #if UNITY_ANDROID
     void Update()

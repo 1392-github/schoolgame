@@ -6,17 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayButton : MonoBehaviour
 {
-    SaveBuffer buf;
     T GetSaveFile<T>() where T : SaveFile0
     {
-        return JsonUtility.FromJson<T>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "saves", buf.name)));
+        return JsonUtility.FromJson<T>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "saves", GameData.saveName)));
     }
     public void Play()
     {
-        buf = GameObject.Find("SaveData").GetComponent<SaveBuffer>();
-        buf.name = transform.parent.Find("Name").GetComponent<UnityEngine.UI.Text>().text;
+        GameData.saveName = transform.parent.Find("Name").GetComponent<UnityEngine.UI.Text>().text;
         int version = GetSaveFile<SaveFile0>().version;
-        SaveFile0 save = null;
+        SaveFile0 save;
         if (version < 8)
         {
             GameObject.Find("Canvas").transform.Find("UnsupportedError").gameObject.SetActive(true);
@@ -33,7 +31,6 @@ public class PlayButton : MonoBehaviour
             GameObject.Find("Canvas").transform.Find("UnsupportedError").Find("Text (Legacy)").GetComponent<UnityEngine.UI.Text>().text = $"호환되지 않는 버전입니다\n{GetSaveFile<SaveFile0>().versionName} 이상의 버전으로 플레이해 주세요";
             return;
         }
-        //buf.save = (SaveFile8)save;
         SaveFile8 save2 = (SaveFile8)save;
         GameData.Load(save2);
         SceneManager.LoadScene(save2.introCompleted ? "GlobalScene" : "IntroScene");
