@@ -33,7 +33,9 @@ public class PlayButton : MonoBehaviour
             GameObject.Find("Canvas").transform.Find("UnsupportedError").Find("Text (Legacy)").GetComponent<UnityEngine.UI.Text>().text = $"호환되지 않는 버전입니다\n{GetSaveFile<SaveFile0>().versionName} 이상의 버전으로 플레이해 주세요";
             return;
         }
-        buf.save = (SaveFile8)save;
-        SceneManager.LoadScene(((SaveFile8)save).introCompleted ? "GlobalScene" : "IntroScene");
+        //buf.save = (SaveFile8)save;
+        SaveFile8 save2 = (SaveFile8)save;
+        GameData.Load(save2);
+        SceneManager.LoadScene(save2.introCompleted ? "GlobalScene" : "IntroScene");
     }
 }

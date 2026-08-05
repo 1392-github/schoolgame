@@ -144,10 +144,6 @@ public class Player : MonoBehaviour
     public RectTransform weeklyPaneltra;
     PropertyInfo[] statProp;
     public GameObject oldExpPanel;
-    public int startYear;
-    public DateTime suneungDay;
-    public SuneungDays suneungDays;
-    public DateTime firstDay;
     #endregion
     #region 스탯 정보 속성
     public float studyLvBonus => Mathf.Pow(1.03f, GameData.stat[0]);
@@ -173,62 +169,58 @@ public class Player : MonoBehaviour
         alreadyTutorial = new List<int>();
         chatExtra = new object[0];
         #region 저장 데이터 불러오기
-        SaveFile8 save = GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
-        GameData.time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
-        GameData.timeSpeed = TimeSpan.Parse(save.timeSpeed);
-        GameData.name = save.name;
-        GameData.school = save.school;
-        GameData.birth = save.birth;
-        startYear = GameData.birth + 16;
-        firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
-        if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
-        if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
-        suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
-        GameData.exp = save.exp;
-        GameData.money = save.money;
-        GameData.studyExp = save.studyExp;
-        GameData.scores = save.scores;
-        GameData.schedule = save.schindex;
-        GameData.inClass = save.inclass;
-        GameData.inSchool = save.inschool;
-        GameData.clas = save.clas;
-        GameData.inventory = save.inventory;
-        GameData.achCompleted = save.achCompleted;
-        if (GameData.achCompleted.Length < data.achievement.Count)
-        {
-            GameData.achCompleted = GameData.achCompleted.Concat(new bool[data.achievement.Count - GameData.achCompleted.Length]).ToArray();
-        }
-        GameData.duringClassPlacement = save.duringClassPlacement;
-        GameData.startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
-        GameData.endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
-        //busStopTime = save.busStopTime.Select(c => TimeSpan.ParseExact(c, "hh\\:mm", null)).ToList();
-        //nextBusStopTimeChange = DateTime.ParseExact(save.nextBusStopTimeChange, "yyyy-MM-dd", null);
-        GameData.speed = save.speed;
-        GameData.experimental = save.experimental;
-        mapInited = true;
-        GameData.currentScene = "";
-        GameData.mapArgs = 0;
-        Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
-        GameData.stat = save.stat;
-        if (GameData.stat.Length < GameData.statTypes.Count)
-        {
-            GameData.stat = GameData.stat.Concat(new int[GameData.statTypes.Count - GameData.stat.Length]).ToArray();
-        }
-        GameData.startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
-        GameData.totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
-        GameData.length = save.length;
-        GameData.end = save.end;
-        GameData.difficulty = save.difficulty;
-        GameData.repeatGradeMax = save.repeatGradeMax;
-        //stockAmount = save.stockAmount;
-        //stockCost = save.stockCost;
-        //stockCostChanged = save.stockCostChanged;
-        //stockStatus = save.stockStatus;
-        GameData.quest = save.quest;
-        GameData.pendingQuest = save.pendingQuest;
-        GameData.tutorial = save.tutorial;
-        GameData.hiddenLevelMode = save.hiddenLevelMode;
+        //SaveFile8 save = GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
+        //GameData.time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
+        //GameData.timeSpeed = TimeSpan.Parse(save.timeSpeed);
+        //GameData.name = save.name;
+        //GameData.school = save.school;
+        //GameData.birth = save.birth;
+        //startYear = GameData.birth + 16;
+        //firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
+        //if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
+        //if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
+        //suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
+        //GameData.exp = save.exp;
+        //GameData.money = save.money;
+        //GameData.studyExp = save.studyExp;
+        //GameData.scores = save.scores;
+        //GameData.schedule = save.schindex;
+        //GameData.inClass = save.inclass;
+        //GameData.inSchool = save.inschool;
+        //GameData.clas = save.clas;
+        //GameData.inventory = save.inventory;
+        //GameData.achCompleted = save.achCompleted;
+        //if (GameData.achCompleted.Length < data.achievement.Count)
+        //{
+        //    GameData.achCompleted = GameData.achCompleted.Concat(new bool[data.achievement.Count - GameData.achCompleted.Length]).ToArray();
+        //}
+        //GameData.duringClassPlacement = save.duringClassPlacement;
+        //GameData.startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
+        //GameData.endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
+        //GameData.speed = save.speed;
+        //GameData.experimental = save.experimental;
+        //mapInited = true;
+        //GameData.currentScene = "";
+        //GameData.mapArgs = 0;
+        //Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
+        //GameData.stat = save.stat;
+        //if (GameData.stat.Length < GameData.statTypes.Count)
+        //{
+        //    GameData.stat = GameData.stat.Concat(new int[GameData.statTypes.Count - GameData.stat.Length]).ToArray();
+        //}
+        //GameData.startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
+        //GameData.totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
+        //GameData.length = save.length;
+        //GameData.end = save.end;
+        //GameData.difficulty = save.difficulty;
+        //GameData.repeatGradeMax = save.repeatGradeMax;
+        //GameData.quest = save.quest;
+        //GameData.pendingQuest = save.pendingQuest;
+        //GameData.tutorial = save.tutorial;
+        //GameData.hiddenLevelMode = save.hiddenLevelMode;
         #endregion
+        mapInited = true;
+        Move(GameData.currentScene, GameData.mapArgs, new Vector3(GameData.x, GameData.y, 0), forceLoad: true);
         Destroy(GameObject.Find("SaveData"));
         SaveBuffer.generated = false;
         canvas = GameObject.Find("Canvas").transform;
@@ -940,7 +932,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public void Move(string name, int args, Vector3 pos, int destDoorId = -1, Direction2 doorDirection = 0)
+    public void Move(string name, int args, Vector3 pos, int destDoorId = -1, Direction2 doorDirection = 0, bool forceLoad = false)
     {
         if (!mapInited)
         {
@@ -959,10 +951,10 @@ public class Player : MonoBehaviour
             TutorialOpenChat(7);
         }
         shopDialog.SetActive(false);
-        if (name != GameData.currentScene || args != GameData.mapArgs)
+        if (forceLoad || name != GameData.currentScene || args != GameData.mapArgs)
         {
             mapInited = false;
-            if (!string.IsNullOrEmpty(GameData.currentScene))
+            if (!forceLoad)
             {
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }

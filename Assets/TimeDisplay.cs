@@ -17,19 +17,19 @@ public class TimeDisplay : MonoBehaviour
     {
         if (GameData.length == 0)
         {
-            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - GameData.firstDay).TotalDays + 1}老瞒");
         }
         else if (GameData.end)
         {
-            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒 (En\\d)");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - GameData.firstDay).TotalDays + 1}老瞒 (En\\d)");
         }
         else if (GameData.time.Date == player.endTime && GameData.time.TimeOfDay >= new System.TimeSpan(8, 0, 0))
         {
-            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒 (D-Da\\y)");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - GameData.firstDay).TotalDays + 1}老瞒 (D-Da\\y)");
         }
         else
         {
-            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - player.firstDay).TotalDays + 1}老瞒 (D-{(int)(player.endTime - GameData.time.Date).TotalDays + (GameData.time.TimeOfDay < new System.TimeSpan(8, 0, 0) ? 1 : 0)})");
+            GetComponent<Text>().text = GameData.time.ToString($"yyyy-MM-dd(ddd)\nHH:mm:ss\n{(int)(GameData.time - GameData.firstDay).TotalDays + 1}老瞒 (D-{(int)(player.endTime - GameData.time.Date).TotalDays + (GameData.time.TimeOfDay < new System.TimeSpan(8, 0, 0) ? 1 : 0)})");
         }
     }
 }
