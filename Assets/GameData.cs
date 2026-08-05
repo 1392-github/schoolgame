@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using UnityEngine;
 
 public static class GameData
@@ -101,5 +102,53 @@ public static class GameData
         pendingQuest = save.pendingQuest;
         tutorial = save.tutorial;
         hiddenLevelMode = save.hiddenLevelMode;
+    }
+    public static void Save()
+    {
+        if (tutorial)
+        {
+            return;
+        }
+        SaveFile8 save = new SaveFile8();
+        save.version = 8;
+        save.versionName = "21";
+        save.time = time.ToString("yyyy-MM-dd HH:mm:ss");
+        save.timeSpeed = timeSpeed.ToString();
+        save.name = name;
+        save.school = school;
+        save.birth = birth;
+        save.exp = exp;
+        save.money = money;
+        save.studyExp = studyExp;
+        save.map = currentScene;
+        save.mapextra = mapArgs;
+        save.scores = scores;
+        Transform playerTransform = GameObject.Find("Player").transform;
+        save.x = playerTransform.position.x;
+        save.y = playerTransform.position.y;
+        save.schindex = schedule;
+        save.inclass = inClass;
+        save.inschool = inSchool;
+        save.achCompleted = achCompleted;
+        save.clas = clas;
+        save.duringClassPlacement = duringClassPlacement;
+        save.startClassPlacement = startClassPlacement.ToString("yyyy-MM-dd");
+        save.endClassPlacement = endClassPlacement.ToString("yyyy-MM-dd");
+        save.inventory = inventory;
+        save.speed = speed;
+        save.stat = stat;
+        save.experimental = experimental;
+        save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
+        save.totalPlayTime = totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
+        save.length = length;
+        save.end = end;
+        save.difficulty = difficulty;
+        save.repeatGradeMax = repeatGradeMax;
+        save.tutorial = tutorial;
+        save.quest = quest;
+        save.pendingQuest = pendingQuest;
+        save.hiddenLevelMode = hiddenLevelMode;
+        save.introCompleted = true;
+        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
 }

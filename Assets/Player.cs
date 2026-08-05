@@ -597,7 +597,7 @@ public class Player : MonoBehaviour
             endEffect.color = new Color(0, 0, 0, endEffectAlpha);
             if (endEffectAlpha >= 1)
             {
-                Save();
+                GameData.Save();
                 GameObject end = GameObject.Find("EndDatePass");
                 DontDestroyOnLoad(end);
                 end.GetComponent<EndDatePass>().studyExp = GameData.studyExp;
@@ -621,59 +621,6 @@ public class Player : MonoBehaviour
         {
             questDialog.SetActive(true);
         }
-    }
-    void Save()
-    {
-        if (GameData.tutorial)
-        {
-            return;
-        }
-        SaveFile8 save = new SaveFile8();
-        save.version = 8;
-        save.versionName = "21";
-        save.time = GameData.time.ToString("yyyy-MM-dd HH:mm:ss");
-        save.timeSpeed = GameData.timeSpeed.ToString();
-        save.name = GameData.name;
-        save.school = GameData.school;
-        save.birth = GameData.birth;
-        save.exp = GameData.exp;
-        save.money = GameData.money;
-        save.studyExp = GameData.studyExp;
-        save.map = GameData.currentScene;
-        save.mapextra = GameData.mapArgs;
-        save.scores = GameData.scores;
-        save.x = transform.position.x;
-        save.y = transform.position.y;
-        save.schindex = GameData.schedule;
-        save.inclass = GameData.inClass;
-        save.inschool = GameData.inSchool;
-        save.achCompleted = GameData.achCompleted;
-        save.clas = GameData.clas;
-        save.duringClassPlacement = GameData.duringClassPlacement;
-        save.startClassPlacement = GameData.startClassPlacement.ToString("yyyy-MM-dd");
-        save.endClassPlacement = GameData.endClassPlacement.ToString("yyyy-MM-dd");
-        //save.busStopTime = busStopTime.Select(c => c.ToString("hh\\:mm")).ToList();
-        //save.nextBusStopTimeChange = nextBusStopTimeChange.ToString("yyyy-MM-dd");
-        save.inventory = GameData.inventory;
-        save.speed = GameData.speed;
-        save.stat = GameData.stat;
-        save.experimental = GameData.experimental;
-        save.startTime = GameData.startTime.ToString("yyyy-MM-dd HH:mm:ss");
-        save.totalPlayTime = GameData.totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
-        save.length = GameData.length;
-        save.end = GameData.end;
-        save.difficulty = GameData.difficulty;
-        save.repeatGradeMax = GameData.repeatGradeMax;
-        //save.stockAmount = stockAmount;
-        //save.stockCost = stockCost;
-        //save.stockCostChanged = stockCostChanged;
-        //save.stockStatus = stockStatus;
-        save.tutorial = GameData.tutorial;
-        save.quest = GameData.quest;
-        save.pendingQuest = GameData.pendingQuest;
-        save.hiddenLevelMode = GameData.hiddenLevelMode;
-        save.introCompleted = true;
-        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", GameData.saveName), JsonUtility.ToJson(save));
     }
     public void StartDay()
     {
@@ -1553,7 +1500,7 @@ public class Player : MonoBehaviour
     public void End()
     {
         GiveAch(15);
-        Save();
+        GameData.Save();
         GameObject end = GameObject.Find("EndDatePass");
         DontDestroyOnLoad(end);
         end.GetComponent<EndDatePass>().endDate = GameData.time;
@@ -1575,7 +1522,7 @@ public class Player : MonoBehaviour
     {
         if (!GameData.tutorial)
         {
-            Save();
+            GameData.Save();
         }
         SceneManager.LoadScene("TitleScene");
     }
