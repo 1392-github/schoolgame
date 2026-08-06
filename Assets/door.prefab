@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8651131589031293185}
   - component: {fileID: 8651131589031293184}
   m_Layer: 0
-  m_Name: Door
+  m_Name: door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,5 +75,6 @@ MonoBehaviour:
   args: 0
   pos: {x: 0, y: 0, z: 0}
   enable: 1
-  DestDoorName: 
-  direction: 0
+  destDoorID: 1
+  direction: 3
+  doorID: 0

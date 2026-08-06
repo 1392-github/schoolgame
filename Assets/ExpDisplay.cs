@@ -19,6 +19,6 @@ public class ExpDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = $"{GameData.exp} / {player.needExpForLvUP} ({(float)GameData.exp / player.needExpForLvUP * 100:F2}%)";
+        text.text = $"{GameData.exp} / {GameData.needExpForLvUP} ({(float)GameData.exp / GameData.needExpForLvUP * 100:F2}%)";
     }
 }

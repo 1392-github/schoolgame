@@ -1,0 +1,51 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+
+public class HomeUIManager : MonoBehaviour
+{
+    [SerializeField] TextMeshProUGUI timeText;
+    [SerializeField] TextMeshProUGUI ddayText;
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] HomeGameManager gameManager;
+    public Button nextDayButton;
+    // Start is called before the first frame update
+    void Start()
+    {
+        //GameData.Save();
+        nameText.text = $"{GameData.school}\n{GameData.name}";
+        UpdateTimeUI();
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameData.Save();
+            SceneManager.LoadScene("TitleScene");
+        }
+    }
+    public void UpdateTimeUI()
+    {
+        timeText.text = $"<size=70>1</size>회차 <size=70>{GameData.grade}</size>학년 <size=70>{GameData.semester}</size>학기 {GameData.time:yyyy-MM-dd(ddd)\nHH:mm:ss}";
+        ddayText.text = $"{(GameData.grade == 3 ? "졸업까지" : $"{GameData.grade + 1}학년 진급까지")}\n<size=70>D-{(int)Math.Ceiling((new DateTime(GameData.startYear + GameData.grade, 1, 1) - GameData.time + new TimeSpan(8, 0, 0)).TotalDays)}</size>";
+        nextDayButton.interactable = !GameData.inSchool;
+    }
+    public void ExitHome()
+    {
+        GameData.currentScene = "Hub";
+        GameData.mapArgs = 0;
+        GameData.x = -4.5f;
+        GameData.y = 1.5f;
+        SceneManager.LoadScene("GlobalScene");
+    }
+    public void NextDayButton()
+    {
+        GameData.time = GameData.time.Date + new TimeSpan(GameData.time.Hour >= 8 ? 1 : 0, 8, 0, 0);
+        UpdateTimeUI();
+        gameManager.StartDay();
+    }
+}

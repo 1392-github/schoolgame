@@ -201,8 +201,8 @@ GameObject:
   m_Component:
   - component: {fileID: 391550337}
   - component: {fileID: 391550340}
-  - component: {fileID: 391550339}
   - component: {fileID: 391550338}
+  - component: {fileID: 391550341}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -244,7 +244,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &391550339
+--- !u!222 &391550340
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391550336}
+  m_CullTransparentMesh: 1
+--- !u!114 &391550341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,7 +261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 391550336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -264,44 +272,35 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 183324b4be405eb47a9fe887988a4b8f, type: 3}
-    m_FontSize: 50
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 5
-    m_MaxSize: 50
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\uC81C\uC791: \uC870\uC6B4\uD601 (1392)\r\n\r\nThe MIT License\r\n\r\nCopyright
-    (c) 2024-2026 \uC870\uC6B4\uD601 (1392)\r\n\r\nPermission is hereby granted,
-    free of charge, to any person obtaining a copy\r\nof this software and associated
-    documentation files (the \"Software\"), to deal\r\nin the Software without restriction,
-    including without limitation the rights\r\nto use, copy, modify, merge, publish,
-    distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit
-    persons to whom the Software is\r\nfurnished to do so, subject to the following
-    conditions:\r\n\r\nThe above copyright notice and this permission notice shall
-    be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE
-    SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED,
-    INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR
-    A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR
-    COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER
-    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION
-    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.\r\n\r\n\uC774
-    \uAC8C\uC784 \uC804\uCCB4\uC758 \uC18C\uC2A4 \uCF54\uB4DC\uB294 https://github.com/1392-github/schoolgame\uC5D0\uC11C
+  m_text: "\u300C\uC6B0\uB9AC\uB4E4\uC758 \uD559\uAD50\uC0DD\uD65C\u300D\r\n\r\n\uC81C\uC791:
+    \uC870\uC6B4\uD601 (1392)\r\n\r\nThe MIT License\r\n\r\nCopyright (c) 2024-2026
+    \uC870\uC6B4\uD601 (1392)\r\n\r\nPermission is hereby granted, free of charge,
+    to any person obtaining a copy\r\nof this software and associated documentation
+    files (the \"Software\"), to deal\r\nin the Software without restriction, including
+    without limitation the rights\r\nto use, copy, modify, merge, publish, distribute,
+    sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom
+    the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe
+    above copyright notice and this permission notice shall be included in\r\nall
+    copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED
+    \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT
+    NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR
+    PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS
+    BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION
+    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.\r\n\r\n\uC774 \uAC8C\uC784
+    \uC804\uCCB4\uC758 \uC18C\uC2A4 \uCF54\uB4DC\uB294 https://github.com/1392-github/schoolgame\uC5D0\uC11C
     \uC774\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\r\n\r\n\uBC30\uB2EC\uC758\uBBFC\uC871
     \uD55C\uB098\uCCB4, \uD55C\uB098\uCCB4 Air, \uD55C\uB098\uCCB4 Pro, \uC8FC\uC544\uCCB4,
     \uB3C4\uD604\uCCB4, \uC5F0\uC131\uCCB4, \uAE30\uB791\uD574\uB791\uCCB4, \uC744\uC9C0\uB85C\uCCB4,
     \uC744\uC9C0\uB85C10\uB144\uD6C4\uCCB4, \uC744\uC9C0\uB85C \uC624\uB798\uC624\uB798\uCCB4,
     \uAE00\uB9BC\uCCB4, \uAFB8\uBD88\uB9BC\uCCB4 \uAE00\uAF34\uC758 \uC9C0\uC2DD\uC7AC\uC0B0\uAD8C\uC740
     (\uC8FC)\uC6B0\uC544\uD55C\uD615\uC81C\uB4E4\uC774 \uBCF4\uC720\uD569\uB2C8\uB2E4.
-    (\uD55C\uB098\uB294\uC5F4\uD55C\uC0B4\uCCB4\uAC00 \uC774 \uAC8C\uC784\uC5D0 \uC4F0\uC784)\r\n\r\nCopyright
-    (c) 2013, Woowa Brothers Corporation (https://www.woowahan.com), with Reserved
-    Font Name BM HANNA 11yrs old(Used in this game), BM HANNA 11yrs old OTF, BMHANNAAir_otf,
+    (\uD55C\uB098\uB294\uC5F4\uD55C\uC0B4\uCCB4(BMHANNA_11yrs_ttf.ttf)\uAC00 \uC774
+    \uAC8C\uC784\uC5D0 \uC4F0\uC600\uC73C\uBA70, BMHANNA_11yrs_ttf SDF.asset\uC740
+    \uC55E\uC120 ttf \uD30C\uC77C\uC744 TextMeshPro \uD3F0\uD2B8 \uC5D0\uC14B\uC73C\uB85C
+    \uBCC0\uD658\uD55C \uD30C\uC77C\uC785\uB2C8\uB2E4.)\r\n\r\nCopyright (c) 2013,
+    Woowa Brothers Corporation (https://www.woowahan.com), with Reserved Font Name
+    BM HANNA 11yrs old(Used in this game), BM HANNA 11yrs old OTF, BMHANNAAir_otf,
     BMHANNAAir_ttf, BMHANNAPro_otf, BMHANNAPro_ttf, BM JUA_TTF, BM JUA_OTF, BM DoHyeon,
     BM DoHyeon OTF, BM YEONSUNG, BM YEONSUNG OTF, BM KIRANGHAERANG, BM KIRANGHAERANG
     OTF, BMEULJIRO, BMEULJIROTTF, BM EULJITO 10 YEARS LATER, BM EULJITO 10 YEARS
@@ -361,15 +360,171 @@ MonoBehaviour:
     DEALINGS IN THE FONT SOFTWARE.\r\n\r\n\uB610\uD55C \uB2E4\uC74C \uC678\uBD80
     \uC0AC\uC6B4\uB4DC\uB97C \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\r\nhttps://freesound.org/people/Jay_You/sounds/460430/
     (freesound.org\uC758 \"computer keyboard single hit\", CC BY 4.0, 460430__jay_you__computer-keyboard-single-hit)\r\nhttps://freesound.org/people/davidbain/sounds/136778/
-    (freesound.org\uC758 \"Page Turn\", CC0, 136778__davidbain__page-turn)"
---- !u!222 &391550340
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 391550336}
-  m_CullTransparentMesh: 1
+    (freesound.org\uC758 \"Page Turn\", CC0, 136778__davidbain__page-turn)\r\n\r\n\uC774
+    \uD504\uB85C\uC81D\uD2B8\uB294 Font Awesome 7.3.1(Font Awesome 7 Free-Soild-900.otf,
+    Font Awesome 7 Free-Solid-900 SDF.asset\uC740 \uC774\uB97C \uBCC0\uD658\uD55C
+    \uD30C\uC77C)\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\r\n\r\nFonticons, Inc. (https://fontawesome.com)\r\n\r\n--------------------------------------------------------------------------------\r\n\r\nFont
+    Awesome Free License\r\n\r\nFont Awesome Free is free, open source, and GPL friendly.
+    You can use it for\r\ncommercial projects, open source projects, or really almost
+    whatever you want.\r\nFull Font Awesome Free license: https://fontawesome.com/license/free.\r\n\r\n--------------------------------------------------------------------------------\r\n\r\n#
+    Icons: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)\r\n\r\nThe
+    Font Awesome Free download is licensed under a Creative Commons\r\nAttribution
+    4.0 International License and applies to all icons packaged\r\nas SVG and JS
+    file types.\r\n\r\n--------------------------------------------------------------------------------\r\n\r\n#
+    Fonts: SIL OFL 1.1 License\r\n\r\nIn the Font Awesome Free download, the SIL
+    OFL license applies to all icons\r\npackaged as web and desktop font files.\r\n\r\nCopyright
+    (c) 2026 Fonticons, Inc. (https://fontawesome.com)\r\nwith Reserved Font Name:
+    \"Font Awesome\".\r\n\r\nThis Font Software is licensed under the SIL Open Font
+    License, Version 1.1.\r\nThis license is copied below, and is also available
+    with a FAQ at:\r\nhttp://scripts.sil.org/OFL\r\n\r\nSIL OPEN FONT LICENSE\r\nVersion
+    1.1 - 26 February 2007\r\n\r\nPREAMBLE\r\nThe goals of the Open Font License
+    (OFL) are to stimulate worldwide\r\ndevelopment of collaborative font projects,
+    to support the font creation\r\nefforts of academic and linguistic communities,
+    and to provide a free and\r\nopen framework in which fonts may be shared and
+    improved in partnership\r\nwith others.\r\n\r\nThe OFL allows the licensed fonts
+    to be used, studied, modified and\r\nredistributed freely as long as they are
+    not sold by themselves. The\r\nfonts, including any derivative works, can be
+    bundled, embedded,\r\nredistributed and/or sold with any software provided that
+    any reserved\r\nnames are not used by derivative works. The fonts and derivatives,\r\nhowever,
+    cannot be released under any other type of license. The\r\nrequirement for fonts
+    to remain under this license does not apply\r\nto any document created using
+    the fonts or their derivatives.\r\n\r\nDEFINITIONS\r\n\"Font Software\" refers
+    to the set of files released by the Copyright\r\nHolder(s) under this license
+    and clearly marked as such. This may\r\ninclude source files, build scripts and
+    documentation.\r\n\r\n\"Reserved Font Name\" refers to any names specified as
+    such after the\r\ncopyright statement(s).\r\n\r\n\"Original Version\" refers
+    to the collection of Font Software components as\r\ndistributed by the Copyright
+    Holder(s).\r\n\r\n\"Modified Version\" refers to any derivative made by adding
+    to, deleting,\r\nor substituting \u2014 in part or in whole \u2014 any of the
+    components of the\r\nOriginal Version, by changing formats or by porting the
+    Font Software to a\r\nnew environment.\r\n\r\n\"Author\" refers to any designer,
+    engineer, programmer, technical\r\nwriter or other person who contributed to
+    the Font Software.\r\n\r\nPERMISSION & CONDITIONS\r\nPermission is hereby granted,
+    free of charge, to any person obtaining\r\na copy of the Font Software, to use,
+    study, copy, merge, embed, modify,\r\nredistribute, and sell modified and unmodified
+    copies of the Font\r\nSoftware, subject to the following conditions:\r\n\r\n1)
+    Neither the Font Software nor any of its individual components,\r\nin Original
+    or Modified Versions, may be sold by itself.\r\n\r\n2) Original or Modified Versions
+    of the Font Software may be bundled,\r\nredistributed and/or sold with any software,
+    provided that each copy\r\ncontains the above copyright notice and this license.
+    These can be\r\nincluded either as stand-alone text files, human-readable headers
+    or\r\nin the appropriate machine-readable metadata fields within text or\r\nbinary
+    files as long as those fields can be easily viewed by the user.\r\n\r\n3) No
+    Modified Version of the Font Software may use the Reserved Font\r\nName(s) unless
+    explicit written permission is granted by the corresponding\r\nCopyright Holder.
+    This restriction only applies to the primary font name as\r\npresented to the
+    users.\r\n\r\n4) The name(s) of the Copyright Holder(s) or the Author(s) of the
+    Font\r\nSoftware shall not be used to promote, endorse or advertise any\r\nModified
+    Version, except to acknowledge the contribution(s) of the\r\nCopyright Holder(s)
+    and the Author(s) or with their explicit written\r\npermission.\r\n\r\n5) The
+    Font Software, modified or unmodified, in part or in whole,\r\nmust be distributed
+    entirely under this license, and must not be\r\ndistributed under any other license.
+    The requirement for fonts to\r\nremain under this license does not apply to any
+    document created\r\nusing the Font Software.\r\n\r\nTERMINATION\r\nThis license
+    becomes null and void if any of the above conditions are\r\nnot met.\r\n\r\nDISCLAIMER\r\nTHE
+    FONT SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\r\nEXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF\r\nMERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT\r\nOF COPYRIGHT, PATENT,
+    TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE\r\nCOPYRIGHT HOLDER BE LIABLE
+    FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\r\nINCLUDING ANY GENERAL, SPECIAL,
+    INDIRECT, INCIDENTAL, OR CONSEQUENTIAL\r\nDAMAGES, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING\r\nFROM, OUT OF THE USE OR INABILITY TO USE THE FONT
+    SOFTWARE OR FROM\r\nOTHER DEALINGS IN THE FONT SOFTWARE.\r\n\r\n--------------------------------------------------------------------------------\r\n\r\n#
+    Code: MIT License (https://opensource.org/licenses/MIT)\r\n\r\nIn the Font Awesome
+    Free download, the MIT license applies to all non-font and\r\nnon-icon files.\r\n\r\nCopyright
+    2026 Fonticons, Inc.\r\n\r\nPermission is hereby granted, free of charge, to
+    any person obtaining a copy of\r\nthis software and associated documentation
+    files (the \"Software\"), to deal in the\r\nSoftware without restriction, including
+    without limitation the rights to use, copy,\r\nmodify, merge, publish, distribute,
+    sublicense, and/or sell copies of the Software,\r\nand to permit persons to whom
+    the Software is furnished to do so, subject to the\r\nfollowing conditions:\r\n\r\nThe
+    above copyright notice and this permission notice shall be included in all\r\ncopies
+    or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS
+    IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,\r\nINCLUDING BUT NOT
+    LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A\r\nPARTICULAR PURPOSE
+    AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT\r\nHOLDERS BE
+    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION\r\nOF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\r\nSOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n\r\n--------------------------------------------------------------------------------\r\n\r\n#
+    Attribution\r\n\r\nAttribution is required by MIT, SIL OFL, and CC BY licenses.
+    Downloaded Font\r\nAwesome Free files already contain embedded comments with
+    sufficient\r\nattribution, so you shouldn't need to do anything additional when
+    using these\r\nfiles normally.\r\n\r\nWe've kept attribution comments terse,
+    so we ask that you do not actively work\r\nto remove them from files, especially
+    code. They're a great way for folks to\r\nlearn about Font Awesome.\r\n\r\n--------------------------------------------------------------------------------\r\n\r\n#
+    Brand Icons\r\n\r\nAll brand icons are trademarks of their respective owners.
+    The use of these\r\ntrademarks does not indicate endorsement of the trademark
+    holder by Font\r\nAwesome, nor vice versa. **Please do not use brand logos for
+    any purpose except\r\nto represent the company, product, or service to which
+    they refer.**"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
+  m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 50
+  m_fontSizeBase: 50
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &504556876
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +1033,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -966,7 +1121,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 540356354}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.15981059
+  m_Size: 0.066926025
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

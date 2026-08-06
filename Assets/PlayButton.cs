@@ -33,6 +33,22 @@ public class PlayButton : MonoBehaviour
         }
         SaveFile8 save2 = (SaveFile8)save;
         GameData.Load(save2);
-        SceneManager.LoadScene(save2.introCompleted ? "GlobalScene" : "IntroScene");
+        string scene;
+        if (save2.introCompleted)
+        {
+            if (GameData.currentScene == "Home")
+            {
+                scene = "HomeScene";
+            }
+            else
+            {
+                scene = "GlobalScene";
+            }
+        }
+        else
+        {
+            scene = "IntroScene";
+        }
+        SceneManager.LoadScene(scene);
     }
 }

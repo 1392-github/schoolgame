@@ -4,18 +4,17 @@ using UnityEngine;
 
 public static class StatOnUpgradeScripts
 {
-    public static Player player;
     public static void OnStudyUpgrade()
     {
-        player.updateInventory();
-        player.updateShop();
+        GameData.player.updateInventory();
+        GameData.player.updateShop();
     }
     public static void OnQuestMaxUpgrade()
     {
-        player.UpdateQuestCount();
+        GameData.player.UpdateQuestCount();
     }
     public static void OnQuestTimeUpgrade()
     {
-        player.UpdateNewQuest();
+        GameData.player.UpdateNewQuest();
     }
 }

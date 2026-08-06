@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class GameData
 {
@@ -55,7 +56,20 @@ public static class GameData
     //public static SuneungDays suneungDays;
     public static DateTime firstDay;
     public static string saveName;
+    public static int grade;
+    public static int semester;
+    public static bool nextDayOnHome;
     #endregion
+    #region 스탯 정보 속성
+    public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
+    public static float studyLvBonus => Mathf.Pow(1.03f, stat[0]);
+    public static int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
+    public static int classPlacementChance => Mathf.Clamp(10 + stat[2] * 2, 10, 100);
+    public static float problemTime => 60 * Mathf.Pow(0.99f, stat[3]);
+    public static int maxQuest => stat[4] <= 0 ? 1 : (hiddenLevelMode ? stat[4] / 10 : stat[4]) + 1;
+    public static int questTime => stat[5] <= 0 ? 1 : (hiddenLevelMode ? stat[5] / 10 : stat[5]) + 1;
+    #endregion
+    public static Player player;
     public static void Load(SaveFile8 save)
     {
         time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
@@ -63,11 +77,6 @@ public static class GameData
         name = save.name;
         school = save.school;
         birth = save.birth;
-        startYear = birth + 16;
-        firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
-        if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
-        if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
-        //suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
         exp = save.exp;
         money = save.money;
         studyExp = save.studyExp;
@@ -88,10 +97,6 @@ public static class GameData
         stat = save.stat;
         x = save.x;
         y = save.y;
-        if (stat.Length < statTypes.Count)
-        {
-            stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
-        }
         startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
         totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
         length = save.length;
@@ -102,6 +107,25 @@ public static class GameData
         pendingQuest = save.pendingQuest;
         tutorial = save.tutorial;
         hiddenLevelMode = save.hiddenLevelMode;
+        if (save.introCompleted) Load2();
+    }
+    public static void Load2()
+    {
+        startYear = birth + 16;
+        firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
+        if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
+        if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
+        if (time == default)
+        {
+            time = firstDay;
+        }
+        //suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
+        if (stat.Length < statTypes.Count)
+        {
+            stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
+        }
+        grade = time.Year - startYear + 1;
+        semester = time.Month >= 9 ? 2 : 1;
     }
     public static void Save()
     {
@@ -123,9 +147,12 @@ public static class GameData
         save.map = currentScene;
         save.mapextra = mapArgs;
         save.scores = scores;
-        Transform playerTransform = GameObject.Find("Player").transform;
-        save.x = playerTransform.position.x;
-        save.y = playerTransform.position.y;
+        if (currentScene != "Home")
+        {
+            Transform playerTransform = GameObject.Find("Player").transform;
+            save.x = playerTransform.position.x;
+            save.y = playerTransform.position.y;
+        }
         save.schindex = schedule;
         save.inclass = inClass;
         save.inschool = inSchool;
@@ -151,4 +178,61 @@ public static class GameData
         save.introCompleted = true;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
+    public static void giveStudyExp(int sub, int min, int max)
+    {
+        int amount = Random.Range((int)(min * studyLvBonus), (int)(max * studyLvBonus) + 1);
+        studyExp[sub] += amount;
+        if (player != null) player.SendMessage($"{Util.subjectName[sub]} 능력치가 {Mathf.Abs(amount)} {(amount >= 0 ? "증가" : "감소")}했습니다");
+        for (int i = quest.Count - 1; i >= 0; i--)
+        {
+            Quest q = quest[i];
+            bool complete = true;
+            for (int j = 0; j < 5; j++)
+            {
+                if (studyExp[j] < q.req[j])
+                {
+                    complete = false;
+                    break;
+                }
+            }
+            if (complete)
+            {
+                if (player != null)
+                {
+                    player.SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
+                    player.GiveExp(q.reward, false);
+                }
+                quest.RemoveAt(i);
+            }
+        }
+        if (player != null)
+        {
+            player.UpdateQuestList();
+        }
+    }
+    public static void GiveExp(long amount, bool msg = true)
+    {
+        exp += amount;
+        if (msg)
+        {
+            if (player != null) player.SendMessage($"{amount} 경험치를 획득했습니다");
+        }
+        if (hiddenLevelMode)
+        {
+            while (exp >= needExpForLvUP)
+            {
+                exp -= needExpForLvUP;
+                for (int i = 0; i < stat.Length; i++)
+                {
+                    stat[i]++;
+                }
+                if (player != null)
+                {
+                    player.SendMessage($"레벨 {stat[0] + 1}을 달성했습니다");
+                    player.UpdateLv();
+                }
+            }
+        }
+    }
+
 }

@@ -323,19 +323,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8651131589031293184, guid: 1098124f03a156d4b81d35378ae8d271, type: 3}
       propertyPath: map
-      value: Dormitory1F
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651131589031293184, guid: 1098124f03a156d4b81d35378ae8d271, type: 3}
-      propertyPath: doorID
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651131589031293184, guid: 1098124f03a156d4b81d35378ae8d271, type: 3}
-      propertyPath: direction
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8651131589031293184, guid: 1098124f03a156d4b81d35378ae8d271, type: 3}
-      propertyPath: destDoorID
-      value: 1
+      value: Home
       objectReference: {fileID: 0}
     - target: {fileID: 8651131589031293186, guid: 1098124f03a156d4b81d35378ae8d271, type: 3}
       propertyPath: m_Name

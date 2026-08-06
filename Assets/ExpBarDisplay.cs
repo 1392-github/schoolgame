@@ -15,6 +15,6 @@ public class ExpBarDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.anchorMax = new Vector2((float)GameData.exp / player.needExpForLvUP, 1);
+        transform.anchorMax = new Vector2((float)GameData.exp / GameData.needExpForLvUP, 1);
     }
 }

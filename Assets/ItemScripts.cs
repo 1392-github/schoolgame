@@ -8,16 +8,11 @@ public static class ItemScripts
     public static object[] Item1Desc(int l)
     {
         Player player = GameObject.Find("Player").GetComponent<Player>();
-        return new object[] { (int)(l * player.studyLvBonus), (int)(l * 2 * player.studyLvBonus) };
+        return new object[] { (int)(l * GameData.studyLvBonus), (int)(l * 2 * GameData.studyLvBonus) };
     }
     public static bool UseItem1(int id)
     {
         Player player = GameObject.Find("Player").GetComponent<Player>();
-        if (GameData.currentScene != "DormitoryRoom")
-        {
-            player.OpenDialog("이 장소에서는 이 아이템을 사용할 수 없습니다");
-            return false;
-        }
         if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(14, 50, 0))
         {
             player.OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
@@ -46,8 +41,8 @@ public static class ItemScripts
         timeSpeed = new TimeSpan(0, 0, 30) * (problemTime / 60);*/
         // v1.0에서는 문제 풀 필요 없음
         int l = id % 10 + 1;
-        player.giveStudyExp(id / 10, l, l * 2);
-        GameData.time += new TimeSpan(0, 1, 0) * player.problemTime;
+        GameData.giveStudyExp(id / 10, l, l * 2);
+        GameData.time += new TimeSpan(0, 1, 0) * GameData.problemTime;
         return true;
     }
 }

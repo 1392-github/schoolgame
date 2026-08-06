@@ -117,10 +117,7 @@ public class IntroController : MonoBehaviour
         GameData.name = name;
         GameData.school = schoolName;
         GameData.birth = birth;
-        GameData.firstDay = new DateTime(birth + 16, 3, 2, 8, 0, 0);
-        if (GameData.firstDay.DayOfWeek == DayOfWeek.Saturday) GameData.firstDay = GameData.firstDay.AddDays(2);
-        if (GameData.firstDay.DayOfWeek == DayOfWeek.Sunday) GameData.firstDay = GameData.firstDay.AddDays(1);
-        GameData.time = GameData.firstDay;
-        SceneManager.LoadScene("GlobalScene");
+        GameData.Load2();
+        SceneManager.LoadScene("HomeScene");
     }
 }

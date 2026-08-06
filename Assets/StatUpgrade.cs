@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ public class StatUpgrade : MonoBehaviour
     public void Start2()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        prop = typeof(Player).GetProperty(GameData.statTypes[id].prop);
+        prop = typeof(GameData).GetProperty(GameData.statTypes[id].prop, BindingFlags.Public | BindingFlags.Static);
         UpdateText();
     }
     long GetCost() => (long)Mathf.Max(GameData.statTypes[id].reqBase * Mathf.Pow(GameData.statTypes[id].reqExp, GameData.stat[id]), 1);
@@ -113,7 +114,7 @@ public class StatUpgrade : MonoBehaviour
     }
     public void UpdateText()
     {
-        text.text = $"{GameData.statTypes[id].name} Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix})";
+        text.text = $"{GameData.statTypes[id].name} Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(null)}{GameData.statTypes[id].suffix})";
         if (GameData.statTypes[id].max != 0 && GameData.stat[id] == GameData.statTypes[id].max)
         {
             button.interactable = false;
