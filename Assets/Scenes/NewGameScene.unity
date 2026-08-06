@@ -826,7 +826,7 @@ MonoBehaviour:
     mapextra: 0
     x: 0
     y: 0
-    schindex: 12
+    schindex: 0
     inclass: 0
     inschool: 1
     achCompleted: 

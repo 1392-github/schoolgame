@@ -117,6 +117,7 @@ public class IntroController : MonoBehaviour
         GameData.name = name;
         GameData.school = schoolName;
         GameData.birth = birth;
+        GameData.nextDayOnHome = true;
         GameData.Load2();
         SceneManager.LoadScene("HomeScene");
     }

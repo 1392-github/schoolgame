@@ -8,7 +8,11 @@ public class HomeGameManager : MonoBehaviour
     [SerializeField] HomeUIManager uiManager;
     void Start()
     {
-        if (GameData.nextDayOnHome) StartDay();
+        if (GameData.nextDayOnHome)
+        {
+            StartDay();
+            GameData.nextDayOnHome = false;
+        }
     }
     public void StartDay()
     {
