@@ -128,7 +128,8 @@ public static class GameData
             stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
         }
         grade = time.Year - startYear + 1;
-        semester = time.Month >= 9 ? 2 : 1;
+        if (time.Month == 1) grade--; // 1월 1일 0~8시는 학년 안 오름
+        semester = time.Month >= 9 || time.Month == 1 ? 2 : 1;
         DayOfWeek dayOfWeek = time.DayOfWeek;
         weekend = dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
     }

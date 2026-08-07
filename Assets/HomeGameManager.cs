@@ -16,6 +16,27 @@ public class HomeGameManager : MonoBehaviour
     }
     public void StartDay()
     {
+        if (GameData.time.Month == 7)
+        {
+            GameData.time = new DateTime(GameData.time.Year, 9, 1, 8, 0, 0);
+            if (GameData.time.DayOfWeek == DayOfWeek.Saturday) GameData.time = GameData.time.AddDays(2);
+            else if (GameData.time.DayOfWeek == DayOfWeek.Sunday) GameData.time = GameData.time.AddDays(1);
+            GameData.semester = 2;
+            StartDay();
+            uiManager.UpdateTimeUI();
+            return;
+        }
+        else if (GameData.time.Month == 1)
+        {
+            GameData.time = new DateTime(GameData.time.Year, 3, 2, 8, 0, 0);
+            if (GameData.time.DayOfWeek == DayOfWeek.Saturday) GameData.time = GameData.time.AddDays(2);
+            else if (GameData.time.DayOfWeek == DayOfWeek.Sunday) GameData.time = GameData.time.AddDays(1);
+            GameData.grade++;
+            GameData.semester = 1;
+            StartDay();
+            uiManager.UpdateTimeUI();
+            return;
+        }
         DayOfWeek dayOfWeek = GameData.time.DayOfWeek;
         if (GameData.time.Hour < 8) GameData.weekend = dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Monday;
         else GameData.weekend = dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
