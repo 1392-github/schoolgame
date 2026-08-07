@@ -10,6 +10,7 @@ public class QuestPreview : MonoBehaviour
     void Start()
     {
         UpdatePreview();
+        GameData.questPreview = this;
     }
     public void UpdatePreview()
     {

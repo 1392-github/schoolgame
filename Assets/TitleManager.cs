@@ -24,8 +24,8 @@ public class TitleManager : MonoBehaviour
             }
             GameData.statTypes = stats.stats;
             GameData.statTypes[0].onUpgrade = StatOnUpgradeScripts.OnStudyUpgrade;
-            GameData.statTypes[4].onUpgrade = StatOnUpgradeScripts.OnQuestMaxUpgrade;
-            GameData.statTypes[5].onUpgrade = StatOnUpgradeScripts.OnQuestTimeUpgrade;
+            //GameData.statTypes[4].onUpgrade = StatOnUpgradeScripts.OnQuestMaxUpgrade;
+            //GameData.statTypes[5].onUpgrade = StatOnUpgradeScripts.OnQuestTimeUpgrade;
         }
     }
     public void Click(string scene)

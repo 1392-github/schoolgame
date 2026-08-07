@@ -14,6 +14,10 @@ public class HomeUIManager : MonoBehaviour
     [SerializeField] HomeGameManager gameManager;
     [SerializeField] GameObject dialog;
     [SerializeField] TextMeshProUGUI dialogText;
+    [SerializeField] GameObject upgradeButton;
+    [SerializeField] Transform upgradeScroll;
+    [SerializeField] UpgradePreview upgradePreview;
+    [SerializeField] TextMeshProUGUI xpDisplay;
     public Button nextDayButton;
     bool nextDayButtonPrevent;
     bool nextDayButtonPrevent2;
@@ -25,6 +29,23 @@ public class HomeUIManager : MonoBehaviour
         UpdateTimeUI();
         if (Input.GetMouseButton(0)) nextDayButtonPrevent = true;
         ItemScripts.uiManager = this;
+        GameData.uiManager = this;
+        for (int i = 0; i < GameData.statTypes.Count; i++)
+        {
+            if (GameData.statTypes[i].experimental != Experimental.NONE && !GameData.ExperimentalCheck(GameData.statTypes[i].experimental))
+            {
+                continue;
+            }
+            GameObject g = Instantiate(upgradeButton);
+            g.transform.SetParent(upgradeScroll, false);
+            StatUpgrade u = g.GetComponent<StatUpgrade>();
+            u.id = i;
+            u.uiManager = this;
+            u.upgradePreview = upgradePreview;
+            u.Start2();
+            u.UpdateText();
+        }
+        UpdateXPDisplay();
     }
     void Update()
     {
@@ -62,5 +83,9 @@ public class HomeUIManager : MonoBehaviour
         dialog.SetActive(true);
         dialog.transform.SetAsLastSibling();
         dialogText.text = text;
+    }
+    public void UpdateXPDisplay()
+    {
+        xpDisplay.text = $"{GameData.exp} XP";
     }
 }

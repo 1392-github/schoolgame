@@ -15,7 +15,7 @@ public class GetClass1 : MonoBehaviour
             player = GameObject.Find("Player").GetComponent<Player>();
             text = GetComponent<Text>();
         }
-        if (player.ExperimentalCheck(Experimental.FRIEND_SYSTEM))
+        if (GameData.ExperimentalCheck(Experimental.FRIEND_SYSTEM))
         {
             text.text = "===== 1ÇÐ³â =====\n";
             int grade = -1;

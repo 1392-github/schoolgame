@@ -13,12 +13,14 @@ public class StatUpgrade : MonoBehaviour
     public Button button;
     public long xp;
     public float chance;
-    Player player;
+    public HomeUIManager uiManager;
+    public UpgradePreview upgradePreview;
+    //Player player;
     bool during;
-    System.Reflection.PropertyInfo prop;
+    PropertyInfo prop;
     public void Start2()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        //player = GameObject.Find("Player").GetComponent<Player>();
         prop = typeof(GameData).GetProperty(GameData.statTypes[id].prop, BindingFlags.Public | BindingFlags.Static);
         UpdateText();
     }
@@ -85,32 +87,29 @@ public class StatUpgrade : MonoBehaviour
         {
             return;
         }
-        if (GameData.end)
-        {
-            player.OpenDialog("이미 종료된 게임입니다");
-            return;
-        }
         if (GameData.exp < xp)
         {
-            player.OpenDialog("XP가 부족합니다");
+            uiManager.OpenDialog("XP가 부족합니다");
             return;
         }
         GameData.exp -= xp;
-        object before = prop.GetValue(player);
+        //object before = prop.GetValue(this);
         if (Random.Range(0f, 1f) <= chance)
         {
             GameData.stat[id]++;
-            player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 성공했습니다 (Lv {GameData.stat[id] - 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
+            //player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 성공했습니다 (Lv {GameData.stat[id] - 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
         }
         else
         {
             GameData.stat[id]--;
-            player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 실패했습니다 (Lv {GameData.stat[id] + 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
+            //player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 실패했습니다 (Lv {GameData.stat[id] + 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
         }
         GameData.statTypes[id].onUpgrade?.Invoke();
         UpdateText();
         ChanceInputChance(chanceInput.text);
         ChanceInputEnd();
+        upgradePreview.UpdatePreview();
+        uiManager.UpdateXPDisplay();
     }
     public void UpdateText()
     {

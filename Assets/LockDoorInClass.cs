@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class LockDoorInClass : MonoBehaviour
 {
-    Player player;
     Door door;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
         door = GetComponent<Door>();
-        if (player.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        if (GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             door.destDoorID += GameData.mapArgs;
         }

@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         updateInventory();
+        StatOnUpgradeScripts.inventoryManager = this;
     }
     public void updateInventory()
     {

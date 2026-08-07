@@ -9,7 +9,7 @@ public class ExperOnly : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameObject.Find("Player").GetComponent<Player>().ExperimentalCheck(experimental))
+        if (GameData.ExperimentalCheck(experimental))
         {
             gameObject.SetActive(!negative);
         }

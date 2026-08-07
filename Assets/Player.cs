@@ -223,7 +223,7 @@ public class Player : MonoBehaviour
         achGen.Start2();
         if (GameData.clas[0] == -1)
         {
-            if (ExperimentalCheck(Experimental.FRIEND_SYSTEM))
+            if (GameData.ExperimentalCheck(Experimental.FRIEND_SYSTEM))
             {
                 for (int i = 0; i < 330; i++)
                 {
@@ -295,7 +295,7 @@ public class Player : MonoBehaviour
         sudoku = new int[6, 6];
         for (int i = 0; i < GameData.statTypes.Count; i++)
         {
-            if (GameData.statTypes[i].experimental != Experimental.NONE && !ExperimentalCheck(GameData.statTypes[i].experimental))
+            if (GameData.statTypes[i].experimental != Experimental.NONE && !GameData.ExperimentalCheck(GameData.statTypes[i].experimental))
             {
                 continue;
             }
@@ -331,7 +331,7 @@ public class Player : MonoBehaviour
             UpdateNewQuest();
         }
         UpdateQuestList();
-        if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        if (GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
         }
@@ -349,7 +349,7 @@ public class Player : MonoBehaviour
             oldExpPanel.SetActive(true);
             UpdateLv();
         }
-        if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        if (GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f);
         }
@@ -810,7 +810,7 @@ public class Player : MonoBehaviour
             {
                 GameData.startClassPlacement -= new TimeSpan(1, 0, 0, 0);
             }
-            if (ExperimentalCheck(Experimental.FRIEND_SYSTEM))
+            if (GameData.ExperimentalCheck(Experimental.FRIEND_SYSTEM))
             {
                 classPlaceInput.SetActive(true);
                 GameData.timeSpeed = TimeSpan.Zero;
@@ -875,7 +875,7 @@ public class Player : MonoBehaviour
             {
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }
-            actualSceneName = ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
+            actualSceneName = GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
             //actualSceneName = name;
             GameData.currentScene = name;
             SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
@@ -895,7 +895,7 @@ public class Player : MonoBehaviour
         SceneManager.SetActiveScene(scene);
         if (GameData.currentScene == "Main1F") // 본관 복도 생성
         {
-            if (ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+            if (GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -1082,7 +1082,7 @@ public class Player : MonoBehaviour
             GameObject.Find("Door").GetComponent<Door>().enable = false;
         }
         mapInited = true;
-        if (doorID != -1)// && ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        if (doorID != -1)// && GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
             Vector3 dpos = new Vector3(0, 0, 1);
             foreach (Door d in FindObjectsOfType<Door>())
@@ -1454,10 +1454,6 @@ public class Player : MonoBehaviour
         endEffectDuring = true;
         endEffect.gameObject.SetActive(true);
         endEffect.transform.SetAsLastSibling();
-    }
-    public bool ExperimentalCheck(Experimental e)
-    {
-        return GameData.experimental.Contains(e);
     }
     public void Exit()
     {

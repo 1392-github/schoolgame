@@ -59,6 +59,8 @@ public static class GameData
     public static int grade;
     public static int semester;
     public static bool nextDayOnHome;
+    public static HomeUIManager uiManager;
+    public static QuestPreview questPreview;
     #endregion
     #region ½ºÅÈ Á¤º¸ ¼Ó¼º
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
@@ -200,8 +202,8 @@ public static class GameData
                 if (player != null)
                 {
                     player.SendMessage($"Äù½ºÆ®¸¦ ¼º°øÇÏ¿© {q.reward} XP¸¦ È¹µæÇß½À´Ï´Ù");
-                    player.GiveExp(q.reward, false);
                 }
+                GiveExp(q.reward, false);
                 quest.RemoveAt(i);
             }
         }
@@ -209,6 +211,7 @@ public static class GameData
         {
             player.UpdateQuestList();
         }
+        if (questPreview != null) questPreview.UpdatePreview();
     }
     public static void GiveExp(long amount, bool msg = true)
     {
@@ -217,6 +220,7 @@ public static class GameData
         {
             if (player != null) player.SendMessage($"{amount} °æÇèÄ¡¸¦ È¹µæÇß½À´Ï´Ù");
         }
+        if (uiManager != null) uiManager.UpdateXPDisplay();
         if (hiddenLevelMode)
         {
             while (exp >= needExpForLvUP)
@@ -234,5 +238,8 @@ public static class GameData
             }
         }
     }
-
+    public static bool ExperimentalCheck(Experimental e)
+    {
+        return experimental.Contains(e);
+    }
 }

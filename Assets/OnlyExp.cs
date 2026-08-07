@@ -8,7 +8,7 @@ public class OnlyExp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!GameObject.Find("Player").GetComponent<Player>().ExperimentalCheck(e))
+        if (!GameData.ExperimentalCheck(e))
         {
             GetComponent<UnityEngine.UI.Button>().interactable = false;
         }
