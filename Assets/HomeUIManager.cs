@@ -13,15 +13,20 @@ public class HomeUIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] HomeGameManager gameManager;
     public Button nextDayButton;
+    bool nextDayButtonPrevent;
+    bool nextDayButtonPrevent2;
     // Start is called before the first frame update
     void Start()
     {
         //GameData.Save();
         nameText.text = $"{GameData.school}\n{GameData.name}";
         UpdateTimeUI();
+        if (Input.GetMouseButton(0)) nextDayButtonPrevent = true;
     }
     void Update()
     {
+        if (nextDayButtonPrevent2) nextDayButtonPrevent = false;
+        if (nextDayButtonPrevent && Input.GetMouseButtonUp(0)) nextDayButtonPrevent2 = true; // 손 떼고 바로 다음 프레임에 prevent 해제
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameData.Save();
@@ -44,6 +49,7 @@ public class HomeUIManager : MonoBehaviour
     }
     public void NextDayButton()
     {
+        if (nextDayButtonPrevent) return; // 모바일 버전에서 이동키 누르다 집 들어가졌을 때 다음날로 눌리는 것 방지
         GameData.time = GameData.time.Date + new TimeSpan(GameData.time.Hour >= 8 ? 1 : 0, 8, 0, 0);
         UpdateTimeUI();
         gameManager.StartDay();
