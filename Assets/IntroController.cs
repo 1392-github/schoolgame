@@ -71,17 +71,17 @@ public class IntroController : MonoBehaviour
         yield return StartCoroutine(TypeText("[00고등학교 교장] 여긴 어느 학교이지?\n"));
         InputText("학교의 이름은?");
         yield return new WaitUntil(() => inputCompleted);
-        schoolName = input.text;
+        schoolName = input.text.Trim();
         yield return StartCoroutine(TypeText($"아, {schoolName}이군\n그럼 당신의 이름은 누구이지?\n"));
         InputText("당신의 이름은?");
         yield return new WaitUntil(() => inputCompleted);
-        name = input.text;
+        name = input.text.Trim();
         yield return StartCoroutine(TypeText($"[{schoolName} 교장] 아, {name}이군\n그럼 당신은 몇 년도에 태어났지?\n"));
         while (true)
         {
             InputText("당신의 생년은? (연도만 입력할 것)");
             yield return new WaitUntil(() => inputCompleted);
-            if (int.TryParse(input.text, out birth))
+            if (int.TryParse(input.text.Trim(), out birth))
             {
                 if (birth < 1938)
                 {
