@@ -61,6 +61,7 @@ public static class GameData
     public static bool nextDayOnHome;
     public static HomeUIManager uiManager;
     public static QuestPreview questPreview;
+    public static bool weekend;
     #endregion
     #region 스탯 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
@@ -128,6 +129,8 @@ public static class GameData
         }
         grade = time.Year - startYear + 1;
         semester = time.Month >= 9 ? 2 : 1;
+        DayOfWeek dayOfWeek = time.DayOfWeek;
+        weekend = dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
     }
     public static void Save()
     {

@@ -727,6 +727,7 @@ public class Player : MonoBehaviour
     }
     public void StartClass()
     {
+        if (GameData.weekend) return;
         GameData.inClass = true;
         if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas[0])
         {
@@ -769,6 +770,7 @@ public class Player : MonoBehaviour
     }
     public void EndSchool()
     {
+        if (GameData.weekend) return;
         if (GameData.length != 0 && GameData.time.Date == endTime)
         {
             if (GameData.tutorial)
