@@ -769,7 +769,6 @@ public class Player : MonoBehaviour
     }
     public void EndSchool()
     {
-        Debug.Log("EndSchool");
         if (GameData.length != 0 && GameData.time.Date == endTime)
         {
             if (GameData.tutorial)
