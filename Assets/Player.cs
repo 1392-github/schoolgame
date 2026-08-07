@@ -486,10 +486,10 @@ public class Player : MonoBehaviour
                 GameData.speed -= 1;
             }
         }
-        if (GetKeyDown(KeyCode.I))
-        {
-            inventoryDisplay2.SetActive(true);
-        }
+        //if (GetKeyDown(KeyCode.I))
+        //{
+        //    inventoryDisplay2.SetActive(true);
+        //}
         //if (cntProblemItem != -1)
         //{
         //    problemTimer -= GameData.timeSpeed * Time.deltaTime * GameData.speed;
@@ -1263,20 +1263,21 @@ public class Player : MonoBehaviour
     }
     public void updateInventory()
     {
-        foreach (Transform item in inventoryDisplay)
-        {
-            Destroy(item.gameObject);
-        }
-        for (int i = 0; i < GameData.inventory.Count; i++)
-        {
-            Transform b = Instantiate(itemContent).transform;
-            b.SetParent(inventoryDisplay, false);
-            Item d = GameData.items[GameData.inventory[i]];
-            b.Find("Name").GetComponent<Text>().text = d.name;
-            b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
-            int i2 = i;
-            b.Find("UseButton").GetComponent<Button>().onClick.AddListener(() => UseItem(i2));
-        }
+        // 안쓰는 함수 (이제 아이템 집에서만 씀)
+        //foreach (Transform item in inventoryDisplay)
+        //{
+        //    Destroy(item.gameObject);
+        //}
+        //for (int i = 0; i < GameData.inventory.Count; i++)
+        //{
+        //    Transform b = Instantiate(itemContent).transform;
+        //    b.SetParent(inventoryDisplay, false);
+        //    Item d = GameData.items[GameData.inventory[i]];
+        //    b.Find("Name").GetComponent<Text>().text = d.name;
+        //    b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
+        //    int i2 = i;
+        //    b.Find("UseButton").GetComponent<Button>().onClick.AddListener(() => UseItem(i2));
+        //}
     }
     public void UseItem(int id)
     {

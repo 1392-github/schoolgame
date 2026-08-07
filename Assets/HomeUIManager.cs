@@ -12,6 +12,8 @@ public class HomeUIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI ddayText;
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] HomeGameManager gameManager;
+    [SerializeField] GameObject dialog;
+    [SerializeField] TextMeshProUGUI dialogText;
     public Button nextDayButton;
     bool nextDayButtonPrevent;
     bool nextDayButtonPrevent2;
@@ -22,6 +24,7 @@ public class HomeUIManager : MonoBehaviour
         nameText.text = $"{GameData.school}\n{GameData.name}";
         UpdateTimeUI();
         if (Input.GetMouseButton(0)) nextDayButtonPrevent = true;
+        ItemScripts.uiManager = this;
     }
     void Update()
     {
@@ -53,5 +56,11 @@ public class HomeUIManager : MonoBehaviour
         GameData.time = GameData.time.Date + new TimeSpan(GameData.time.Hour >= 8 ? 1 : 0, 8, 0, 0);
         UpdateTimeUI();
         gameManager.StartDay();
+    }
+    public void OpenDialog(string text)
+    {
+        dialog.SetActive(true);
+        dialog.transform.SetAsLastSibling();
+        dialogText.text = text;
     }
 }

@@ -5,17 +5,16 @@ using UnityEngine;
 
 public static class ItemScripts
 {
+    public static HomeUIManager uiManager;
     public static object[] Item1Desc(int l)
     {
-        Player player = GameObject.Find("Player").GetComponent<Player>();
         return new object[] { (int)(l * GameData.studyLvBonus), (int)(l * 2 * GameData.studyLvBonus) };
     }
     public static bool UseItem1(int id)
     {
-        Player player = GameObject.Find("Player").GetComponent<Player>();
         if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(14, 50, 0))
         {
-            player.OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
+            if (uiManager != null) uiManager.OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
             return false;
         }
         /*
