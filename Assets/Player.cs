@@ -293,19 +293,19 @@ public class Player : MonoBehaviour
         buyItemDisplay = buyItemDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
         updateShop();
         sudoku = new int[6, 6];
-        for (int i = 0; i < GameData.statTypes.Count; i++)
-        {
-            if (GameData.statTypes[i].experimental != Experimental.NONE && !GameData.ExperimentalCheck(GameData.statTypes[i].experimental))
-            {
-                continue;
-            }
-            GameObject g = Instantiate(upgradeButton);
-            g.transform.SetParent(upgradeScroll, false);
-            StatUpgrade u = g.GetComponent<StatUpgrade>();
-            u.id = i;
-            u.Start2();
-            u.UpdateText();
-        }
+        //for (int i = 0; i < GameData.statTypes.Count; i++)
+        //{
+        //    if (GameData.statTypes[i].experimental != Experimental.NONE && !GameData.ExperimentalCheck(GameData.statTypes[i].experimental))
+        //    {
+        //        continue;
+        //    }
+        //    GameObject g = Instantiate(upgradeButton);
+        //    g.transform.SetParent(upgradeScroll, false);
+        //    StatUpgrade u = g.GetComponent<StatUpgrade>();
+        //    u.id = i;
+        //    u.Start2();
+        //    u.UpdateText();
+        //}
         updateInventory();
         endTime = new DateTime(2024, 3, 4) + new TimeSpan(GameData.length * 7, 0, 0, 0);
         oldStudyExp = new long[5];
