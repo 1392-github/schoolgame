@@ -12,10 +12,21 @@ public static class ItemScripts
     }
     public static bool UseItem1(int id)
     {
-        if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(14, 50, 0))
+        if (GameData.weekend)
         {
-            if (uiManager != null) uiManager.OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
-            return false;
+            if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(8, 0, 0))
+            {
+                if (uiManager != null) uiManager.OpenDialog("이 아이템은 7시 ~ 8시까지 사용할 수 없습니다");
+                return false;
+            }
+        }
+        else
+        {
+            if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(14, 50, 0))
+            {
+                if (uiManager != null) uiManager.OpenDialog("이 아이템은 7시 ~ 14시 50분까지 사용할 수 없습니다");
+                return false;
+            }
         }
         /*
         임시로 문제 푸는 기능 없앰
