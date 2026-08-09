@@ -16,7 +16,7 @@ public class HomeGameManager : MonoBehaviour
     }
     public void StartDay()
     {
-        if (GameData.time.Month == 7)
+        if (GameData.time.Month == 8)
         {
             GameData.time = new DateTime(GameData.time.Year, 9, 1, 8, 0, 0);
             if (GameData.time.DayOfWeek == DayOfWeek.Saturday) GameData.time = GameData.time.AddDays(2);
