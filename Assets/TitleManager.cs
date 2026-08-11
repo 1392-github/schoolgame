@@ -9,6 +9,9 @@ public class TitleManager : MonoBehaviour
 
     public Items items;
     public Stats stats;
+    public Curriculum curriculum;
+    public Type1Exams type1Exams;
+    public SuneungDays suneungDays;
     void Start()
     {
         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
@@ -26,6 +29,9 @@ public class TitleManager : MonoBehaviour
             GameData.statTypes[0].onUpgrade = StatOnUpgradeScripts.OnStudyUpgrade;
             //GameData.statTypes[4].onUpgrade = StatOnUpgradeScripts.OnQuestMaxUpgrade;
             //GameData.statTypes[5].onUpgrade = StatOnUpgradeScripts.OnQuestTimeUpgrade;
+            GameData.curriculum = curriculum;
+            GameData.type1Exams = type1Exams.exams;
+            GameData.suneungDays = suneungDays;
         }
     }
     public void Click(string scene)

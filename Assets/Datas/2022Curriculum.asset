@@ -13,83 +13,95 @@ MonoBehaviour:
   m_Name: 2022Curriculum
   m_EditorClassIdentifier: 
   type2Exam:
-  - name: "Y0\uD559\uB144\uB3C4 \u3131"
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
-  - name: 
-    logBase: 0
-    logShift: 0
-    month: 0
+  - name: "Y0\uD559\uB144\uB3C4 3\uC6D4 \uACE01 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 1
+    grade: 1
+    month: 3
+  - name: "Y0\uD559\uB144\uB3C4 6\uC6D4 \uACE01 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 1
+    month: 6
+  - name: "Y0\uD559\uB144\uB3C4 9\uC6D4 \uACE01 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 1
+    month: 9
+  - name: "Y0\uD559\uB144\uB3C4 10\uC6D4 \uACE01 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 1
+    month: 10
+  - name: "Y0\uD559\uB144\uB3C4 3\uC6D4 \uACE02 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 1
+    grade: 2
+    month: 3
+  - name: "Y0\uD559\uB144\uB3C4 6\uC6D4 \uACE02 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 2
+    month: 6
+  - name: "Y0\uD559\uB144\uB3C4 9\uC6D4 \uACE02 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 2
+    month: 9
+  - name: "Y0\uD559\uB144\uB3C4 10\uC6D4 \uACE02 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 2
+    month: 10
+  - name: "Y0\uD559\uB144\uB3C4 3\uC6D4 \uACE03 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 1
+    grade: 3
+    month: 3
+  - name: "Y0\uD559\uB144\uB3C4 5\uC6D4 \uACE03 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 3
+    month: 5
+  - name: "Y0\uD559\uB144\uB3C4 7\uC6D4 \uACE03 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 3
+    month: 7
+  - name: "Y1\uD559\uB144\uB3C4 \uB300\uD559\uC218\uD559\uB2A5\uB825\uC2DC\uD5D8
+      6\uC6D4 \uBAA8\uC758\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 3
+    month: 6
+  - name: "Y1\uD559\uB144\uB3C4 \uB300\uD559\uC218\uD559\uB2A5\uB825\uC2DC\uD5D8
+      9\uC6D4 \uBAA8\uC758\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 3
+    month: 9
+  - name: "Y0\uD559\uB144\uB3C4 10\uC6D4 \uACE03 \uC804\uAD6D\uC5F0\uD569\uD559\uB825\uD3C9\uAC00"
+    logBase: 1.025
+    logShift: 100
+    dateType: 0
+    grade: 3
+    month: 10
+  - name: "Y1\uD559\uB144\uB3C4 \uB300\uD559\uC218\uD559\uB2A5\uB825\uC2DC\uD5D8"
+    logBase: 1.025
+    logShift: 100
+    dateType: 3
+    grade: 3
+    month: 11

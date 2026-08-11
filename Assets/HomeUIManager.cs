@@ -18,6 +18,7 @@ public class HomeUIManager : MonoBehaviour
     [SerializeField] Transform upgradeScroll;
     [SerializeField] UpgradePreview upgradePreview;
     [SerializeField] TextMeshProUGUI xpDisplay;
+    [SerializeField] TextMeshProUGUI examDdayDisplay;
     public Button nextDayButton;
     bool nextDayButtonPrevent;
     bool nextDayButtonPrevent2;
@@ -62,6 +63,47 @@ public class HomeUIManager : MonoBehaviour
         timeText.text = $"<size=70>1</size>회차 <size=70>{GameData.grade}</size>학년 <size=70>{GameData.semester}</size>학기 {GameData.time:yyyy-MM-dd(ddd)\nHH:mm:ss}";
         ddayText.text = $"{(GameData.grade == 3 ? "졸업까지" : $"{GameData.grade + 1}학년 진급까지")}\n<size=70>D-{(int)Math.Ceiling((new DateTime(GameData.startYear + GameData.grade, 1, 1) - GameData.time + new TimeSpan(8, 0, 0)).TotalDays)}</size>";
         nextDayButton.interactable = !GameData.inSchool;
+        string type1ExamDday = null;
+        string type2ExamDday = null;
+        DateTime date = GameData.time.Date;
+        if (GameData.time.Hour < 8)
+        {
+            date = date.AddDays(-1);
+        }
+        int type1ExamDdayValue = -1;
+        int type2ExamDdayValue = -1;
+        for (int i = 0; i < GameData.curriculum.type2Exam.Length; i++)
+        {
+            if (date <= GameData.type2ExamDate[i])
+            {
+                type2ExamDdayValue = (GameData.type2ExamDate[i] - date).Days;
+                type2ExamDday = $"{GameData.curriculum.type2Exam[i].name.Replace("Y0", (GameData.startYear + GameData.curriculum.type2Exam[i].grade - 1).ToString()).Replace("Y1", (GameData.startYear + GameData.curriculum.type2Exam[i].grade).ToString())} {GameData.type2ExamDate[i]:yyyy-MM-dd} (D-{(type2ExamDdayValue == 0 ? "Day" : type2ExamDdayValue)})";
+                break;
+            }
+        }
+        for (int i = 0; i < GameData.type1Exams.Length; i++)
+        {
+            if (date <= GameData.type1ExamDate[i])
+            {
+                type1ExamDdayValue = (GameData.type1ExamDate[i] - date).Days;
+                type1ExamDday = $"{GameData.type1Exams[i].name} {GameData.type1ExamDate[i]:yyyy-MM-dd} (D-{(type1ExamDdayValue == 0 ? "Day" : type1ExamDdayValue)})";
+                break;
+            }
+        }
+        if (type1ExamDdayValue == -1)
+        {
+            if (type2ExamDdayValue == -1) examDdayDisplay.text = "-";
+            else examDdayDisplay.text = type2ExamDday;
+        }
+        else
+        {
+            if (type2ExamDdayValue == -1) examDdayDisplay.text = type1ExamDday;
+            else
+            {
+                if (type1ExamDdayValue < type2ExamDdayValue) examDdayDisplay.text = $"{type1ExamDday}\n{type2ExamDday}";
+                else examDdayDisplay.text = $"{type2ExamDday}\n{type1ExamDday}";
+            }
+        }
     }
     public void ExitHome()
     {
@@ -87,5 +129,9 @@ public class HomeUIManager : MonoBehaviour
     public void UpdateXPDisplay()
     {
         xpDisplay.text = $"{GameData.exp} XP";
+    }
+    public void MoveScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
     }
 }

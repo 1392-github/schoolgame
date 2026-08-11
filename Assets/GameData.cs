@@ -52,8 +52,7 @@ public static class GameData
     #endregion
     #region 저장 데이터가 아닌 변수들
     public static int startYear;
-    public static DateTime suneungDay;
-    //public static SuneungDays suneungDays;
+    public static SuneungDays suneungDays;
     public static DateTime firstDay;
     public static string saveName;
     public static int grade;
@@ -62,6 +61,13 @@ public static class GameData
     public static HomeUIManager uiManager;
     public static QuestPreview questPreview;
     public static bool weekend;
+    public static Curriculum curriculum;
+    public static ExamType[] type1Exams;
+    public static DateTime[] type1ExamDate;
+    public static DateTime[] type2ExamDate;
+    static readonly int[] firstWed = {3, 2, 1, 0, 6, 5, 4};
+    static readonly int[] lastWed = {-4, -5, -6, 0, -1, -2, -3};
+    static readonly int[] thirdThu = {18, 17, 16, 15, 14, 20, 19};
     #endregion
     #region 스탯 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
@@ -132,6 +138,44 @@ public static class GameData
         semester = time.Month >= 9 || time.Month == 1 ? 2 : 1;
         DayOfWeek dayOfWeek = time.DayOfWeek;
         weekend = dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
+        type1ExamDate = new DateTime[type1Exams.Length];
+        for (int i = 0; i < type1Exams.Length; i++)
+        {
+            type1ExamDate[i] = new DateTime(startYear + type1Exams[i].grade - 1, type1Exams[i].month, DateTime.DaysInMonth(1, type1Exams[i].month)); // DaysInMonth에서 month는 2가 아니기에(2월에 시험없고 방학임) year 값은 상관없어서 1 넣음
+            if (type1ExamDate[i].DayOfWeek == DayOfWeek.Saturday) type1ExamDate[i] = type1ExamDate[i].AddDays(-1);
+            if (type1ExamDate[i].DayOfWeek == DayOfWeek.Sunday) type1ExamDate[i] = type1ExamDate[i].AddDays(-2);
+        }
+        type2ExamDate = new DateTime[curriculum.type2Exam.Length];
+        for (int i = 0; i < curriculum.type2Exam.Length; i++)
+        {
+            DateTime c;
+            switch (curriculum.type2Exam[i].dateType)
+            {
+                case ExamType.DateType.FIRST_WEDNESDAY:
+                    c = new DateTime(startYear + curriculum.type2Exam[i].grade - 1, curriculum.type2Exam[i].month, 1);
+                    type2ExamDate[i] = c.AddDays(firstWed[(int)c.DayOfWeek]);
+                    break;
+                case ExamType.DateType.LAST_WEDNESDAY:
+                    c = new DateTime(startYear + curriculum.type2Exam[i].grade - 1, curriculum.type2Exam[i].month, DateTime.DaysInMonth(1, curriculum.type2Exam[i].month));
+                    type2ExamDate[i] = c.AddDays(lastWed[(int)c.DayOfWeek]);
+                    break;
+                case ExamType.DateType.LAST_WEEKDAY:
+                    // Type 1에서만 쓰는 거라 구현안함
+                    break;
+                case ExamType.DateType.SUNEUNG:
+                    if (curriculum.type2Exam[i].grade != 3 || curriculum.type2Exam[i].month != 11) throw new ArgumentException("ExamType.DateType.SUNEUNG only availble in 3rd grade november type 2 exam.");
+                    if (startYear - 1991 < suneungDays.days.Length)
+                    {
+                        type2ExamDate[i] = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
+                    }
+                    else
+                    {
+                        c = new DateTime(startYear + 2, 11, 1);
+                        type2ExamDate[i] = c.AddDays(thirdThu[(int)c.DayOfWeek]);
+                    }
+                    break;
+            }
+        }
     }
     public static void Save()
     {
