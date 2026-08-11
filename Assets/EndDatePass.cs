@@ -6,5 +6,5 @@ public class EndDatePass : MonoBehaviour
 {
     public System.DateTime endDate;
     public long[] studyExp;
-    public TestScore score;
+    public ExamScore score;
 }

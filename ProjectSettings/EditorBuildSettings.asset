@@ -39,6 +39,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ExamScores.unity
     guid: d85942e6aee75a94cb0bb2c64c7e71a3
   - enabled: 1
+    path: Assets/Scenes/ExamScore.unity
+    guid: eab5279637a58f043a3ea6024a18349c
+  - enabled: 1
     path: Assets/Map/DormitoryRoom.unity
     guid: 54c748f8635a5b7499be40890077b372
   - enabled: 1

@@ -4,20 +4,9 @@ using UnityEngine;
 
 public class OpenGUIButton : MonoBehaviour
 {
-    Player player;
     public GameObject target;
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = GameObject.Find("Player")?.GetComponent<Player>();
-    }
-
     public void Click()
     {
-        if (player != null && target.name == "ScoreBoard")
-        {
-            player.sbindex = GameData.scores.Count - 1;
-        }
         target.SetActive(true);
     }
 }

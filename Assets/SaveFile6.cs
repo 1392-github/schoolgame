@@ -10,7 +10,7 @@ public class SaveFile6 : SaveFile0
     public int money;
     public long exp;
     public long[] studyExp;
-    public List<TestScore> scores;
+    public List<ExamScore> scores;
     public string map;
     public int mapextra;
     public float x;

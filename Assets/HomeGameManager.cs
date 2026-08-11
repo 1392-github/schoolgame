@@ -80,5 +80,29 @@ public class HomeGameManager : MonoBehaviour
                 GameData.quest.RemoveAt(i);
             }
         }
+        ExamManager.currentExamType = 0;
+        ExamManager.currentExam = 0;
+        DateTime date = GameData.time.Date;
+        for (int i = 0; i < GameData.type1ExamDate.Length; i++)
+        {
+            if (date == GameData.type1ExamDate[i])
+            {
+                ExamManager.currentExamType = 1;
+                ExamManager.currentExam = i;
+                break;
+            }
+        }
+        if (ExamManager.currentExamType == 0)
+        {
+            for (int i = 0; i < GameData.type2ExamDate.Length; i++)
+            {
+                if (date == GameData.type2ExamDate[i])
+                {
+                    ExamManager.currentExamType = 2;
+                    ExamManager.currentExam = i;
+                    break;
+                }
+            }
+        }
     }
 }

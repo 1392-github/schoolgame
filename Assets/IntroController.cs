@@ -118,6 +118,8 @@ public class IntroController : MonoBehaviour
         GameData.school = schoolName;
         GameData.birth = birth;
         GameData.nextDayOnHome = true;
+        ExamManager.type1Exam = new ExamScore[GameData.type1Exams.Length];
+        ExamManager.type2Exam = new ExamScore[GameData.curriculum.type2Exam.Length];
         GameData.Load2();
         SceneManager.LoadScene("HomeScene");
     }

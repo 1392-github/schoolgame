@@ -30,19 +30,6 @@ public class Player : MonoBehaviour
     Text dialogText;
     GameObject classPlaceInput;
     Text classPlaceDDay;
-    public Text busStopTimeDisplay;
-    public Dropdown busStopDropdown;
-    public Dropdown busDirectionDropdown;
-    public bool busDirection;
-    TextMeshPro busLocD;
-    Door busDoor;
-    GameObject bus1;
-    GameObject bus2;
-    TimeSpan[] busTime1;
-    TimeSpan[] busTime2;
-    TimeSpan busBaseTime;
-    TimeSpan busBaseTime1;
-    TimeSpan busBaseTime2;
     bool mapInited;
     bool control;
     KeyCode[] moveKeys =
@@ -219,7 +206,6 @@ public class Player : MonoBehaviour
         dialogText = dialog.transform.Find("DialogText").Find("Viewport").Find("Content").GetComponent<Text>();
         firstGrade = new string[8];
         repeatGrade = new int[8];
-        CalcuateRankStat();
         achGen.Start2();
         if (GameData.clas[0] == -1)
         {
@@ -258,23 +244,6 @@ public class Player : MonoBehaviour
         //busStopDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy)").GetComponent<Dropdown>();
         //busDirectionDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy) (1)").GetComponent<Dropdown>();
         UpdateDDay();
-        int r;
-        if (GameData.scores.Count == 0)
-        {
-            r = 9;
-        }
-        else
-        {
-            r = (int)Math.Ceiling(GameData.scores[^1].grade.Average());
-        }
-        if (r <= 3)
-        {
-            blockTime = TimeSpan.Zero;
-        }
-        else
-        {
-            blockTime = new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4);
-        }
         /*if (busStopTime.Count == 0)
         {
             ChangeBusStopTime();
@@ -535,30 +504,6 @@ public class Player : MonoBehaviour
         //    moneyFloat2 %= 1;
         //    money -= a;
         //}
-        if (GetKeyDown(KeyCode.E))
-        {
-            if (GameData.length == 0)
-            {
-                endingDisplay.SetActive(true);
-                int ach = 0;
-                for (int i = 0; i < data.achievement.Count; i++)
-                {
-                    if (!data.achievement[i].name.EndsWith("(E)") && GameData.achCompleted[i])
-                    {
-                        ach++;
-                    }
-                }
-                int achSum = data.achievement.Count(c => !c.name.EndsWith("(E)"));
-                long studyExpSum = GameData.studyExp.Sum();
-                endingDisplayText.text = $@"엔딩 조건
-<color={(ach >= achSum ? "green" : "red")}>1 - 모든 업적 달성 (이름 끝에 (E)가 있는 업적 제외) ({ach}/{achSum})</color>
-<color={(GameData.stat[0] >= 150 ? "green" : "red")}>2 - 공부 효율 레벨 150 이상 달성 ({GameData.stat[0]}/150)</color>
-<color={(GameData.money >= 10000000 ? "green" : "red")}>3 - 돈 10000000 달성 ({GameData.money}/10000000)</color>
-<color={(studyExpSum >= 10000000 ? "green" : "red")}>4 - 모든 과목 능력치 합계 10000000 이상 ({studyExpSum}/10000000)</color>
-(엔딩을 볼 시 자동으로 저장되며, 엔딩을 본 이후에도 해당 파일을 계속 플레이할 수 있습니다)";
-                endButton.interactable = ach >= achSum && GameData.stat[0] >= 150 && GameData.money >= 10000000 && studyExpSum >= 10000000;
-            }
-        }
         GameObject selectedGameobject = GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject;
         if (selectedGameobject == null || selectedGameobject.GetComponent<InputField>() == null)
         {
@@ -581,20 +526,6 @@ public class Player : MonoBehaviour
         if (GameData.speed == 0 && cntProblemItem != -1)
         {
             GameData.speed = 1;
-        }
-        if (endEffectDuring)
-        {
-            endEffectAlpha += Time.deltaTime / 5;
-            endEffect.color = new Color(0, 0, 0, endEffectAlpha);
-            if (endEffectAlpha >= 1)
-            {
-                GameData.Save();
-                GameObject end = GameObject.Find("EndDatePass");
-                DontDestroyOnLoad(end);
-                end.GetComponent<EndDatePass>().studyExp = GameData.studyExp;
-                end.GetComponent<EndDatePass>().score = GameData.scores[^1];
-                SceneManager.LoadScene("EndScene2");
-            }
         }
         for (int i = 0; i < 5; i++)
         {
@@ -675,55 +606,6 @@ public class Player : MonoBehaviour
     }
     public void Test()
     {
-        TestScore rslt = new TestScore();
-        rslt.date = GameData.time.ToString("yyyy-MM-dd");
-        for (int i = 0; i < 5; i++)
-        {
-            //rslt.grade[i] = 14;
-            //for (int j = 0; j < 13; j++)
-            //{
-            //    if (GameData.studyExp[i] > data.NeedExpForGrade[j+1])
-            //    {
-            //        if (Random.Range(data.NeedExpForGrade[j+1], data.NeedExpForGrade[j]+1) < GameData.studyExp[i])
-            //        {
-            //            rslt.grade[i] = j + 1;
-            //        }
-            //        else
-            //        {
-            //            rslt.grade[i] = j + 2;
-            //        }
-            //        break;
-            //    }
-            //}
-            //rslt.rank[i] = Random.Range(data.gradeRank[rslt.grade[i]-1], data.gradeRank[rslt.grade[i]]);
-            //rslt.grade[i] = Mathf.Clamp(rslt.grade[i] - 5, 1, 9);
-            // 시험 관련 대개편 예정, 임시로 항상 1등급이 나오도록 해둠
-            rslt.grade[i] = 1;
-            rslt.rank[i] = 1;
-        }
-        //double avgRank = rslt.grade.Average();
-        //for (int j = 1; j < 9; j++)
-        //{
-        //    if (avgRank <= 9 - j)
-        //    {
-        //        GiveAch(j);
-        //    }
-        //}
-        //CalcuateRankStat();
-        //achGen.AchRegen();
-        //if (repeatGrade[0] == 10)
-        //{
-        //    GiveAch(9);
-        //}
-        GameData.scores.Add(rslt);
-        //if (rslt.rank.All(c => c == 1))
-        //{
-        //    GiveAch(13);
-        //}
-        //if (rslt.rank.Any(c => c == 500))
-        //{
-        //    GiveAch(14);
-        //}
     }
     public void StartClass()
     {
@@ -794,13 +676,9 @@ public class Player : MonoBehaviour
         {
             GameData.timeSpeed = new TimeSpan(0, 1, 0);
         }
-        if (GameData.time.DayOfWeek == DayOfWeek.Monday && GameData.time.Date != new DateTime(2024, 3, 4)) 
-        {
-            TutorialOpenChat(12);
-            Test();
-        }
         GameData.inClass = false;
         GameData.inSchool = false;
+        ExamManager.Exam();
         if (GameData.time.Date == GameData.startClassPlacement)
         {
             GameData.duringClassPlacement = true;
@@ -1113,28 +991,6 @@ public class Player : MonoBehaviour
                     transform.position = dpos + Vector3.down;
                     break;
             }
-        }
-    }
-    public void PrevScore()
-    {
-        if (sbindex == 0)
-        {
-            sbindex = GameData.scores.Count - 1;
-        }
-        else
-        {
-            sbindex--;
-        }
-    }
-    public void NextScore()
-    {
-        if (sbindex == GameData.scores.Count - 1)
-        {
-            sbindex = 0;
-        }
-        else
-        {
-            sbindex++;
         }
     }
     public void Left(bool hold)
@@ -1610,36 +1466,6 @@ public class Player : MonoBehaviour
         //goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
         //goalReward = (int)(Mathf.Clamp(studyExp[goalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
         //updateWeeklyGoalDisplay();
-    }
-    public void CalcuateRankStat()
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            firstGrade[i] = "없음";
-        }
-        foreach (TestScore score in GameData.scores)
-        {
-            int avg = Mathf.CeilToInt(score.grade.Sum() / 5f) - 1;
-            for (int i = 0; i < 8; i++)
-            {
-                if (avg <= i)
-                {
-                    if (firstGrade[i] == "없음")
-                    {
-                        firstGrade[i] = score.date;
-                    }
-                    repeatGrade[i]++;
-                    if (repeatGrade[i] > GameData.repeatGradeMax[i])
-                    {
-                        GameData.repeatGradeMax[i] = repeatGrade[i];
-                    }
-                }
-                else
-                {
-                    repeatGrade[i] = 0;
-                }
-            }
-        }
     }
     //public void StockUIUpdate()
     //{

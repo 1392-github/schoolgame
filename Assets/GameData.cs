@@ -21,7 +21,6 @@ public static class GameData
     public static string currentScene;
     public static int mapArgs;
     public static long[] studyExp;
-    public static List<TestScore> scores;
     public static int schedule;
     public static bool[] achCompleted;
     public static int[] clas;
@@ -89,7 +88,6 @@ public static class GameData
         exp = save.exp;
         money = save.money;
         studyExp = save.studyExp;
-        scores = save.scores;
         schedule = save.schindex;
         inClass = save.inclass;
         inSchool = save.inschool;
@@ -116,6 +114,10 @@ public static class GameData
         pendingQuest = save.pendingQuest;
         tutorial = save.tutorial;
         hiddenLevelMode = save.hiddenLevelMode;
+        ExamManager.type1Exam = save.type1Exam;
+        ExamManager.type2Exam = save.type2Exam;
+        ExamManager.currentExamType = save.currentExamType;
+        ExamManager.currentExam = save.currentExam;
         if (save.introCompleted) Load2();
     }
     public static void Load2()
@@ -196,7 +198,6 @@ public static class GameData
         save.studyExp = studyExp;
         save.map = currentScene;
         save.mapextra = mapArgs;
-        save.scores = scores;
         if (currentScene != "Home")
         {
             Transform playerTransform = GameObject.Find("Player").transform;
@@ -226,6 +227,10 @@ public static class GameData
         save.pendingQuest = pendingQuest;
         save.hiddenLevelMode = hiddenLevelMode;
         save.introCompleted = true;
+        save.type1Exam = ExamManager.type1Exam;
+        save.type2Exam = ExamManager.type2Exam;
+        save.currentExamType = ExamManager.currentExamType;
+        save.currentExam = ExamManager.currentExam;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)

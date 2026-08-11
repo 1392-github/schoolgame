@@ -14,7 +14,10 @@ public class SaveFile8 : SaveFile0
     public int money;
     public long exp;
     public long[] studyExp;
-    public List<TestScore> scores;
+    public ExamScore[] type1Exam;
+    public ExamScore[] type2Exam;
+    public int currentExamType;
+    public int currentExam;
     public string map;
     public int mapextra;
     public float x;

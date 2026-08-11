@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField, Multiline] string text;
+    [Multiline] public string text;
     bool activedSelf;
     public void OnPointerEnter(PointerEventData eventData)
     {

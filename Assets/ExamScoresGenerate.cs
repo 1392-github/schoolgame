@@ -1,5 +1,7 @@
 using System;
+using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExamScoresGenerate : MonoBehaviour
 {
@@ -12,8 +14,15 @@ public class ExamScoresGenerate : MonoBehaviour
         DateTime inGameDate = Util.InGameDate(GameData.time);
         for (int i = 0; i < exams.Length; i++)
         {
-            ExamScore s = Instantiate(exam, transform).GetComponent<ExamScore>();
-            s.examName.text = examType == 2 ? exams[i].name.Replace("Y0", (GameData.startYear + exams[i].grade - 1).ToString()).Replace("Y1", (GameData.startYear + exams[i].grade).ToString()) : exams[i].name;
+            ExamScoreDisplay s = Instantiate(exam, transform).GetComponent<ExamScoreDisplay>();
+            int i2 = i;
+            s.button.onClick.AddListener(() =>
+            {
+                ExamManager.openExamType = examType;
+                ExamManager.openExam = i2;
+                SceneManager.LoadScene("ExamScore");
+            });
+            s.examName.text = ExamManager.GetExamName(examType, i);
             s.examDay.text = $"{examDate[i]:yyyy-MM-dd} ({Util.DDay(inGameDate, examDate[i])})";
             DateTime revealDate;
             if (exams[i].grade == 3 && exams[i].month == 12)
@@ -27,7 +36,12 @@ public class ExamScoresGenerate : MonoBehaviour
             s.revealDay.text = $"{revealDate:yyyy-MM-dd} ({Util.DDay(inGameDate, revealDate)})";
             if (inGameDate >= revealDate)
             {
-                s.rank.text = "11111"; // юс╫ц
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int j = 0; j < 5; j++)
+                {
+                    stringBuilder.Append(ExamManager.GetExamScore(examType, i).grade[j]);
+                }
+                s.rank.text = stringBuilder.ToString();
                 s.button.interactable = true;
             }
             else

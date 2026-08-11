@@ -72,21 +72,21 @@ public class HomeUIManager : MonoBehaviour
         }
         int type1ExamDdayValue = -1;
         int type2ExamDdayValue = -1;
-        for (int i = 0; i < GameData.curriculum.type2Exam.Length; i++)
-        {
-            if (date <= GameData.type2ExamDate[i])
-            {
-                type2ExamDdayValue = (GameData.type2ExamDate[i] - date).Days;
-                type2ExamDday = $"{GameData.curriculum.type2Exam[i].name.Replace("Y0", (GameData.startYear + GameData.curriculum.type2Exam[i].grade - 1).ToString()).Replace("Y1", (GameData.startYear + GameData.curriculum.type2Exam[i].grade).ToString())} {GameData.type2ExamDate[i]:yyyy-MM-dd} (D-{(type2ExamDdayValue == 0 ? "Day" : type2ExamDdayValue)})";
-                break;
-            }
-        }
         for (int i = 0; i < GameData.type1Exams.Length; i++)
         {
             if (date <= GameData.type1ExamDate[i])
             {
                 type1ExamDdayValue = (GameData.type1ExamDate[i] - date).Days;
-                type1ExamDday = $"{GameData.type1Exams[i].name} {GameData.type1ExamDate[i]:yyyy-MM-dd} (D-{(type1ExamDdayValue == 0 ? "Day" : type1ExamDdayValue)})";
+                type1ExamDday = $"{ExamManager.GetExamName(1, i)} {GameData.type1ExamDate[i]:yyyy-MM-dd} (D-{(type1ExamDdayValue == 0 ? "Day" : type1ExamDdayValue)})";
+                break;
+            }
+        }
+        for (int i = 0; i < GameData.curriculum.type2Exam.Length; i++)
+        {
+            if (date <= GameData.type2ExamDate[i])
+            {
+                type2ExamDdayValue = (GameData.type2ExamDate[i] - date).Days;
+                type2ExamDday = $"{ExamManager.GetExamName(2, i)} {GameData.type2ExamDate[i]:yyyy-MM-dd} (D-{(type2ExamDdayValue == 0 ? "Day" : type2ExamDdayValue)})";
                 break;
             }
         }

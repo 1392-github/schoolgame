@@ -11,7 +11,7 @@ public class SaveFile3 : SaveFile0
     public int exp;
     public int level; // deperated
     public int[] studyExp;
-    public List<TestScore> scores;
+    public List<ExamScore> scores;
     public string map;
     public int mapextra;
     public float x;
