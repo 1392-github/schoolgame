@@ -52,7 +52,7 @@ public static class ItemScripts
         // v1.0에서는 문제 풀 필요 없음
         int l = id % 10 + 1;
         GameData.giveStudyExp(id / 10, l, l * 2);
-        GameData.time += new TimeSpan(0, 60, 0);
+        GameData.time += new TimeSpan(1, 0, 0);
         return true;
     }
 }

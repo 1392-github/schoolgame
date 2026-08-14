@@ -39,7 +39,7 @@ MonoBehaviour:
     experimental: -1
   - name: "\uD018\uC2A4\uD2B8 \uAE30\uAC04"
     reqBase: 1000
-    reqExp: 1.5
+    reqExp: 1.2
     max: 0
     prop: questTime
     prefix: 
