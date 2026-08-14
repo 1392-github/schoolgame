@@ -101,7 +101,7 @@ public class StatUpgrade : MonoBehaviour
         }
         else
         {
-            GameData.stat[id]--;
+            if (GameData.stat[id] > 0) GameData.stat[id]--;
             //player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 실패했습니다 (Lv {GameData.stat[id] + 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
         }
         GameData.statTypes[id].onUpgrade?.Invoke();
@@ -113,7 +113,7 @@ public class StatUpgrade : MonoBehaviour
     }
     public void UpdateText()
     {
-        text.text = $"{GameData.statTypes[id].name} Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(null)}{GameData.statTypes[id].suffix})";
+        text.text = $"{GameData.statTypes[id].name} Lv {GameData.stat[id]+1} ({GameData.statTypes[id].prefix}{prop.GetValue(null)}{GameData.statTypes[id].suffix})";
         if (GameData.statTypes[id].max != 0 && GameData.stat[id] == GameData.statTypes[id].max)
         {
             button.interactable = false;

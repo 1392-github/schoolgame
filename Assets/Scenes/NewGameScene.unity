@@ -821,7 +821,10 @@ MonoBehaviour:
     money: 0
     exp: 0
     studyExp: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
-    scores: []
+    type1Exam: []
+    type2Exam: []
+    currentExamType: 0
+    currentExam: 0
     map: Home
     mapextra: 0
     x: 0

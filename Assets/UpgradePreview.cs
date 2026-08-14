@@ -23,7 +23,7 @@ public class UpgradePreview : MonoBehaviour
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < GameData.statTypes.Count; i++)
         {
-            stringBuilder.AppendLine($"{GameData.statTypes[i].name} Lv {GameData.stat[i]} ({GameData.statTypes[i].prefix}{upgradePropertys[i].GetValue(null)}{GameData.statTypes[i].suffix})");
+            stringBuilder.AppendLine($"{GameData.statTypes[i].name} Lv {GameData.stat[i]+1} ({GameData.statTypes[i].prefix}{upgradePropertys[i].GetValue(null)}{GameData.statTypes[i].suffix})");
         }
         stringBuilder.Remove(stringBuilder.Length - 1, 1);
         text.text = stringBuilder.ToString();
