@@ -29,22 +29,6 @@ MonoBehaviour:
     prefix: 
     suffix: "\uC6D0/1\uC2DC\uAC04"
     experimental: -1
-  - name: "\uBC18\uBC30\uC815 \uC131\uACF5\uD655\uB960"
-    reqBase: 300
-    reqExp: 1.1
-    max: 45
-    prop: classPlacementChance
-    prefix: 
-    suffix: '%'
-    experimental: 0
-  - name: "\uBB38\uC81C\uC9D1 \uC2DC\uAC04"
-    reqBase: 30
-    reqExp: 1.07
-    max: 0
-    prop: problemTime
-    prefix: 
-    suffix: "\uBD84"
-    experimental: -1
   - name: "\uD018\uC2A4\uD2B8 \uCD5C\uB300 \uAC1C\uC218"
     reqBase: 1000
     reqExp: 1.5

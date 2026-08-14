@@ -64,18 +64,40 @@ public static class GameData
     public static ExamType[] type1Exams;
     public static DateTime[] type1ExamDate;
     public static DateTime[] type2ExamDate;
-    static readonly int[] firstWed = {3, 2, 1, 0, 6, 5, 4};
-    static readonly int[] lastWed = {-4, -5, -6, 0, -1, -2, -3};
-    static readonly int[] thirdThu = {18, 17, 16, 15, 14, 20, 19};
+    static readonly int[] firstWed = { 3, 2, 1, 0, 6, 5, 4 };
+    static readonly int[] lastWed = { -4, -5, -6, 0, -1, -2, -3 };
+    static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
     #endregion
     #region 스탯 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
     public static float studyLvBonus => Mathf.Pow(1.03f, stat[0]);
     public static int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
-    public static int classPlacementChance => Mathf.Clamp(10 + stat[2] * 2, 10, 100);
-    public static float problemTime => 60 * Mathf.Pow(0.99f, stat[3]);
-    public static int maxQuest => stat[4] <= 0 ? 1 : (hiddenLevelMode ? stat[4] / 10 : stat[4]) + 1;
-    public static int questTime => stat[5] <= 0 ? 1 : (hiddenLevelMode ? stat[5] / 10 : stat[5]) + 1;
+    public static int maxQuest => (hiddenLevelMode ? stat[3] / 10 : stat[2]) + 1;
+    public static int questTime
+    {
+        get
+        {
+            if (hiddenLevelMode)
+            {
+                return stat[3] / 10;
+            }
+            else
+            {
+                if (stat[3] >= 20)
+                {
+                    return stat[3] * 3 - 27;
+                }
+                else if (stat[3] >= 10)
+                {
+                    return stat[3] * 2 - 8;
+                }
+                else
+                {
+                    return stat[3] + 1;
+                }
+            }
+        }
+    }
     #endregion
     public static Player player;
     public static void Load(SaveFile8 save)

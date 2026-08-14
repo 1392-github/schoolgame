@@ -49,7 +49,7 @@ public class ClassPlacement : MonoBehaviour
         GameData.clas[0] = Random.Range(0, 10);
         foreach (int s in students)
         {
-            if (Random.Range(0, 100) < GameData.classPlacementChance)
+            if (Random.Range(0, 100) < 10)
             {
                 GameData.clas[s] = GameData.clas[0];
             }
