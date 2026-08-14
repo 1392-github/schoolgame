@@ -1552,11 +1552,11 @@ public class Player : MonoBehaviour
         GameData.pendingQuest[0].req = new int[5];
         int sub = Random.Range(0, 5);
         GameData.pendingQuest[0].req[sub] = Mathf.Max((int)(GameData.studyExp[sub] * Random.Range(0.1f, 0.3f)), 10);
-        GameData.pendingQuest[0].reward = (int)(Random.Range(0.3f, 0.5f) * Mathf.Max(GameData.pendingQuest[0].req[sub], 500));
+        GameData.pendingQuest[0].reward = (int)(Random.Range(1f, 1.5f) * Mathf.Max(GameData.pendingQuest[0].req[sub], 100));
         for (int i = 1; i < 5; i++)
         {
             GameData.pendingQuest[i].req = (int[])GameData.pendingQuest[i-1].req.Clone();
-            int sub2 = 0;
+            int sub2;
             do
             {
                 sub2 = Random.Range(0, 5);
@@ -1569,7 +1569,12 @@ public class Player : MonoBehaviour
                 }
             }
             GameData.pendingQuest[i].req[sub2] = Mathf.Max((int)(GameData.studyExp[sub2] * Random.Range(0.1f, 0.3f)), 10);
-            GameData.pendingQuest[i].reward = (int)(GameData.pendingQuest[i - 1].reward * Random.Range(1.5f, 2f));
+            int total = 0;
+            for (int j = 0; j < 5; j++)
+            {
+                total += GameData.pendingQuest[i].req[j];
+            }
+            GameData.pendingQuest[i].reward = Mathf.Max((int)(Mathf.Max(total, 100) * Random.Range(1f, 1.5f) * Mathf.Pow(1.1f, i)), (int)(GameData.pendingQuest[i-1].reward * 1.1f));
         }
         UpdateNewQuest();
     }
