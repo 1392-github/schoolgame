@@ -31,7 +31,6 @@ public class SaveFile8 : SaveFile0
     public string startClassPlacement;
     public string endClassPlacement; // reversed
     public List<int> inventory;
-    public int speed;
     public int[] stat;
     public List<Experimental> experimental;
     public string startTime;

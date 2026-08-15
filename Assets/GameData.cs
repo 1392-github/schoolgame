@@ -28,7 +28,6 @@ public static class GameData
     public static DateTime startClassPlacement;
     public static DateTime endClassPlacement;
     public static List<int> inventory;
-    public static int speed;
     public static int[] stat;
     public static List<Experimental> experimental;
     public static DateTime startTime;
@@ -119,7 +118,6 @@ public static class GameData
         duringClassPlacement = save.duringClassPlacement;
         startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
         endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
-        speed = save.speed;
         experimental = save.experimental;
         currentScene = save.map;
         mapArgs = save.mapextra;
@@ -235,7 +233,6 @@ public static class GameData
         save.startClassPlacement = startClassPlacement.ToString("yyyy-MM-dd");
         save.endClassPlacement = endClassPlacement.ToString("yyyy-MM-dd");
         save.inventory = inventory;
-        save.speed = speed;
         save.stat = stat;
         save.experimental = experimental;
         save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");

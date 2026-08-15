@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
     public RectTransform weeklyPaneltra;
     PropertyInfo[] statProp;
     public GameObject oldExpPanel;
+    int speed = 1;
     #endregion
     void OnEnable()
     {
@@ -173,7 +174,7 @@ public class Player : MonoBehaviour
         //GameData.duringClassPlacement = save.duringClassPlacement;
         //GameData.startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
         //GameData.endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
-        //GameData.speed = save.speed;
+        //speed = save.speed;
         //GameData.experimental = save.experimental;
         //mapInited = true;
         //GameData.currentScene = "";
@@ -328,7 +329,7 @@ public class Player : MonoBehaviour
     {
         if (!pause)
         {
-            GameData.time += GameData.timeSpeed * Time.deltaTime * GameData.speed;
+            GameData.time += GameData.timeSpeed * Time.deltaTime * speed;
         }
         GameData.totalPlayTime += new TimeSpan(0, 0, 1) * Time.deltaTime;
         if (enableCheat)
@@ -358,7 +359,7 @@ public class Player : MonoBehaviour
             {
                 y = -moveSpeed;
             }
-            rb.velocity = new Vector3(x * GameData.speed, y * GameData.speed, 0);
+            rb.velocity = new Vector3(x * speed, y * speed, 0);
         }
         else
         {
@@ -411,7 +412,7 @@ public class Player : MonoBehaviour
         {
             if (GameData.currentScene == "Unnamed3")
             {
-                moneyFloat += (float)(GameData.speed * GameData.timeSpeed).TotalHours * GameData.LvIncome * Time.deltaTime;
+                moneyFloat += (float)(speed * GameData.timeSpeed).TotalHours * GameData.LvIncome * Time.deltaTime;
                 int i = Mathf.FloorToInt(moneyFloat);
                 moneyFloat -= i;
                 GameData.money += i;
@@ -421,38 +422,38 @@ public class Player : MonoBehaviour
                 GameData.timeSpeed = new TimeSpan(1, 0, 0);
             }
         }
-        speedDisplay.text = $"Speed = {GameData.speed}";
+        speedDisplay.text = $"Speed = {speed}";
         if (GetKeyDown(KeyCode.Equals) || GetKeyDown(KeyCode.KeypadPlus))
         {
             if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
-                if (GameData.speed == 0)
+                if (speed == 0)
                 {
-                    GameData.speed = 1;
+                    speed = 1;
                 }
                 else
                 {
-                    GameData.speed *= 2;
+                    speed *= 2;
                 }
             }
             else
             {
-                GameData.speed += 1;
+                speed += 1;
             }
-            if (GameData.speed > 100)
+            if (speed > 100)
             {
-                GameData.speed = 100;
+                speed = 100;
             }
         }
-        if ((GetKeyDown(KeyCode.Minus) || GetKeyDown(KeyCode.KeypadMinus)) && GameData.speed > 0)
+        if ((GetKeyDown(KeyCode.Minus) || GetKeyDown(KeyCode.KeypadMinus)) && speed > 0)
         {
             if (Input.GetKey(KeyCode.LeftShift) || fastSpeedToggle.isOn)
             {
-                GameData.speed /= 2;
+                speed /= 2;
             }
             else
             {
-                GameData.speed -= 1;
+                speed -= 1;
             }
         }
         //if (GetKeyDown(KeyCode.I))
@@ -461,7 +462,7 @@ public class Player : MonoBehaviour
         //}
         //if (cntProblemItem != -1)
         //{
-        //    problemTimer -= GameData.timeSpeed * Time.deltaTime * GameData.speed;
+        //    problemTimer -= GameData.timeSpeed * Time.deltaTime * speed;
         //    TimeSpan realTime = problemTimer / GameData.timeSpeed.TotalSeconds;
         //    problemTimerDisplay.text = $"{Math.Floor(realTime.TotalMinutes)}:{realTime.Seconds} ({Math.Floor(problemTimer.TotalMinutes)}:{problemTimer.Seconds})";
         //    if (problemTimer <= TimeSpan.Zero)
@@ -511,7 +512,7 @@ public class Player : MonoBehaviour
             {
                 if (GetKeyDown(KeyCode.Alpha0 + i) || GetKeyDown(KeyCode.Keypad0 + i))
                 {
-                    GameData.speed = i;
+                    speed = i;
                 }
             }
         }
@@ -523,9 +524,9 @@ public class Player : MonoBehaviour
             }
             menu.SetActive(true);
         }
-        if (GameData.speed == 0 && cntProblemItem != -1)
+        if (speed == 0 && cntProblemItem != -1)
         {
-            GameData.speed = 1;
+            speed = 1;
         }
         for (int i = 0; i < 5; i++)
         {
