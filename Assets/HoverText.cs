@@ -10,18 +10,18 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         activedSelf = true;
-        HoverCanvas.instance.Open(text);
+        HoverCanvas.instance.hoverText.Open(text);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         activedSelf = false;
-        HoverCanvas.instance.Close();
+        HoverCanvas.instance.hoverText.Close();
     }
     void OnDestroy()
     {
         if (activedSelf)
         {
-            HoverCanvas.instance.Close();
+            HoverCanvas.instance.hoverText.Close();
         }
     }
 }
