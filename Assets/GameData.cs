@@ -198,6 +198,7 @@ public static class GameData
                     break;
             }
         }
+        StudentCard.LoadPhoto();
     }
     public static void Save()
     {
@@ -250,6 +251,7 @@ public static class GameData
         save.type2Exam = ExamManager.type2Exam;
         save.currentExamType = ExamManager.currentExamType;
         save.currentExam = ExamManager.currentExam;
+        save.studentCardPatternColor = StudentCard.patternColor;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)

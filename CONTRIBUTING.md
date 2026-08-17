@@ -47,4 +47,5 @@ namespace DoNotUseNamespace // 네임스페이스 선언하면 안 됨
  * PR 없이 Issue만 보내는 경우는 해당되지 않습니다. 
 ## 에셋 저작권 제한
  * 에셋은 본인이 제작했거나, 저작권이 인정되지 않거나(만료 저작물, 창작성을 충족하지 않는 저작물(플레이스홀더, 단색 이미지 등) 등), 불특정 다수가 이용 및 재배포할 수 있는 라이선스(CC BY, CC0 등)를 가져야 합니다.
+  * Unity Asset Store의 에셋의 경우 [Asset Store EULA](https://unity.com/kr/legal/as-terms)의 2.2.1.1 (d)로 인하여 재배포할 수 없으므로 Unity Asset Store의 에셋은 본 프로젝트에 사용할 수 없습니다.
  * CCL의 NC, ND, SA 및 이와 유사한 조건이 있는 라이선스(공공누리 2, 3, 4유형, GPL, GFDL 등)는 금지됩니다.

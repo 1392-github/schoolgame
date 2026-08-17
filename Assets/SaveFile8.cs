@@ -43,4 +43,5 @@ public class SaveFile8 : SaveFile0
     public Quest1[] pendingQuest;
     public bool tutorial;
     public bool hiddenLevelMode;
+    public string studentCardPatternColor;
 }

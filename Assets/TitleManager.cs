@@ -15,6 +15,7 @@ public class TitleManager : MonoBehaviour
     void Start()
     {
         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
+        Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "studentCardPhoto"));
         if (!GameData.init)
         {
             GameData.init = true;

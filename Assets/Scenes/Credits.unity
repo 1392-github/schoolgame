@@ -456,7 +456,22 @@ MonoBehaviour:
     The use of these\r\ntrademarks does not indicate endorsement of the trademark
     holder by Font\r\nAwesome, nor vice versa. **Please do not use brand logos for
     any purpose except\r\nto represent the company, product, or service to which
-    they refer.**"
+    they refer.**\r\n\r\nUnity Standalone File Browser (https://github.com/gkngkc/unitystandalonefilebrowser)\r\n\r\nMIT
+    License\r\n\r\nCopyright (c) 2017 G\xF6khan G\xF6k\xE7e\r\n\r\nPermission is
+    hereby granted, free of charge, to any person obtaining a copy\r\nof this software
+    and associated documentation files (the \"Software\"), to deal\r\nin the Software
+    without restriction, including without limitation the rights\r\nto use, copy,
+    modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the
+    Software, and to permit persons to whom the Software is\r\nfurnished to do so,
+    subject to the following conditions:\r\n\r\nThe above copyright notice and this
+    permission notice shall be included in all\r\ncopies or substantial portions
+    of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY
+    OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+    DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+    ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE\r\nSOFTWARE."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -1121,7 +1136,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 540356354}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.066926025
+  m_Size: 0.06088081
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

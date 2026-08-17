@@ -838,7 +838,6 @@ MonoBehaviour:
     startClassPlacement: 2024-03-29
     endClassPlacement: 2024-04-01
     inventory: 
-    speed: 1
     stat: 
     experimental: 
     startTime: 
@@ -861,6 +860,7 @@ MonoBehaviour:
       req: 
     tutorial: 0
     hiddenLevelMode: 0
+    studentCardPatternColor: '#000064'
 --- !u!1 &315258585
 GameObject:
   m_ObjectHideFlags: 0

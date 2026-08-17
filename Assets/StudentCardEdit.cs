@@ -1,7 +1,8 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using SFB;
 public class StudentCardEdit : MonoBehaviour
 {
     [SerializeField] StudentCard studentCard;
@@ -18,6 +19,27 @@ public class StudentCardEdit : MonoBehaviour
     {
         StudentCard.patternColor = text;
         studentCard.UpdateStudentCard();
+    }
+    public void AddOrChangePhoto()
+    {
+        string[] file = StandaloneFileBrowser.OpenFilePanel("학생증 사진 선택", "", new ExtensionFilter[] { new ExtensionFilter("PNG, JPG 사진", "png", "jpg") }, false);
+        if (file.Length == 0)
+        {
+            return;
+        }
+        File.Copy(file[0], Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName), true);
+        StudentCard.LoadPhoto();
+        studentCard.UpdateStudentCard();
+        addPhotoText.text = "변경";
+        removePhoto.interactable = true;
+    }
+    public void RemovePhoto()
+    {
+        File.Delete(Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName));
+        StudentCard.photoTexture = null;
+        studentCard.UpdateStudentCard();
+        addPhotoText.text = "추가";
+        removePhoto.interactable = false;
     }
     public void CloseCompleted()
     {
