@@ -9,12 +9,28 @@ public class StudentCardEdit : MonoBehaviour
     [SerializeField] TMP_InputField patternColor;
     [SerializeField] TextMeshProUGUI addPhotoText;
     [SerializeField] Button removePhoto;
+#if UNITY_ANDROID
+    bool loadPhoto = false;
+#endif
     void Start()
     {
         patternColor.text = StudentCard.patternColor;
         addPhotoText.text = StudentCard.photoTexture == null ? "추가" : "변경";
         removePhoto.interactable = StudentCard.photoTexture != null;
     }
+#if UNITY_ANDROID
+    void Update()
+    {
+        if (loadPhoto)
+        {
+            StudentCard.LoadPhoto();
+            studentCard.UpdateStudentCard();
+            addPhotoText.text = "변경";
+            removePhoto.interactable = true;
+            loadPhoto = false;
+        }
+    }
+#endif
     public void ChangePatternColor(string text)
     {
         StudentCard.patternColor = text;
@@ -22,6 +38,7 @@ public class StudentCardEdit : MonoBehaviour
     }
     public void AddOrChangePhoto()
     {
+#if UNITY_STANDALONE_WIN
         string[] file = StandaloneFileBrowser.OpenFilePanel("학생증 사진 선택", "", new ExtensionFilter[] { new ExtensionFilter("PNG, JPG 사진", "png", "jpg") }, false);
         if (file.Length == 0)
         {
@@ -32,6 +49,17 @@ public class StudentCardEdit : MonoBehaviour
         studentCard.UpdateStudentCard();
         addPhotoText.text = "변경";
         removePhoto.interactable = true;
+#endif
+#if UNITY_ANDROID
+        NativeGallery.GetImageFromGallery((path) =>
+        {
+            if (path != null)
+            {
+                File.Copy(path, Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName), true);
+                loadPhoto = true;
+            }
+        }, "학생증 이미지 선택");
+#endif
     }
     public void RemovePhoto()
     {

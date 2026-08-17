@@ -24,6 +24,14 @@ public class StudentCard : MonoBehaviour
             pattern.color = Color.gray;
         }
         photo.texture = photoTexture;
+        if (photoTexture == null)
+        {
+            photo.color = Color.gray;
+        }
+        else
+        {
+            photo.color = Color.white;
+        }
     }
     public static void LoadPhoto()
     {
