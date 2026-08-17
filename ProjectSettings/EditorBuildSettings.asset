@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SelectSaveScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/HelpScene.unity
-    guid: c0621c1914b103949abb1bb191b9c192
-  - enabled: 1
     path: Assets/Scenes/IntroScene.unity
     guid: 614c61115fe7b474c8bf0e0d5170a007
   - enabled: 1
