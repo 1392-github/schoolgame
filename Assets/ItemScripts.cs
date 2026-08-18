@@ -53,6 +53,7 @@ public static class ItemScripts
         int l = id % 10 + 1;
         GameData.giveStudyExp(id / 10, l, l * 2);
         GameData.time += new TimeSpan(1, 0, 0);
+        if (uiManager != null) uiManager.UpdateTimeUI();
         return true;
     }
 }

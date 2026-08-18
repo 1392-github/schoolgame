@@ -3392,6 +3392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 18011690}
+  questPreview: {fileID: 765781771}
 --- !u!1 &839584558
 GameObject:
   m_ObjectHideFlags: 0

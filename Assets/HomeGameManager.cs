@@ -6,6 +6,7 @@ using UnityEngine;
 public class HomeGameManager : MonoBehaviour
 {
     [SerializeField] HomeUIManager uiManager;
+    [SerializeField] QuestPreview questPreview;
     void Start()
     {
         if (GameData.nextDayOnHome)
@@ -80,6 +81,7 @@ public class HomeGameManager : MonoBehaviour
                 GameData.quest.RemoveAt(i);
             }
         }
+        questPreview.UpdatePreview();
         ExamManager.currentExamType = 0;
         ExamManager.currentExam = 0;
         DateTime date = GameData.time.Date;
