@@ -1,9 +1,13 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 public static class Util
 {
     public static readonly string[] subjectName = { "±¹¾î", "¼öÇÐ", "»çÈ¸", "°úÇÐ", "¿µ¾î" };
-
+    static readonly char[] choTable = { '¤¡', '¤¢', '¤¤', '¤§', '¤¨', '¤©', '¤±', '¤²', '¤³', '¤µ', '¤¶', '¤·', '¤¸', '¤¹', '¤º', '¤»', '¤¼', '¤½', '¤¾' };
+    public static AudioClip typeSound;
     public static string DDay(DateTime from, DateTime to)
     {
         if (to > from)
@@ -47,5 +51,33 @@ public static class Util
         float y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Mathf.Exp(-z * z);
 
         return 0.5f * (1 + sign * y);
+    }
+    public static IEnumerator TypeText(string text, TextMeshProUGUI textMesh, AudioSource source, float delay = 0.1f)
+    {
+        foreach (char c in text)
+        {
+            if (c >= '°¡' && c <= 'ÆR')
+            {
+                string before = textMesh.text;
+                int code = c - '°¡';
+                int cho = code / 588;
+                textMesh.text = before + choTable[cho];
+                source.PlayOneShot(typeSound);
+                yield return new WaitForSeconds(delay);
+                if (code % 28 != 0)
+                {
+                    textMesh.text = before + (char)(0xac00 + code / 28 * 28);
+                    source.PlayOneShot(typeSound);
+                    yield return new WaitForSeconds(delay);
+                }
+                textMesh.text = before + c;
+            }
+            else
+            {
+                textMesh.text += c;
+            }
+            source.PlayOneShot(typeSound);
+            yield return new WaitForSeconds(delay);
+        }
     }
 }

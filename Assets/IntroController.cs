@@ -3,14 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class IntroController : MonoBehaviour
 {
-    readonly char[] choTable = {'§°', '§¢', '§§', '§ß', '§®', '§©', '§±', '§≤', '§≥', '§µ', '§∂', '§∑', '§∏', '§π', '§∫', '§ª', '§º', '§Ω', '§æ'};
-
-    public Text text;
+    public TextMeshProUGUI text;
     public InputField input;
-    public AudioClip typeSound;
     public AudioSource source;
 
     string schoolName;
@@ -32,31 +30,7 @@ public class IntroController : MonoBehaviour
     }
     IEnumerator TypeText(string text, float delay = 0.1f)
     {
-        foreach (char c in text)
-        {
-            if (c >= '∞°' && c <= '∆R')
-            {
-                string before = this.text.text;
-                int code = c - '∞°';
-                int cho = code / 588;
-                this.text.text = before + choTable[cho];
-                source.PlayOneShot(typeSound);
-                yield return new WaitForSeconds(delay);
-                if (code % 28 != 0)
-                {
-                    this.text.text = before + (char)(0xac00 + code / 28 * 28);
-                    source.PlayOneShot(typeSound);
-                    yield return new WaitForSeconds(delay);
-                }
-                this.text.text = before + c;
-            }
-            else
-            {
-                this.text.text += c;
-            }
-            source.PlayOneShot(typeSound);
-            yield return new WaitForSeconds(delay);
-        }
+        yield return StartCoroutine(Util.TypeText(text, this.text, source));
     }
     // »£√‚ »ƒ yield return new WaitUntil(() => inputCompleted); ¿ª »£√‚«“ ∞Õ
     void InputText(string placeholder)

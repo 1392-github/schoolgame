@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
-[System.Serializable]
-public class Chat
+using UnityEngine;
+[Serializable, CreateAssetMenu(fileName = "Chat", menuName = "ScriptableObject/Chat")]
+public class Chat : ScriptableObject
 {
     public string name;
     public List<ChatElement> value;
-    public UnityEngine.Events.UnityEvent endEvent;
+    public Action endEvent;
 }

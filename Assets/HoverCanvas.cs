@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class HoverCanvas : MonoBehaviour
 {
     public HoverTextObject hoverText;
     public static HoverCanvas instance = null;
+    public ChatManager chatManager;
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            ChatManager.instance = chatManager;
             DontDestroyOnLoad(gameObject);
         }
         else

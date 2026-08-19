@@ -81,15 +81,6 @@ public class Player : MonoBehaviour
     public GameObject upgradeButton;
     public GameObject menu;
     public AchGenerator achGen;
-    public int currentChat;
-    public int currentChatElement;
-    public int nextChatElement;
-    public GameObject chatDisplay;
-    public Text chatTitleText;
-    public Text chatContentText;
-    public GameObject optionButton;
-    public Transform chatOption;
-    bool enableNext;
     string actualSceneName;
     Direction2 doorDirection;
     public DateTime endTime;
@@ -518,10 +509,7 @@ public class Player : MonoBehaviour
         }
         if (GetKeyDown(KeyCode.Escape))
         {
-            if (currentChat == 1 && currentChatElement == 1)
-            {
-                NextChat2();
-            }
+
             menu.SetActive(true);
         }
         if (speed == 0 && cntProblemItem != -1)
@@ -1322,87 +1310,6 @@ public class Player : MonoBehaviour
         }
         SceneManager.LoadScene("TitleScene");
     }
-    public void OpenChat(int id)
-    {
-        chatDisplay.SetActive(true);
-        currentChat = id;
-        currentChatElement = 0;
-        chatTitleText.text = data.chat[id].name;
-        updateChat();
-    }
-    void updateChat()
-    {
-        if (currentChatElement == -1)
-        {
-            chatDisplay.SetActive(false);
-            data.chat[currentChat].endEvent.Invoke();
-            currentChat = -1;
-            return;
-        }
-        ChatElement e = data.chat[currentChat].value[currentChatElement];
-        e.chatEvent.Invoke();
-        if (e.next == -2)
-        {
-            nextChatElement = 0;
-        }
-        else if (e.next == 0)
-        {
-            if (currentChatElement == data.chat[currentChat].value.Count - 1)
-            {
-                nextChatElement = -1;
-            }
-            else
-            {
-                nextChatElement = currentChatElement + 1;
-            }
-        }
-        else
-        {
-            nextChatElement = e.next;
-        }
-        chatContentText.text = string.Format(e.value, chatExtra);
-        foreach (Transform item2 in chatOption)
-        {
-            Destroy(item2.gameObject);
-        }
-        if (e.option.Count == 0)
-        {
-            enableNext = true;
-        }
-        else
-        {
-            enableNext = false;
-            foreach (NameAndVal<int> item in e.option)
-            {
-                int n = item.value;
-                GameObject button = Instantiate(optionButton, chatOption);
-                button.GetComponent<Button>().onClick.AddListener(() => ChatOptionSelect(n));
-                button.transform.Find("Text (Legacy)").GetComponent<Text>().text = item.name;
-            }
-        }
-        if (e.disableNext)
-        {
-            enableNext = false;
-        }
-    }
-    public void NextChat()
-    {
-        if (enableNext)
-        {
-            currentChatElement = nextChatElement;
-            updateChat();
-        }
-    }
-    public void NextChat2()
-    {
-        currentChatElement = nextChatElement;
-        updateChat();
-    }
-    public void ChatOptionSelect(int id)
-    {
-        currentChatElement = id;
-        updateChat();
-    }
     public void ChangeTimeSpeed(string speed)
     {
         GameData.timeSpeed = TimeSpan.ParseExact(speed, "hh\\:mm\\:ss", null);
@@ -1451,11 +1358,11 @@ public class Player : MonoBehaviour
     }
     public void TutorialOpenChat(int id)
     {
-        if (!alreadyTutorial.Contains(id) && GameData.tutorial)
-        {
-            alreadyTutorial.Add(id);
-            OpenChat(id);
-        }
+        //if (!alreadyTutorial.Contains(id) && GameData.tutorial)
+        //{
+        //    alreadyTutorial.Add(id);
+        //    OpenChat(id);
+        //}
     }
     public void ChatExtra1()
     {
