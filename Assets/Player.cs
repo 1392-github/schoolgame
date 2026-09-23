@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     GameObject dialog;
     Text dialogText;
-    Text classPlaceDDay;
     bool mapInited;
     bool control;
     KeyCode[] moveKeys =
@@ -90,7 +89,6 @@ public class Player : MonoBehaviour
     long[] oldStudyExp;
     public GameObject studyExpIncreaseEffect;
     public RectTransform studyExpPanel;
-    public bool pause;
     public GameObject tutorialArrow;
     Image currentTutorialImage;
     public List<KeyCode> currentPressingButton;
@@ -121,6 +119,7 @@ public class Player : MonoBehaviour
     PropertyInfo[] statProp;
     public GameObject oldExpPanel;
     int speed = 1;
+    public Chat parkmunwon1;
     #endregion
     void OnEnable()
     {
@@ -199,7 +198,6 @@ public class Player : MonoBehaviour
         firstGrade = new string[8];
         repeatGrade = new int[8];
         achGen.Start2();
-        classPlaceDDay = canvas.Find("Menu").Find("GetClass").Find("ChangeDDay").GetComponent<Text>();
         //busStopTimeDisplay = canvas.Find("BusStopTime").Find("Scroll View").Find("Viewport").Find("Content").GetComponent<Text>();
         //busStopDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy)").GetComponent<Dropdown>();
         //busDirectionDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy) (1)").GetComponent<Dropdown>();
@@ -286,7 +284,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (!pause)
+        if (!GameData.pause)
         {
             GameData.time += GameData.timeSpeed * Time.deltaTime * speed;
         }
@@ -569,16 +567,7 @@ public class Player : MonoBehaviour
         GameData.inClass = true;
         if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas)
         {
-            if (GameData.tutorial && GameData.time.Date == new DateTime(2024, 3, 5) && GameData.schedule == 0)
-            {
-                //studyExp[goalSubject] = goalValue;
-                //GiveExp(goalReward);
-                TutorialOpenChat(9);
-            }
-            else
-            {
-                GameData.giveStudyExp(Random.Range(0, 5), 1, 10);
-            }
+            GameData.giveStudyExp(Random.Range(0, 5), 1, 10);
         }
         else
         {
@@ -599,7 +588,6 @@ public class Player : MonoBehaviour
                 alreadyPenalty = true;
             }
         }
-        TutorialOpenChat(3);
     }
     public void EndClass()
     {
@@ -609,33 +597,10 @@ public class Player : MonoBehaviour
     public void EndSchool()
     {
         if (GameData.weekend) return;
-        if (GameData.length != 0 && GameData.time.Date == endTime)
-        {
-            if (GameData.tutorial)
-            {
-                GameData.timeSpeed = TimeSpan.Zero;
-            }
-            else
-            {
-                End2();
-            }
-        }
-        else if (GameData.length != 0 && GameData.time.Date == endTime)
-        {
-            GameData.timeSpeed = TimeSpan.Zero;
-            GameData.end = true;
-            endEffectDuring = true;
-            endEffect.gameObject.SetActive(true);
-            endEffect.transform.SetAsLastSibling();
-        }
-        else
-        {
-            GameData.timeSpeed = new TimeSpan(0, 1, 0);
-        }
+        GameData.timeSpeed = new TimeSpan(0, 1, 0);
         GameData.inClass = false;
         GameData.inSchool = false;
         ExamManager.Exam();
-        TutorialOpenChat(4);
     }
     public void GiveExp(long amount, bool msg = true)
     {
@@ -677,10 +642,6 @@ public class Player : MonoBehaviour
             {
                 ChatManager.OpenChat(firstClassChat);
             }
-        }
-        if (name == "Shop")
-        {
-            TutorialOpenChat(7);
         }
         shopDialog.SetActive(false);
         if (forceLoad || name != GameData.currentScene || args != GameData.mapArgs)
@@ -786,6 +747,10 @@ public class Player : MonoBehaviour
             if (GameData.mapArgs == GameData.clas && GameData.inSchool)
             {
                 GameData.timeSpeed = new TimeSpan(0, 10, 0);
+            }
+            if (GameData.time.Date == GameData.firstDay.Date)
+            {
+                TutorialOpenChat(TutorialState.SCHOOL_FIRST, parkmunwon1);
             }
         }
         if (GameData.currentScene == "Hub")
@@ -895,11 +860,6 @@ public class Player : MonoBehaviour
             busDoor = GameObject.Find("Square (5)").GetComponent<Door>();
             busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
         }*/
-        if (GameData.tutorial && GameData.currentScene == "Unnamed3" && GameData.time.Date == new DateTime(2024, 3, 4)) // 튜토리얼 6 출력 + 문 잠그기
-        {
-            TutorialOpenChat(5);
-            GameObject.Find("Door").GetComponent<Door>().enable = false;
-        }
         mapInited = true;
         if (doorID != -1)// && GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
         {
@@ -1252,10 +1212,6 @@ public class Player : MonoBehaviour
     }
     public void Exit()
     {
-        if (!GameData.tutorial)
-        {
-            GameData.Save();
-        }
         SceneManager.LoadScene("TitleScene");
     }
     public void ChangeTimeSpeed(string speed)
@@ -1264,7 +1220,7 @@ public class Player : MonoBehaviour
     }
     public void Pause(bool pause)
     {
-        this.pause = pause;
+        GameData.pause = pause;
     }
     public void TutorialUI(int id)
     {
@@ -1304,17 +1260,17 @@ public class Player : MonoBehaviour
             return false;
         }
     }
-    public void TutorialOpenChat(int id)
+    public void TutorialOpenChat(TutorialState state, Chat chat)
     {
-        //if (!alreadyTutorial.Contains(id) && GameData.tutorial)
-        //{
-        //    alreadyTutorial.Add(id);
-        //    OpenChat(id);
-        //}
+        if ((GameData.tutorialState & state) == 0)
+        {
+            ChatManager.OpenChat(chat);
+            GameData.tutorialState |= state;
+        }
     }
     public void ChatExtra1()
     {
-        chatExtra = new object[] { GameData.clas + 1};
+        chatExtra = new object[] {GameData.clas + 1};
     }
     public void TutorialEvent1()
     {

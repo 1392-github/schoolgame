@@ -7134,6 +7134,7 @@ MonoBehaviour:
   gradeDoor2: {fileID: 3478910605901502275, guid: 3742e5c3f2f5c4e44bfdddea9917a4ee, type: 3}
   weeklyPaneltra: {fileID: 503942440}
   oldExpPanel: {fileID: 313563435}
+  parkmunwon1: {fileID: 11400000, guid: 9af1d6a05525c3344bb29682c34255d7, type: 2}
 --- !u!212 &573470140
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -6,5 +6,6 @@ public class Chat : ScriptableObject
 {
     public string name;
     public List<ChatElement> value;
+    public bool pauseGame;
     public int endEvent = -1;
 }

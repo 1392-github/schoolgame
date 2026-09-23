@@ -28,6 +28,10 @@ public class ChatManager : MonoBehaviour
         currentChat = chat;
         currentChatElement = 0;
         chatTitleText.text = chat.name;
+        if (chat.pauseGame)
+        {
+            GameData.pause = true;
+        }
         updateChat();
     }
     void updateChat()
@@ -35,6 +39,10 @@ public class ChatManager : MonoBehaviour
         if (currentChatElement == -1)
         {
             gameObject.SetActive(false);
+            if (currentChat.pauseGame)
+            {
+                GameData.pause = false;
+            }
             if (currentChat.endEvent != -1)
             {
                 ((Action)GlobalEventManager.events[currentChat.endEvent])();

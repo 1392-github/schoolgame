@@ -38,7 +38,7 @@ public class SaveFile8 : SaveFile0
     public int[] repeatGradeMax;
     public List<Quest> quest;
     public Quest1[] pendingQuest;
-    public bool tutorial;
+    public TutorialState tutorialState;
     public bool hiddenLevelMode;
     public string studentCardPatternColor;
 }

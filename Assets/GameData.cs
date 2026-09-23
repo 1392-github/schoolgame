@@ -6,6 +6,10 @@ using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum TutorialState
+{
+    SCHOOL_FIRST = 1
+}
 public static class GameData
 {
     #region 저장 데이터
@@ -35,7 +39,7 @@ public static class GameData
     public static int[] repeatGradeMax;
     public static List<Quest> quest;
     public static Quest1[] pendingQuest;
-    public static bool tutorial;
+    public static TutorialState tutorialState;
     public static bool hiddenLevelMode;
 
     public static bool init;
@@ -60,6 +64,7 @@ public static class GameData
     public static ExamType[] type1Exams;
     public static DateTime[] type1ExamDate;
     public static DateTime[] type2ExamDate;
+    public static bool pause;
     static readonly int[] firstWed = { 3, 2, 1, 0, 6, 5, 4 };
     static readonly int[] lastWed = { -4, -5, -6, 0, -1, -2, -3 };
     static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
@@ -126,7 +131,6 @@ public static class GameData
         repeatGradeMax = save.repeatGradeMax;
         quest = save.quest;
         pendingQuest = save.pendingQuest;
-        tutorial = save.tutorial;
         hiddenLevelMode = save.hiddenLevelMode;
         ExamManager.type1Exam = save.type1Exam;
         ExamManager.type2Exam = save.type2Exam;
@@ -196,10 +200,6 @@ public static class GameData
     }
     public static void Save()
     {
-        if (tutorial)
-        {
-            return;
-        }
         SaveFile8 save = new SaveFile8();
         save.version = 8;
         save.versionName = "21";
@@ -233,7 +233,7 @@ public static class GameData
         save.end = end;
         save.difficulty = difficulty;
         save.repeatGradeMax = repeatGradeMax;
-        save.tutorial = tutorial;
+        save.tutorialState = tutorialState;
         save.quest = quest;
         save.pendingQuest = pendingQuest;
         save.hiddenLevelMode = hiddenLevelMode;

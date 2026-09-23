@@ -33,4 +33,10 @@ MonoBehaviour:
     chatEvent: -1
     option: []
     disableNext: 0
+  - value: "(wasd \uD0A4\uB85C \uC870\uC791\uD569\uB2C8\uB2E4)"
+    character: 
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
   endEvent: -1

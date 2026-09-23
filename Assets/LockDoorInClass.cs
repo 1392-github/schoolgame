@@ -24,6 +24,6 @@ public class LockDoorInClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        door.enable = !GameData.inClass;
+        door.enable = !GameData.inSchool;
     }
 }
