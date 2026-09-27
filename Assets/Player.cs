@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
     public GameObject oldExpPanel;
     int speed = 1;
     public Chat parkmunwon1;
+    readonly int[] numberKeySpeed = {0, 1, 2, 3, 5, 10, 20, 30, 50, 100};
     #endregion
     void OnEnable()
     {
@@ -469,7 +470,7 @@ public class Player : MonoBehaviour
             {
                 if (GetKeyDown(KeyCode.Alpha0 + i) || GetKeyDown(KeyCode.Keypad0 + i))
                 {
-                    speed = i;
+                    speed = numberKeySpeed[i];
                 }
             }
         }
