@@ -567,7 +567,7 @@ public class Player : MonoBehaviour
         GameData.inClass = true;
         if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas)
         {
-            GameData.giveStudyExp(Random.Range(0, 5), 1, 10);
+            GameData.giveStudyExp(Random.Range(0, 5), 5, 10);
         }
         else
         {
