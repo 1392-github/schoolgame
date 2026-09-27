@@ -622,9 +622,7 @@ MonoBehaviour:
   type1Exams: {fileID: 11400000, guid: 36796a41a9ba02146b86290624f50968, type: 2}
   suneungDays: {fileID: 11400000, guid: 0f6d76ef6c1ef414e90bfdba86007df0, type: 2}
   typeSound: {fileID: 8300000, guid: 8dae20d31f58b2f468c2c08335e0baa8, type: 3}
-  chatEventRegister:
-  - {fileID: 11400000, guid: 8f58708d56cedde4b853d39c001bd3e5, type: 2}
-  - {fileID: 11400000, guid: b03e86f90fbf65e4cbb4269fc2d07576, type: 2}
+  worldBooks: {fileID: 11400000, guid: 2b5bf807ad9de6d4f971a08dfcd5c2fb, type: 2}
 --- !u!1 &461864284
 GameObject:
   m_ObjectHideFlags: 0

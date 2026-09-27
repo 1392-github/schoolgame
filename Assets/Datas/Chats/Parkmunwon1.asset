@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de2a110b994c2747b95b909036604a0, type: 3}
   m_Name: Parkmunwon1
   m_EditorClassIdentifier: 
-  name: "\uBC15\uBB38\uC6D0\uC758 \uB300\uD654(1)"
+  name: "\uBC15\uBB38\uC6D0\uC758 \uB300\uD654"
   value:
   - value: "\uC548\uB155, {0}\uC5D0 \uC628 \uAC78 \uD658\uC601\uD574!"
     character: "\uBC15\uBB38\uC6D0"

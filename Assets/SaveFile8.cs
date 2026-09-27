@@ -41,4 +41,5 @@ public class SaveFile8 : SaveFile0
     public TutorialState tutorialState;
     public bool hiddenLevelMode;
     public string studentCardPatternColor;
+    public bool[] worldBookUnlocked;
 }

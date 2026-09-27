@@ -41,6 +41,7 @@ public static class GameData
     public static Quest1[] pendingQuest;
     public static TutorialState tutorialState;
     public static bool hiddenLevelMode;
+    public static bool[] worldBookUnlocked;
 
     public static bool init;
     public static List<Item> items;
@@ -68,6 +69,9 @@ public static class GameData
     static readonly int[] firstWed = { 3, 2, 1, 0, 6, 5, 4 };
     static readonly int[] lastWed = { -4, -5, -6, 0, -1, -2, -3 };
     static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
+    #endregion
+    #region 상수들
+    public const int worldBookCount = 1;
     #endregion
     #region 스탯 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
@@ -136,6 +140,7 @@ public static class GameData
         ExamManager.type2Exam = save.type2Exam;
         ExamManager.currentExamType = save.currentExamType;
         ExamManager.currentExam = save.currentExam;
+        worldBookUnlocked = save.worldBookUnlocked;
         if (save.introCompleted) Load2();
     }
     public static void Load2()
@@ -197,6 +202,7 @@ public static class GameData
             }
         }
         StudentCard.LoadPhoto();
+        Array.Resize(ref worldBookUnlocked, worldBookCount);
     }
     public static void Save()
     {
@@ -243,6 +249,7 @@ public static class GameData
         save.currentExamType = ExamManager.currentExamType;
         save.currentExam = ExamManager.currentExam;
         save.studentCardPatternColor = StudentCard.patternColor;
+        save.worldBookUnlocked = worldBookUnlocked;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)

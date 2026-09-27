@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,6 +17,9 @@ public class HomeUIManager : MonoBehaviour
     [SerializeField] UpgradePreview upgradePreview;
     [SerializeField] TextMeshProUGUI xpDisplay;
     [SerializeField] TextMeshProUGUI examDdayDisplay;
+    [SerializeField] Button worldBookButton;
+    [SerializeField] Button[] worldBookChapterButtons;
+    [SerializeField] WorldBook[] worldBooks;
     public Button nextDayButton;
     bool nextDayButtonPrevent;
     bool nextDayButtonPrevent2;
@@ -47,6 +48,25 @@ public class HomeUIManager : MonoBehaviour
             u.UpdateText();
         }
         UpdateXPDisplay();
+        worldBookButton.interactable = GameData.worldBookUnlocked[0];
+        for (int i = 0; i < GameData.worldBookCount; i++)
+        {
+            Button button = worldBookChapterButtons[i];
+            button.interactable = GameData.worldBookUnlocked[i];
+            if (GameData.worldBookUnlocked[i])
+            {
+                int i2 = i;
+                button.onClick.AddListener(() =>
+                {
+                    WorldBookUIManager.book = worldBooks[i2];
+                    SceneManager.LoadScene("WorldBook");
+                });
+            }
+            else
+            {
+                button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i + 1}±Ç: ? ? ?";
+            }
+        }
     }
     void Update()
     {
