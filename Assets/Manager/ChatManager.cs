@@ -13,11 +13,13 @@ public class ChatManager : MonoBehaviour
     public int nextChatElement;
     public TextMeshProUGUI chatTitleText;
     public TextMeshProUGUI chatContentText;
+    public GameObject skipButton;
     public GameObject optionButton;
     public Transform chatOption;
     public AudioSource audioSource;
     bool enableNext;
     bool enableNext2;
+    IEnumerator typeTextCoroutine;
     public static void OpenChat(Chat chat)
     {
         instance.OpenChat1(chat);
@@ -28,6 +30,7 @@ public class ChatManager : MonoBehaviour
         currentChat = chat;
         currentChatElement = 0;
         chatTitleText.text = chat.name;
+        skipButton.SetActive(chat.skipable);
         if (chat.pauseGame)
         {
             GameData.pause = true;
@@ -89,7 +92,8 @@ public class ChatManager : MonoBehaviour
     }
     IEnumerator Chat(string text, ChatElement e)
     {
-        yield return StartCoroutine(Util.TypeText(text, chatContentText, audioSource));
+        typeTextCoroutine = Util.TypeText(text, chatContentText, audioSource);
+        yield return StartCoroutine(typeTextCoroutine);
         if (e.option.Count == 0)
         {
             enableNext = true;
@@ -131,5 +135,11 @@ public class ChatManager : MonoBehaviour
             currentChatElement = id;
             updateChat();
         }
+    }
+    public void SkipChat()
+    {
+        StopCoroutine(typeTextCoroutine);
+        currentChatElement = -1;
+        updateChat();
     }
 }

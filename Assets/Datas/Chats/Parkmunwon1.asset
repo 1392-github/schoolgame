@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Parkmunwon1
   m_EditorClassIdentifier: 
   name: "\uBC15\uBB38\uC6D0\uC758 \uB300\uD654"
+  skipable: 1
   value:
   - value: "\uC548\uB155, {0}\uC5D0 \uC628 \uAC78 \uD658\uC601\uD574!"
     character: "\uBC15\uBB38\uC6D0"

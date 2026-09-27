@@ -5,6 +5,7 @@ using UnityEngine;
 public class Chat : ScriptableObject
 {
     public string name;
+    public bool skipable;
     public List<ChatElement> value;
     public bool pauseGame;
     public int endEvent = -1;
