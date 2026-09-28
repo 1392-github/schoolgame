@@ -47,6 +47,11 @@ public class StatUpgrade : MonoBehaviour
             chance = (float)xp / GetCost();
             chanceInput.text = (chance * 100).ToString("0.##########");
         }
+        else
+        {
+            xp = 0;
+            chance = 0;
+        }
         during = false;
     }
     public void ChanceInputChance(string sch)
@@ -73,6 +78,11 @@ public class StatUpgrade : MonoBehaviour
             xpInput.text = xp.ToString();
             chance = (float)xp / GetCost();
         }
+        else
+        {
+            xp = 0;
+            chance = 0;
+        }
         during = false;
     }
     public void ChanceInputEnd()
@@ -83,7 +93,7 @@ public class StatUpgrade : MonoBehaviour
     }
     public void Upgrade()
     {
-        if (xp < 0)
+        if (xp <= 0)
         {
             return;
         }
