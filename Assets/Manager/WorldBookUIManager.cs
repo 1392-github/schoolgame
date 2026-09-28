@@ -44,7 +44,7 @@ public class WorldBookUIManager : MonoBehaviour
     }
     public void ClickRight()
     {
-        if (page + 1 < totalPage)
+        if (page + 2 < totalPage)
         {
             page += 2;
             UpdatePage();
