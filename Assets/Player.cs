@@ -684,7 +684,7 @@ public class Player : MonoBehaviour
                     door2.doorID = door2.args;
                     if (GameData.mapArgs == 0 && i == GameData.clas)
                     {
-                        door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                        door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Underline;
                     }
                     door = Instantiate(gradeDoor2);
                     door.transform.position = new Vector3(i * 4 - 15.5f, 3.5f, 0);
@@ -694,7 +694,7 @@ public class Player : MonoBehaviour
                     door2.doorID = door2.args + 100;
                     if (GameData.mapArgs == 0 && i == GameData.clas)
                     {
-                        door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                        door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Underline;
                     }
                 }
             }
@@ -710,7 +710,7 @@ public class Player : MonoBehaviour
                     door2.doorID = door2.args;
                     if (GameData.mapArgs == 0 && i == GameData.clas)
                     {
-                        door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
+                        door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Underline;
                     }
                 }
             }
