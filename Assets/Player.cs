@@ -564,7 +564,7 @@ public class Player : MonoBehaviour
     }
     public void StartClass()
     {
-        if (GameData.weekend) return;
+        if (GameData.weekendOrVacation) return;
         GameData.inClass = true;
         if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas)
         {
@@ -597,7 +597,7 @@ public class Player : MonoBehaviour
     }
     public void EndSchool()
     {
-        if (GameData.weekend) return;
+        if (GameData.weekendOrVacation) return;
         GameData.timeSpeed = new TimeSpan(0, 1, 0);
         GameData.inClass = false;
         GameData.inSchool = false;

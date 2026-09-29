@@ -55,12 +55,20 @@ public static class GameData
     public static SuneungDays suneungDays;
     public static DateTime firstDay;
     public static string saveName;
-    public static int grade;
-    public static int semester;
+    public static int grade => time.Year - startYear + (time.Month <= 2 ? 0 : 1);
+    public static int semester => (time.Month <= 2 || time.Month >= 9 ? 2 : 1);
     public static bool nextDayOnHome;
     public static HomeUIManager uiManager;
     public static QuestPreview questPreview;
-    public static bool weekend;
+    public static bool weekendOrVacation
+    {
+        get
+        {
+            DayOfWeek dayOfWeek = time.DayOfWeek;
+            int month = time.Month;
+            return month <= 2 || month == 8 || dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
+        }
+    }
     public static Curriculum curriculum;
     public static ExamType[] type1Exams;
     public static DateTime[] type1ExamDate;
@@ -153,16 +161,10 @@ public static class GameData
         {
             time = firstDay;
         }
-        //suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
         if (stat.Length < statTypes.Count)
         {
             stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
         }
-        grade = time.Year - startYear + 1;
-        if (time.Month == 1) grade--; // 1월 1일 0~8시는 학년 안 오름
-        semester = time.Month >= 9 || time.Month == 1 ? 2 : 1;
-        DayOfWeek dayOfWeek = time.DayOfWeek;
-        weekend = dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
         type1ExamDate = new DateTime[type1Exams.Length];
         for (int i = 0; i < type1Exams.Length; i++)
         {

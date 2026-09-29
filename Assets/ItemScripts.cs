@@ -12,7 +12,7 @@ public static class ItemScripts
     }
     public static bool UseItem1(int id)
     {
-        if (GameData.weekend)
+        if (GameData.weekendOrVacation)
         {
             if (GameData.time.TimeOfDay >= new TimeSpan(7, 0, 0) && GameData.time.TimeOfDay <= new TimeSpan(8, 0, 0))
             {

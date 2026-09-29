@@ -81,7 +81,7 @@ public class HomeUIManager : MonoBehaviour
     public void UpdateTimeUI()
     {
         timeText.text = $"<size=70>1</size>회차 <size=70>{GameData.grade}</size>학년 <size=70>{GameData.semester}</size>학기 {GameData.time:yyyy-MM-dd(ddd)\nHH:mm:ss}";
-        ddayText.text = $"{(GameData.grade == 3 ? "졸업까지" : $"{GameData.grade + 1}학년 진급까지")}\n<size=70>D-{(int)Math.Ceiling((new DateTime(GameData.startYear + GameData.grade, 1, 1) - GameData.time + new TimeSpan(8, 0, 0)).TotalDays)}</size>";
+        ddayText.text = $"{(GameData.grade == 3 ? "졸업까지" : $"{GameData.grade + 1}학년 진급까지")}\n<size=70>D-{(int)Math.Ceiling((new DateTime(GameData.startYear + GameData.grade, GameData.grade == 3 ? 1 : 3, 1) - GameData.time + new TimeSpan(8, 0, 0)).TotalDays)}</size>";
         nextDayButton.interactable = !GameData.inSchool;
         string type1ExamDday = null;
         string type2ExamDday = null;
