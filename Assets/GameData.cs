@@ -84,7 +84,7 @@ public static class GameData
     #region 스탯 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
     public static float studyLvBonus => Mathf.Pow(1.03f, stat[0]);
-    public static int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
+    public static int LvIncome => (int)(10000 * Mathf.Pow(1.03f, stat[1]));
     public static int maxQuest => (hiddenLevelMode ? stat[3] / 10 : stat[2]) + 1;
     public static int questTime
     {
