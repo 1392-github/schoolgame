@@ -71,7 +71,7 @@ public static class GameData
     static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
     #endregion
     #region 상수들
-    public const int worldBookCount = 1;
+    public const int worldBookCount = 4;
     #endregion
     #region 스탯 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));

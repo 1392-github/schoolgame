@@ -89,4 +89,4 @@ MonoBehaviour:
     option: []
     disableNext: 0
   pauseGame: 1
-  endEvent: -1
+  endEvent: 63
