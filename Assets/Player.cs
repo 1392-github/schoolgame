@@ -1200,7 +1200,7 @@ public class Player : MonoBehaviour
         GameData.Save();
         GameObject end = GameObject.Find("EndDatePass");
         DontDestroyOnLoad(end);
-        end.GetComponent<EndDatePass>().endDate = GameData.time;
+        //end.GetComponent<EndDatePass>().endDate = GameData.time;
         SceneManager.LoadScene("EndScene");
     }
     public void End2()

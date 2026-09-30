@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class TitleManager : MonoBehaviour
 {
-    public SaveFile4 tutorialDefaultSave;
-
     public Items items;
     public Stats stats;
     public Curriculum curriculum;
