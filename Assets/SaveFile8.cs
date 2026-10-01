@@ -11,6 +11,7 @@ public class SaveFile8 : SaveFile0
     public string name;
     public string school;
     public int birth;
+    public int playthrough;
     public int money;
     public long exp;
     public long[] studyExp;
@@ -42,4 +43,8 @@ public class SaveFile8 : SaveFile0
     public bool hiddenLevelMode;
     public string studentCardPatternColor;
     public bool[] worldBookUnlocked;
+    public int[] universityCount;
+    public AdmissionType admissionType;
+    public int[] appliedUniversities;
+    public bool[] applicationPassed;
 }

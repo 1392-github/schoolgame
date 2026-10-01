@@ -573,55 +573,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd8daaca8fb28f4aa19dff3e6ed5b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialDefaultSave:
-    version: 4
-    versionName: 1.11
-    time: 2024-03-04 08:00:00
-    timeSpeed: 00:00:30
-    money: 0
-    exp: 0
-    studyExp: 0000000000000000000000000000000000000000
-    scores: []
-    map: DormitoryRoom
-    mapextra: 0
-    x: 0
-    y: 0
-    schindex: 12
-    inclass: 0
-    inschool: 1
-    achCompleted: 
-    clas: ffffffff
-    duringClassPlacement: 0
-    startClassPlacement: 2024-03-29
-    endClassPlacement: 2024-04-01
-    busStopTime: []
-    nextBusStopTimeChange: 2024-04-01
-    inventory: 
-    speed: 1
-    goalSubject: -1
-    goalValue: 0
-    goalReward: 0
-    stat: 
-    experimental: 
-    startTime: 
-    totalPlayTime: 0:00:00:00
-    length: 1
-    end: 0
-    difficulty: 0
-    repeatGradeMax: 
-    costWeight: 100
-    costWeightStatus: 0
-    hash: 
-    stockCost: e8030000e8030000e8030000e8030000e8030000
-    stockAmount: 0000000000000000000000000000000000000000
-    stockStatus: 0000000000
-    stockCostChanged: 0000000000000000000000000000000000000000
   items: {fileID: 11400000, guid: 052b81350a5f94848b3587b0d9f22aa4, type: 2}
   stats: {fileID: 11400000, guid: 49d97d113ce94be4b9f3660e09bb0096, type: 2}
   curriculum: {fileID: 11400000, guid: f5d753a921273564b8316b315898de64, type: 2}
   type1Exams: {fileID: 11400000, guid: 36796a41a9ba02146b86290624f50968, type: 2}
   suneungDays: {fileID: 11400000, guid: 0f6d76ef6c1ef414e90bfdba86007df0, type: 2}
   typeSound: {fileID: 8300000, guid: 8dae20d31f58b2f468c2c08335e0baa8, type: 3}
+  universities:
+  - {fileID: 11400000, guid: 9264c4bea1767c64c9d716cd3cb3f001, type: 2}
 --- !u!1 &460328625
 GameObject:
   m_ObjectHideFlags: 0

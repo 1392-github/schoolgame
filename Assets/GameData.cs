@@ -16,6 +16,7 @@ public static class GameData
     public static string name;
     public static string school;
     public static int birth;
+    public static int playthrough;
     public static long exp;
     public static int money;
     public static DateTime time;
@@ -120,6 +121,7 @@ public static class GameData
         name = save.name;
         school = save.school;
         birth = save.birth;
+        playthrough = save.playthrough;
         exp = save.exp;
         money = save.money;
         studyExp = save.studyExp;
@@ -149,6 +151,10 @@ public static class GameData
         ExamManager.currentExamType = save.currentExamType;
         ExamManager.currentExam = save.currentExam;
         worldBookUnlocked = save.worldBookUnlocked;
+        UniversityManager.universityCount = save.universityCount;
+        UniversityManager.admissionType = save.admissionType;
+        UniversityManager.appliedUniversities = save.appliedUniversities;
+        UniversityManager.applicationPassed = save.applicationPassed;
         if (save.introCompleted) Load2();
     }
     public static void Load2()
@@ -205,6 +211,7 @@ public static class GameData
         }
         StudentCard.LoadPhoto();
         Array.Resize(ref worldBookUnlocked, worldBookCount);
+        UniversityManager.Init();
     }
     public static void Save()
     {
@@ -216,6 +223,7 @@ public static class GameData
         save.name = name;
         save.school = school;
         save.birth = birth;
+        save.playthrough = playthrough;
         save.exp = exp;
         save.money = money;
         save.studyExp = studyExp;
@@ -252,6 +260,10 @@ public static class GameData
         save.currentExam = ExamManager.currentExam;
         save.studentCardPatternColor = StudentCard.patternColor;
         save.worldBookUnlocked = worldBookUnlocked;
+        save.universityCount = UniversityManager.universityCount;
+        save.admissionType = UniversityManager.admissionType;
+        save.appliedUniversities = UniversityManager.appliedUniversities;
+        save.applicationPassed = UniversityManager.applicationPassed;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)

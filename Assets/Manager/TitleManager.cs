@@ -11,6 +11,7 @@ public class TitleManager : MonoBehaviour
     public Type1Exams type1Exams;
     public SuneungDays suneungDays;
     public AudioClip typeSound;
+    public University[] universities;
     void Start()
     {
         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
@@ -28,6 +29,7 @@ public class TitleManager : MonoBehaviour
             GameData.type1Exams = type1Exams.exams;
             GameData.suneungDays = suneungDays;
             Util.typeSound = typeSound;
+            UniversityManager.universities = universities;
         }
     }
     public void Click(string scene)

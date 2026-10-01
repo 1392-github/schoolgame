@@ -2361,60 +2361,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 185229624}
   m_CullTransparentMesh: 1
---- !u!1 &190107013
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 190107015}
-  - component: {fileID: 190107014}
-  m_Layer: 0
-  m_Name: EndDatePass
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &190107014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190107013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 752b1cd7071ef8448a280f7fb98eacf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  studyExp: 
-  score:
-    average: 0000000000000000000000000000000000000000
-    deviation: 0000000000000000000000000000000000000000
-    rawScore: 0000000000000000000000000000000000000000
-    standardScore: 0000000000000000000000000000000000000000
-    percentile: 0000000000000000000000000000000000000000
-    grade: 0000000000000000000000000000000000000000
-    gradeCut: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-    rank: 0000000000000000000000000000000000000000
---- !u!4 &190107015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190107013}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 932.0645, y: 564.6767, z: -5.672916}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &230545207
 GameObject:
   m_ObjectHideFlags: 0
@@ -7115,7 +7061,6 @@ MonoBehaviour:
   endEffect: {fileID: 1720229972}
   studyExpIncreaseEffect: {fileID: 8256978284012358123, guid: 376f2afb0237b584faac27e6b0f64c10, type: 3}
   studyExpPanel: {fileID: 965768513}
-  pause: 0
   tutorialArrow: {fileID: 1719939680}
   currentPressingButton: 
   fastSpeedToggle: {fileID: 11402125}

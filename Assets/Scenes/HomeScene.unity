@@ -285,6 +285,8 @@ MonoBehaviour:
   upgradePreview: {fileID: 2004250086}
   xpDisplay: {fileID: 1766292041}
   examDdayDisplay: {fileID: 1132844592}
+  universityButton: {fileID: 1630968804}
+  universityLockText: {fileID: 682946420}
   worldBookButton: {fileID: 1571285208}
   worldBookChapterButtons:
   - {fileID: 1556605453}
@@ -8788,7 +8790,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1630968805}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 18011690}
+        m_TargetAssemblyTypeName: HomeUIManager, Assembly-CSharp
+        m_MethodName: MoveScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: University
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1630968805
 MonoBehaviour:
   m_ObjectHideFlags: 0

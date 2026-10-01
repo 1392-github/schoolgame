@@ -458,6 +458,7 @@ MonoBehaviour:
     name: 
     school: 
     birth: 0
+    playthrough: 1
     money: 0
     exp: 0
     studyExp: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
