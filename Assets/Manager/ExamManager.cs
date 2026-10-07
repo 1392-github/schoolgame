@@ -41,16 +41,18 @@ public static class ExamManager
         ExamScore score = new ExamScore();
         for (int i = 0; i < 5; i++)
         {
+            bool maxScore50 = currentExamType == 2 && (i == 2 || i == 3); // 모의고사/수능 시험이면서 사회(2)/과학(3) 영역인 경우 50점 만점으로
             score.rawScore[i] = Mathf.Clamp((int)(Mathf.Log(GameData.studyExp[i] + examType.logShift, examType.logBase) - Mathf.Log(examType.logShift, examType.logBase)) + Random.Range(-3, 4), 0, 100);
-            score.average[i] = Random.Range(50, 61);
-            score.deviation[i] = Random.Range(20, 26);
+            if (maxScore50) score.rawScore[i] /= 2;
+            score.average[i] = Random.Range(maxScore50 ? 25 : 50, maxScore50 ? 31 : 61);
+            score.deviation[i] = Random.Range(maxScore50 ? 10 : 20, maxScore50 ? 13 : 26);
             float zScore = (score.rawScore[i] - score.average[i]) / (float)score.deviation[i];
-            score.standardScore[i] = Mathf.FloorToInt(zScore * 20 + 100.5f);
+            score.standardScore[i] = Mathf.FloorToInt(maxScore50 ? zScore * 10 + 50.5f : zScore * 20 + 100.5f);
             float percentile = Util.GetNormalCDF(zScore);
             score.percentile[i] = (int)(percentile * 100);
-            if (score.rawScore[i] == 100)
+            if (score.rawScore[i] == (maxScore50 ? 50 : 100))
             {
-                // 100점인데 1등급 안 나오는 것 방지
+                // 100(50)점인데 1등급 안 나오는 것 방지
                 score.grade[i] = 1;
             }
             else
@@ -73,7 +75,7 @@ public static class ExamManager
             }
             for (int g = 0; g < 8; g++)
             {
-                score.gradeCut[i * 8 + g] = Mathf.Clamp(Mathf.CeilToInt(gradeCutStandard[g] * score.deviation[i] + score.average[i]), 0, 100);
+                score.gradeCut[i * 8 + g] = Mathf.Clamp(Mathf.CeilToInt(gradeCutStandard[g] * score.deviation[i] + score.average[i]), 0, maxScore50 ? 50 : 100);
             }
             score.rank[i] = Mathf.CeilToInt((1 - percentile) * 300);
         }
