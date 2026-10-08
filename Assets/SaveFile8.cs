@@ -47,4 +47,5 @@ public class SaveFile8 : SaveFile0
     public AdmissionType admissionType;
     public int[] appliedUniversities;
     public bool[] applicationPassed;
+    public UniversityAdmissionInfo[] universityAdmissionInfo;
 }

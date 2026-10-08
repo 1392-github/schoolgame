@@ -155,6 +155,7 @@ public static class GameData
         UniversityManager.admissionType = save.admissionType;
         UniversityManager.appliedUniversities = save.appliedUniversities;
         UniversityManager.applicationPassed = save.applicationPassed;
+        UniversityManager.universityAdmissionInfo = save.universityAdmissionInfo;
         if (save.introCompleted) Load2();
     }
     public static void Load2()
@@ -264,6 +265,7 @@ public static class GameData
         save.admissionType = UniversityManager.admissionType;
         save.appliedUniversities = UniversityManager.appliedUniversities;
         save.applicationPassed = UniversityManager.applicationPassed;
+        save.universityAdmissionInfo = UniversityManager.universityAdmissionInfo;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)

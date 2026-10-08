@@ -84,5 +84,13 @@ public class HomeGameManager : MonoBehaviour
             }
         }
         if (GameData.playthrough >= 2 || GameData.grade == 3) uiManager.UnlockUniversityButton();
+        if (date == new DateTime(GameData.startYear + 2, 2, 20))
+        {
+            if (GameData.playthrough == 1)
+            {
+                UniversityManager.CreateAdmissionInfo1();
+            }
+            UniversityManager.CreateAdmissionInfo2();
+        }
     }
 }

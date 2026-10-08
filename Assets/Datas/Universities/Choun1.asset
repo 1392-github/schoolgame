@@ -14,3 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: "\uC870\uC6B41"
   effect: (test)
+  weightMin: 5
+  hasSuneungMinChance: 100
+  suneungMinSubjectCountMin: 5
+  suneungMinSubjectCountMax: 6
+  suneungMinGradeSumMin: 7
+  suneungMinGradeSumMax: 10
+  chanceDecreaseStartMin: 19
+  chanceDecreaseStartMax: 20
+  chanceDecreaseAmountMin: 40
+  chanceDecreaseAmountMax: 50
