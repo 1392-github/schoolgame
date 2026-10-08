@@ -30,5 +30,4 @@ public class HoverTextObject : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
 }
