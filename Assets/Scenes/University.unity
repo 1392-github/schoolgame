@@ -783,6 +783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 876382573}
   - component: {fileID: 876382574}
+  - component: {fileID: 876382575}
   m_Layer: 0
   m_Name: UniversityUIManager
   m_TagString: Untagged
@@ -819,6 +820,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   universityList: {fileID: 2134405919}
   universityListItemPrefab: {fileID: 4596767965543184822, guid: 128f37b887fb9be429dffbe0521d9391, type: 3}
+--- !u!114 &876382575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876382572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e211914e240b047932fab361f2487e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: HomeScene
 --- !u!1 &916881178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,7 +1436,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB300\uD559 \uBAA9\uB85D"
+  m_text: "\uB300\uD559 \uBAA9\uB85D/\uC785\uACB0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -2506,8 +2520,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 0, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2117019829
 GameObject:
@@ -2568,7 +2582,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1108689733}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1858323254}

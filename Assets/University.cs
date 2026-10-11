@@ -43,4 +43,5 @@ public class University : ScriptableObject
     public int chanceDecreaseStartMax;
     public int chanceDecreaseAmountMin;
     public int chanceDecreaseAmountMax;
+    public int registerFee;
 }

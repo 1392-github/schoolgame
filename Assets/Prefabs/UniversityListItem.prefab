@@ -416,6 +416,7 @@ MonoBehaviour:
   scoreRegular: {fileID: 4596767965928800721}
   chanceRegular: {fileID: 4596767965325341116}
   admissionCount: {fileID: 4596767966653002655}
+  button: {fileID: 4596767965543184816}
 --- !u!1 &4596767965928800727
 GameObject:
   m_ObjectHideFlags: 0

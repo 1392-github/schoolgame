@@ -44,6 +44,18 @@ public class UniversityAdmissionInfo
     /// </summary>
     public int earlyApplicationEnd;
     /// <summary>
+    /// earlyApplicationStart를 DateTime으로 변환
+    /// </summary>
+    public DateTime earlyApplicationStartDay => UniversityManager.earlyApplicationStart.AddDays(earlyApplicationStart);
+    /// <summary>
+    /// earlyApplicationEnd를 DateTime으로 변환 (범위에서 제외)
+    /// </summary>
+    public DateTime earlyApplicationEndDay => UniversityManager.earlyApplicationStart.AddDays(earlyApplicationEnd);
+    /// <summary>
+    /// earlyApplicationEnd를 DateTime으로 변환 (범위에 포함)
+    /// </summary>
+    public DateTime earlyApplicationEndDay2 => UniversityManager.earlyApplicationStart.AddDays(earlyApplicationEnd - 1);
+    /// <summary>
     /// 정시 지원의 군 (0: 가군, 1: 나군, 2: 다군)
     /// </summary>
     public int regularGroup;
@@ -82,11 +94,32 @@ public static class UniversityManager
     /// 지원한 대학의 합격 여부 (true: 합격, false: 불합격, 지원 전에는 전부 false임)
     /// </summary>
     public static bool[] applicationPassed;
+    /// <summary>
+    /// 정시의 군 이름들 (뒤의 "군" 글자 제외)
+    /// </summary>
+    public static readonly string[] regularGroupNames = {"가", "나", "다"};
+    /// <summary>
+    /// 수시 지원의 전체 시작일
+    /// </summary>
+    public static DateTime earlyApplicationStart;
+    /// <summary>
+    /// 수시 지원의 전체 종료일(범위에 제외)
+    /// </summary>
+    public static DateTime earlyApplicationEnd;
+    /// <summary>
+    /// 수시 지원의 전체 종료일(범위에서 포함)
+    /// </summary>
+    public static DateTime earlyApplicationEnd2;
+    static readonly int[] nearMonday = {1, 0, 6, 5, 4, 3, 2};
     public static void Init()
     {
         Array.Resize(ref universityCount, universities.Length);
         if (appliedUniversities.Length == 0) appliedUniversities = new int[] {-1, -1, -1};
         if (applicationPassed.Length == 0) applicationPassed = new bool[3];
+        earlyApplicationStart = new DateTime(GameData.startYear + 2, 9, 1);
+        earlyApplicationStart = earlyApplicationStart.AddDays(nearMonday[(int)earlyApplicationStart.DayOfWeek]);
+        earlyApplicationEnd = earlyApplicationStart.AddDays(5);
+        earlyApplicationEnd2 = earlyApplicationStart.AddDays(4);
     }
     /// <summary>
     /// 입학 정보 생성 1 (한 세이브 파일 내 전체에서)

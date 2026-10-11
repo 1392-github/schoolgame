@@ -24,3 +24,4 @@ MonoBehaviour:
   chanceDecreaseStartMax: 20
   chanceDecreaseAmountMin: 40
   chanceDecreaseAmountMax: 50
+  registerFee: 5000000

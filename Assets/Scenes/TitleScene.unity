@@ -581,6 +581,7 @@ MonoBehaviour:
   typeSound: {fileID: 8300000, guid: 8dae20d31f58b2f468c2c08335e0baa8, type: 3}
   universities:
   - {fileID: 11400000, guid: 9264c4bea1767c64c9d716cd3cb3f001, type: 2}
+  - {fileID: 11400000, guid: a87f29bdc2a60be42bffebd21652e86e, type: 2}
 --- !u!1 &460328625
 GameObject:
   m_ObjectHideFlags: 0

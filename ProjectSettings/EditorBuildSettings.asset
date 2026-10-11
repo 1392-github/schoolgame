@@ -45,6 +45,9 @@ EditorBuildSettings:
     path: Assets/Scenes/University.unity
     guid: 1dc6044f97ccc26428c08064ffdd9d47
   - enabled: 1
+    path: Assets/Scenes/UniversityAdmissionInfo.unity
+    guid: ff850b1088a7de948850276d81b0bf0f
+  - enabled: 1
     path: Assets/Map/DormitoryRoom.unity
     guid: 54c748f8635a5b7499be40890077b372
   - enabled: 1

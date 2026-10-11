@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UniversityUIManager : MonoBehaviour
 {
@@ -20,6 +19,14 @@ public class UniversityUIManager : MonoBehaviour
             item.scoreRegular.text = Random.Range(0, 1000).ToString(); // 임시
             item.chanceRegular.text = $"{Random.Range(0, 100)}%"; // 임시
             item.admissionCount.text = UniversityManager.universityCount[i].ToString();
+            int i2 = i;
+            item.button.onClick.AddListener(() =>
+            {
+                UniversityAdmissionInfoUIManager.universityName = UniversityManager.universities[i2].name;
+                UniversityAdmissionInfoUIManager.registerFee = UniversityManager.universities[i2].registerFee;
+                UniversityAdmissionInfoUIManager.info = UniversityManager.universityAdmissionInfo[i2];
+                SceneManager.LoadScene("UniversityAdmissionInfo");
+            });
         }
     }
 }
