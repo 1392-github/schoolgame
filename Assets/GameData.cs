@@ -198,7 +198,7 @@ public static class GameData
                     break;
                 case ExamType.DateType.SUNEUNG:
                     if (curriculum.type2Exam[i].grade != 3 || curriculum.type2Exam[i].month != 11) throw new ArgumentException("ExamType.DateType.SUNEUNG only availble in 3rd grade november type 2 exam.");
-                    if (startYear - 1991 < suneungDays.days.Length)
+                    if (startYear >= 1991 && startYear - 1991 < suneungDays.days.Length)
                     {
                         type2ExamDate[i] = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
                     }
