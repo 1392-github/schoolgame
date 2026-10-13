@@ -107,9 +107,22 @@ public static class UniversityManager
     /// </summary>
     public static DateTime earlyApplicationEnd;
     /// <summary>
+    /// <summary>
     /// 수시 지원의 전체 종료일(범위에서 포함)
     /// </summary>
     public static DateTime earlyApplicationEnd2;
+    /// <summary>
+    /// 정시 지원의 전체 시작일
+    /// </summary>
+    public static DateTime regularApplicationStart;
+    /// <summary>
+    /// 정시 지원의 전체 종료일(범위에 제외)
+    /// </summary>
+    public static DateTime regularApplicationEnd;
+    /// <summary>
+    /// 정시 지원의 전체 종료일(범위에서 포함)
+    /// </summary>
+    public static DateTime regularApplicationEnd2;
     static readonly int[] nearMonday = {1, 0, 6, 5, 4, 3, 2};
     public static void Init()
     {
@@ -120,6 +133,10 @@ public static class UniversityManager
         earlyApplicationStart = earlyApplicationStart.AddDays(nearMonday[(int)earlyApplicationStart.DayOfWeek]);
         earlyApplicationEnd = earlyApplicationStart.AddDays(5);
         earlyApplicationEnd2 = earlyApplicationStart.AddDays(4);
+        regularApplicationStart = new DateTime(GameData.startYear + 2, 12, 15);
+        regularApplicationStart = regularApplicationStart.AddDays(nearMonday[(int)regularApplicationStart.DayOfWeek]);
+        regularApplicationEnd = regularApplicationStart.AddDays(5);
+        regularApplicationEnd2 = regularApplicationStart.AddDays(4);
     }
     /// <summary>
     /// 입학 정보 생성 1 (한 세이브 파일 내 전체에서)
@@ -209,5 +226,131 @@ public static class UniversityManager
                 }
             }
         }
+    }
+    /// <summary>
+    /// 전형 점수 계산
+    /// </summary>
+    /// <param name="admissionType">지원하려는 전형의 유형</param>
+    /// <param name="university">지원하려는 대학의 번호</param>
+    /// <returns>전형 점수 계산 결과</returns>
+    /// <exception cref="ArgumentException">admissionType이 AdmissionType.NONE이거나 유효하지 않은 값일 때</exception>
+    public static int GetAdmissionScore(AdmissionType admissionType, int university)
+    {
+        DateTime date = Util.InGameDate(GameData.time);
+        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        {
+            int total = 0;
+            int divider = 0;
+            for (int i = 0; i < 10; i++) // 10개의 시험(3-1 기말까지) 반영
+            {
+                if (date < GameData.type1ExamDate[i].AddDays(7)) // 성적 통지일 전인 시험이면 break
+                {
+                    break;
+                }
+                for (int j = 0; j < 5; j++)
+                {
+                    total += (9 - ExamManager.type1Exam[i].grade[j]) * 125 * universityAdmissionInfo[university].weight[j];
+                    divider += universityAdmissionInfo[university].weight[j];
+                }
+            }
+            if (divider == 0) // 1-1 중간 성적통지 전에는 divider가 0으로 오류가 나니
+            {
+                return 0;
+            }
+            return total / divider;
+        }
+        else if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        {
+            for (int i = ExamManager.type2Exam.Length - 1; i >= 0; i--) // 오래된 것이 아닌 최근 것부터 찾아야 하니
+            {
+                if (date >= GameData.type2ExamDate[i].AddDays(14)) // 성적통지된 가장 최근의 모의고사/수능 시험을 찾음
+                {
+                    int total = 0;
+                    int divider = 0;
+                    for (int j = 0; j < 5; j++)
+                    {
+                        total += (9 - ExamManager.type2Exam[i].grade[j]) * 125 * universityAdmissionInfo[university].weight[j];
+                        divider += universityAdmissionInfo[university].weight[j];
+                    }
+                    return total / divider;
+                }
+            }
+            return 0; // 1학년 3월 학평 전에는 0으로 처리
+        }
+        else
+        {
+            throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
+        }
+    }
+    public static bool IsAdmissionScoreConfirmed(AdmissionType admissionType)
+    {
+        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        {
+            return Util.InGameDate(GameData.time) >= GameData.type1ExamDate[9].AddDays(7);
+        }
+        else if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        {
+            return Util.InGameDate(GameData.time) >= GameData.type2ExamDate[^1].AddDays(14);
+        }
+        else
+        {
+            throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
+        }
+    }
+    public static int GetChance(int university, int score)
+    {
+        if (score >= 1000)
+        {
+            return 100;
+        }
+        else
+        {
+            return universityAdmissionInfo[university].chance[score / 50];
+        }
+    }
+    /// <summary>
+    /// 원서 지원의 기간 날짜 반환
+    /// </summary>
+    /// <param name="admissionType">입학전형의 유형</param>
+    /// <param name="dateType">가져오려는 날짜의 종류 (0: 시작일, 1: 종료일(제외), 2: 종료일(포함))</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException">admissionType이 AdmissionType.NONE이거나 유효하지 않은 값이거나 dateType이 0, 1, 2가 아닐 때</exception>
+    public static DateTime GetApplicationDate(AdmissionType admissionType, int dateType)
+    {
+        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        {
+            switch (dateType)
+            {
+                case 0:
+                    return earlyApplicationStart;
+                case 1:
+                    return earlyApplicationEnd;
+                case 2:
+                    return earlyApplicationEnd2;
+                default:
+                    throw new ArgumentException("dateType은 0, 1, 2 중 하나여야 합니다.");
+            }
+        }
+        else if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        {
+            switch (dateType)
+            {
+                case 0:
+                    return regularApplicationStart;
+                case 1:
+                    return regularApplicationEnd;
+                case 2:
+                    return regularApplicationEnd2;
+                default:
+                    throw new ArgumentException("dateType은 0, 1, 2 중 하나여야 합니다.");
+            }
+        }
+        else
+        {
+            throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
+        }
+    }
+    public static void Application(AdmissionType type, int univ)
+    {
     }
 }
