@@ -1108,7 +1108,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212100793}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -11762,6 +11762,7 @@ GameObject:
   - component: {fileID: 1559576836}
   - component: {fileID: 1559576838}
   - component: {fileID: 1559576837}
+  - component: {fileID: 1559576839}
   m_Layer: 5
   m_Name: RegisterFeeLabel
   m_TagString: Untagged
@@ -11828,6 +11829,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559576835}
   m_CullTransparentMesh: 1
+--- !u!114 &1559576839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559576835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e20f123de34ad741ab8bdf12b462ec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: "\uB300\uD559\uC5D0 \uD569\uACA9\uD55C \uD6C4 \uB4F1\uB85D\uD560 \uB54C \uB0B4\uC57C
+    \uD558\uB294 \uBE44\uC6A9\uC785\uB2C8\uB2E4.\n\uD569\uACA9 \uD6C4 \uCD5C\uC885
+    \uB4F1\uB85D\uD55C \uB300\uD559\uC5D0\uB9CC \uB4F1\uB85D\uAE08\uC744 \uB0B4\uBA70\n\uBD88\uD569\uACA9\uD55C
+    \uB300\uD559, \uD569\uACA9\uD558\uC600\uC73C\uB098 \uB4F1\uB85D\uD558\uC9C0 \uC54A\uC740\n\uB300\uD559\uC5D0\uB294
+    \uB4F1\uB85D\uAE08\uC744 \uB0B4\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
 --- !u!1 &1566154520
 GameObject:
   m_ObjectHideFlags: 0
