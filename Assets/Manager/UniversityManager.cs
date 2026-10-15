@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -123,6 +124,18 @@ public static class UniversityManager
     /// 정시 지원의 전체 종료일(범위에서 포함)
     /// </summary>
     public static DateTime regularApplicationEnd2;
+    /// <summary>
+    /// 합격자 발표일
+    /// </summary>
+    public static DateTime announcementDate;
+    /// <summary>
+    /// 합격자를 이미 봤는지
+    /// </summary>
+    public static bool announcementOpened;
+    /// <summary>
+    /// 최종 등록한 대학 (-1이면 없음)
+    /// </summary>
+    public static int finalUniversity = -1;
     static readonly int[] nearMonday = {1, 0, 6, 5, 4, 3, 2};
     public static void Init()
     {
@@ -133,10 +146,12 @@ public static class UniversityManager
         earlyApplicationStart = earlyApplicationStart.AddDays(nearMonday[(int)earlyApplicationStart.DayOfWeek]);
         earlyApplicationEnd = earlyApplicationStart.AddDays(5);
         earlyApplicationEnd2 = earlyApplicationStart.AddDays(4);
-        regularApplicationStart = new DateTime(GameData.startYear + 2, 12, 15);
+        regularApplicationStart = new DateTime(GameData.startYear + 2, 12, 8);
         regularApplicationStart = regularApplicationStart.AddDays(nearMonday[(int)regularApplicationStart.DayOfWeek]);
         regularApplicationEnd = regularApplicationStart.AddDays(5);
         regularApplicationEnd2 = regularApplicationStart.AddDays(4);
+        announcementDate = new DateTime(GameData.startYear + 2, 12, 22);
+        announcementDate = announcementDate.AddDays(nearMonday[(int)announcementDate.DayOfWeek]);
     }
     /// <summary>
     /// 입학 정보 생성 1 (한 세이브 파일 내 전체에서)
@@ -350,7 +365,33 @@ public static class UniversityManager
             throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
         }
     }
-    public static void Application(AdmissionType type, int univ)
+    /// <summary>
+    /// 합격, 불합격을 최종 판정
+    /// </summary>
+    public static void CheckPassed()
     {
+        int[] suneungOrdered = null;
+        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        {
+            suneungOrdered = ExamManager.type2Exam[^1].grade.OrderBy(x => x).ToArray();
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            int univ = appliedUniversities[i];
+            if (univ == -1)
+            {
+                continue;
+            }
+            UniversityAdmissionInfo info = universityAdmissionInfo[univ];
+            // 수능 최저 확인
+            if (admissionType == AdmissionType.EARLY_ADMISSION && suneungOrdered.Take(info.suneungMinSubjectCount).Sum() > info.suneungMinGradeSum)
+            {
+                continue; // 수능 최저 미달이면 무조건 불합격
+            }
+            if (Random.Range(0, 100) < GetChance(univ, GetAdmissionScore(admissionType, univ)))
+            {
+                applicationPassed[i] = true;
+            }
+        }
     }
 }

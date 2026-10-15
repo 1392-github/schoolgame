@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,9 +26,27 @@ public class UniversityUIManager : MonoBehaviour
     [SerializeField] Image[] applicatedUniversitiesBackground;
     [SerializeField] TextMeshProUGUI[] applicatedUniversitiesText;
     [SerializeField] TextMeshProUGUI allFailChanceText;
+    [SerializeField] Button resultButton;
+    [SerializeField] TextMeshProUGUI resultTitleText;
+    [SerializeField] Image[] resultImages;
+    [SerializeField] TextMeshProUGUI[] resultGroupTexts;
+    [SerializeField] TextMeshProUGUI[] resultNameTexts;
+    [SerializeField] TextMeshProUGUI[] resultChanceTexts;
+    [SerializeField] TextMeshProUGUI[] resultFeeTexts;
+    [SerializeField] TextMeshProUGUI[] resultResultTexts;
+    [SerializeField] Button[] resultRegisterButtons;
+    [SerializeField] GameObject checkResultButtonObject;
+    [SerializeField] GameObject countdownObject;
+    [SerializeField] Image countdownBackground;
+    [SerializeField] TextMeshProUGUI countdownText;
+    [SerializeField] TextMeshProUGUI countdownStoryText;
+    [SerializeField] AudioClip countdownClip;
+    [SerializeField] GameObject registerObject;
+    [SerializeField] TextMeshProUGUI registerText;
 
     AdmissionType admissionType;
     int selectedUniv;
+    AudioSource audioSource;
     Color GetChanceColor(int chance)
     {
         if (chance >= 80)
@@ -76,6 +97,69 @@ public class UniversityUIManager : MonoBehaviour
         }
         allFailChanceText.text = $"모두 떨어질 확률: {allFailChance / 10000f:F2}%";
     }
+    public void UpdateResult()
+    {
+        if (UniversityManager.admissionType == AdmissionType.NONE)
+        {
+            return;
+        }
+        resultButton.interactable = true;
+        DateTime date = Util.InGameDate(GameData.time);
+        resultTitleText.text = $"{GameData.startYear + 3}학년도 {(UniversityManager.admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")}모집 합격자 발표 <size=50>({UniversityManager.announcementDate:yyyy년 MM월 dd일} 8시, {Util.DDay(date, UniversityManager.announcementDate)})</size>";
+        for (int i = 0; i < 3; i++)
+        {
+            if (UniversityManager.admissionType == AdmissionType.REGULAR_ADMISSION)
+            {
+                resultGroupTexts[i].text = UniversityManager.regularGroupNames[i];
+            }
+            int univ = UniversityManager.appliedUniversities[i];
+            if (univ == -1)
+            {
+                continue;
+            }
+            bool register = univ == UniversityManager.finalUniversity;
+            resultImages[i].color = register ? Color.yellow : Color.white;
+            University university = UniversityManager.universities[univ];
+            if (register)
+            {
+                resultNameTexts[i].text = university.name + "대학교 (최종 등록)";
+            }
+            else
+            {
+                resultNameTexts[i].text = university.name + "대학교";
+            }
+            int chance = UniversityManager.GetChance(univ, UniversityManager.GetAdmissionScore(UniversityManager.admissionType, univ));
+            resultChanceTexts[i].text = $"{chance}%";
+            if (register)
+            {
+                resultChanceTexts[i].color = new Color32(50, 50, 50, 255);
+            }
+            else
+            {
+                resultChanceTexts[i].color = GetChanceColor(chance);
+            }
+            resultFeeTexts[i].text = $"{university.registerFee:N0}원";
+            if (UniversityManager.announcementOpened)
+            {
+                if (UniversityManager.applicationPassed[i])
+                {
+                    resultResultTexts[i].text = "합격";
+                    resultResultTexts[i].color = Color.green;
+                    resultRegisterButtons[i].interactable = UniversityManager.finalUniversity == -1;
+                }
+                else
+                {
+                    resultResultTexts[i].text = "불합격";
+                    resultResultTexts[i].color = Color.red;
+                }
+            }
+            else
+            {
+                resultResultTexts[i].text = "???";
+            }
+        }
+        checkResultButtonObject.SetActive(!UniversityManager.announcementOpened && date >= UniversityManager.announcementDate);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -89,7 +173,7 @@ public class UniversityUIManager : MonoBehaviour
             int score = UniversityManager.GetAdmissionScore(AdmissionType.EARLY_ADMISSION, i);
             item.scoreEarly.text = score.ToString();
             int chance = UniversityManager.GetChance(i, score);
-            item.chanceEarly.text = chance.ToString() + "%";
+            item.chanceEarly.text = $"{chance}%";
             item.chanceEarly.color = GetChanceColor(chance);
             if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.EARLY_ADMISSION))
             {
@@ -99,7 +183,7 @@ public class UniversityUIManager : MonoBehaviour
             score = UniversityManager.GetAdmissionScore(AdmissionType.REGULAR_ADMISSION, i);
             item.scoreRegular.text = score.ToString();
             chance = UniversityManager.GetChance(i, score);
-            item.chanceRegular.text = chance.ToString() + "%";
+            item.chanceRegular.text = $"{chance}%";
             item.chanceRegular.color = GetChanceColor(chance);
             if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.REGULAR_ADMISSION))
             {
@@ -145,7 +229,7 @@ public class UniversityUIManager : MonoBehaviour
             int score = UniversityManager.GetAdmissionScore(admissionType, i);
             item.score.text = score.ToString();
             int chance = UniversityManager.GetChance(i, score);
-            item.chance.text = chance.ToString() + "%";
+            item.chance.text = $"{chance}%";
             item.chance.color = GetChanceColor(chance);
             if (!UniversityManager.IsAdmissionScoreConfirmed(admissionType))
             {
@@ -186,16 +270,18 @@ public class UniversityUIManager : MonoBehaviour
             cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 정시 지원 기간\n{UniversityManager.regularApplicationStart:yyyy년 M월 d일} ~ {UniversityManager.regularApplicationEnd2:M월 d일}";
             // 참고: 수시 지원만 끝났고 정시 지원이 안 끝났다면 정시 지원 창이 나옴
         }
+        audioSource = GetComponent<AudioSource>();
         UpdateAdmissionList();
+        UpdateResult();
+    }
+    void Fail(string message)
+    {
+        applicationFailedText.text = message;
+        applicationConfirm.SetActive(false);
+        applicationFailed.SetActive(true);
     }
     public void ClickApplication(int university)
     {
-        void Fail(string message)
-        {
-            applicationFailedText.text = message;
-            applicationConfirm.SetActive(false);
-            applicationFailed.SetActive(true);
-        }
         if (UniversityManager.appliedUniversityCount >= 3)
         {
             Fail("이미 3개를 지원했습니다.");
@@ -245,5 +331,95 @@ public class UniversityUIManager : MonoBehaviour
         UniversityManager.appliedUniversityCount++;
         applicationConfirm.SetActive(false);
         UpdateAdmissionList();
+        UpdateResult();
+    }
+    IEnumerator Countdown()
+    {
+        float second = 60;
+        int preSecond = 61;
+        while (true)
+        {
+            if (second <= 0)
+            {
+                audioSource.PlayOneShot(countdownClip);
+                UniversityManager.announcementOpened = true;
+                countdownObject.gameObject.SetActive(false);
+                UniversityManager.CheckPassed();
+                UpdateResult();
+                GameData.Save();
+                break;
+            }
+            int secondInt = Mathf.CeilToInt(second);
+            if (secondInt < preSecond)
+            {
+                preSecond = secondInt;
+                countdownText.text = secondInt.ToString();
+                audioSource.PlayOneShot(countdownClip);
+                switch (secondInt)
+                {
+                    case 55:
+                        StartCoroutine(Util.TypeText($"2년 전, {GameData.firstDay:yyyy년 M월 d일},\n", countdownStoryText, audioSource));
+                        break;
+                    case 50:
+                        StartCoroutine(Util.TypeText($"나는 즐거운 청춘을 꿈꾸며, 친구들과 함께 {GameData.school}에 입학했었지...\n", countdownStoryText, audioSource));
+                        break;
+                    case 40:
+                        StartCoroutine(Util.TypeText("학교 갔다 오고도 집에서도 많이 공부하고,\n", countdownStoryText, audioSource));
+                        break;
+                    case 35:
+                        StartCoroutine(Util.TypeText("그렇게 해서 중간, 기말도, 수능도 열심히 봤고,\n", countdownStoryText, audioSource));
+                        countdownText.color = Color.white;
+                        countdownStoryText.color = Color.white;
+                        break;
+                    case 27:
+                        int[] suneung = ExamManager.type2Exam[^1].grade;
+                        StartCoroutine(Util.TypeText($"결국 수능에서 국어 {suneung[0]}, 수학 {suneung[1]}, 사회 {suneung[2]}, 과학 {suneung[3]}, 영어 {suneung[4]}등급을 받고,\n" +
+                            $"결국 {string.Join(", ", UniversityManager.appliedUniversities.Where(x => x != -1).Select(x => UniversityManager.universities[x].name))}대학교에 지원했었지.\n\n" +
+                            $"오늘 드디어 합격자 발표하네... 과연 난 합격할 수 있을까?\n\n", countdownStoryText, audioSource));
+                        countdownBackground.color = Color.black;
+                        break;
+                    case 3:
+                        StartCoroutine(Util.TypeText("3... ", countdownStoryText, audioSource));
+                        break;
+                    case 2:
+                        StartCoroutine(Util.TypeText("2... ", countdownStoryText, audioSource));
+                        break;
+                    case 1:
+                        StartCoroutine(Util.TypeText("1... ", countdownStoryText, audioSource));
+                        break;
+                }
+            }
+            if (second > 10)
+            {
+                countdownBackground.color = new Color(0, 0, 0, (60 - second) / 50f);
+            }
+            second -= Time.deltaTime;
+            yield return null;
+        }
+    }
+    public void StartCountdown()
+    {
+        countdownObject.gameObject.SetActive(true);
+        StartCoroutine(Countdown());
+    }
+    public void Register(int index)
+    {
+        int univ = UniversityManager.appliedUniversities[index];
+        int fee = UniversityManager.universities[univ].registerFee;
+        if (GameData.money < fee)
+        {
+            Fail($"등록금({fee:N0}원)이 부족합니다.");
+            return;
+        }
+        selectedUniv = univ;
+        registerText.text = $"\"{UniversityManager.universities[univ].name}대학교\"에 최종 등록하겠습니까?\n\n등록금: {fee:N0}원";
+        registerObject.SetActive(true);
+    }
+    public void RegisterConfirm()
+    {
+        GameData.money -= UniversityManager.universities[selectedUniv].registerFee;
+        UniversityManager.finalUniversity = selectedUniv;
+        registerObject.SetActive(false);
+        UpdateResult();
     }
 }
