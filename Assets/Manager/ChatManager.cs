@@ -92,7 +92,7 @@ public class ChatManager : MonoBehaviour
     }
     IEnumerator Chat(string text, ChatElement e)
     {
-        typeTextCoroutine = Util.TypeText(text, chatContentText, audioSource);
+        typeTextCoroutine = Util.TypeText(text, chatContentText, audioSource, 0.05f);
         yield return StartCoroutine(typeTextCoroutine);
         if (e.option.Count == 0)
         {
