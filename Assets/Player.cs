@@ -480,24 +480,24 @@ public class Player : MonoBehaviour
             if (GameData.mapArgs == 2)
             {
                 Destroy(GameObject.Find("Door (3)"));
-                Destroy(GameObject.Find("Text (TMP) (1)"));
+                Destroy(GameObject.Find("FloorText2"));
             }
             else
             {
                 GameObject.Find("Door (3)").GetComponent<Door>().args = GameData.mapArgs + 1;
-                GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>().text = $"∟ {GameData.mapArgs + 2}類";
+                GameObject.Find("FloorText2").GetComponent<TextMeshPro>().text = $"∟ {GameData.mapArgs + 2}類";
             }
             if (GameData.mapArgs == 0)
             {
                 GameObject.Find("Door (1)").GetComponent<Door>().map = "Hub";
                 GameObject.Find("Door (1)").GetComponent<Door>().args = 0;
                 GameObject.Find("Door (1)").GetComponent<Door>().destDoorID = 1;
-                Destroy(GameObject.Find("Text (TMP)"));
+                Destroy(GameObject.Find("FloorText1"));
             }
             else
             {
                 GameObject.Find("Door (1)").GetComponent<Door>().args = GameData.mapArgs - 1;
-                GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"⊿ {GameData.mapArgs}類";
+                GameObject.Find("FloorText1").GetComponent<TextMeshPro>().text = $"⊿ {GameData.mapArgs}類";
             }
         }
         if (GameData.currentScene == "Classroom") // 掖褒 儅撩
