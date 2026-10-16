@@ -33,10 +33,6 @@ public class SaveFile8 : SaveFile0
     public List<Experimental> experimental;
     public string startTime;
     public string totalPlayTime;
-    public int length;
-    public bool end;
-    public int difficulty;
-    public int[] repeatGradeMax;
     public List<Quest> quest;
     public Quest1[] pendingQuest;
     public TutorialState tutorialState;

@@ -13,13 +13,9 @@ public class Player : MonoBehaviour
 {
     #region 저장 데이터가 아닌 변수들
     public float moveSpeed;
-    public bool enableCheat;
     public int sbindex;
     public List<Schedule> schedule;
-    //public int maxLevel;
     public GameObject gradeDoor;
-    public TimeSpan blockTime;
-    public int blockTimeSpace;
     [SerializeField] Chat firstClassChat;
     bool left;
     bool right;
@@ -44,26 +40,13 @@ public class Player : MonoBehaviour
     };
     float moneyFloat;
     Text lvInfo;
-    GameObject problem;
-    Text problemText;
-    Image problemImage;
-    string problemAnswer;
     Text speedDisplay;
-    Text goalDisplay;
     public GameObject itemContent;
-    Transform inventoryDisplay;
-    GameObject inventoryDisplay2;
     Transform canvas;
     int cntProblemItem;
-    bool itemRemove;
-    TimeSpan problemTimer;
-    Text problemTimerDisplay;
-    InputField problemAnswerInput;
     public GameObject buyItemContent;
     Transform buyItemDisplay;
     GameObject buyItemDisplay2;
-    float moneyFloat2;
-    float xpFloat2;
     public int[,] sudoku;
     public Transform sudokuGrid;
     public GameObject sudokuText;
@@ -72,8 +55,6 @@ public class Player : MonoBehaviour
     public Text endingDisplayText;
     public Button endButton;
     public Text sudokuTimer;
-    TextMeshPro busStopText1;
-    TextMeshPro busStopText2;
     public Text xpDisplay;
     public Text xpDisplay2;
     public Transform upgradeScroll;
@@ -82,10 +63,7 @@ public class Player : MonoBehaviour
     public AchGenerator achGen;
     string actualSceneName;
     Direction2 doorDirection;
-    public DateTime endTime;
     public Image endEffect;
-    float endEffectAlpha;
-    bool endEffectDuring;
     long[] oldStudyExp;
     public GameObject studyExpIncreaseEffect;
     public RectTransform studyExpPanel;
@@ -93,16 +71,9 @@ public class Player : MonoBehaviour
     Image currentTutorialImage;
     public List<KeyCode> currentPressingButton;
     public Toggle fastSpeedToggle;
-    List<int> alreadyTutorial;
     public object[] chatExtra;
     public GameObject mobileOnlyUI;
     bool alreadyPenalty;
-    public string[] firstGrade;
-    public int[] repeatGrade;
-    //public GameObject stockItem;
-    //public Transform stockList;
-    //public Transform[] stockItems;
-    //InputField[] stockInput;
     public GameObject alertItem;
     public Transform alertList;
     public Text questAmount;
@@ -135,122 +106,36 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         data = GameObject.Find("Data").GetComponent<Data>();
-        alreadyTutorial = new List<int>();
         chatExtra = new object[0];
-        #region 저장 데이터 불러오기
-        //SaveFile8 save = GameObject.Find("SaveData").GetComponent<SaveBuffer>().save;
-        //GameData.time = DateTime.ParseExact(save.time, "yyyy-MM-dd HH:mm:ss", null);
-        //GameData.timeSpeed = TimeSpan.Parse(save.timeSpeed);
-        //GameData.name = save.name;
-        //GameData.school = save.school;
-        //GameData.birth = save.birth;
-        //startYear = GameData.birth + 16;
-        //firstDay = new DateTime(startYear, 3, 2, 8, 0, 0);
-        //if (firstDay.DayOfWeek == DayOfWeek.Saturday) firstDay = firstDay.AddDays(2);
-        //if (firstDay.DayOfWeek == DayOfWeek.Sunday) firstDay = firstDay.AddDays(1);
-        //suneungDay = DateTime.ParseExact(suneungDays.days[startYear - 1991], "yyyy-MM-dd", null);
-        //GameData.exp = save.exp;
-        //GameData.money = save.money;
-        //GameData.studyExp = save.studyExp;
-        //GameData.scores = save.scores;
-        //GameData.schedule = save.schindex;
-        //GameData.inClass = save.inclass;
-        //GameData.inSchool = save.inschool;
-        //GameData.clas = save.clas;
-        //GameData.inventory = save.inventory;
-        //GameData.achCompleted = save.achCompleted;
-        //if (GameData.achCompleted.Length < data.achievement.Count)
-        //{
-        //    GameData.achCompleted = GameData.achCompleted.Concat(new bool[data.achievement.Count - GameData.achCompleted.Length]).ToArray();
-        //}
-        //GameData.duringClassPlacement = save.duringClassPlacement;
-        //GameData.startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
-        //GameData.endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
-        //speed = save.speed;
-        //GameData.experimental = save.experimental;
-        //mapInited = true;
-        //GameData.currentScene = "";
-        //GameData.mapArgs = 0;
-        //Move(save.map, save.mapextra, new Vector3(save.x, save.y, 0));
-        //GameData.stat = save.stat;
-        //if (GameData.stat.Length < GameData.statTypes.Count)
-        //{
-        //    GameData.stat = GameData.stat.Concat(new int[GameData.statTypes.Count - GameData.stat.Length]).ToArray();
-        //}
-        //GameData.startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
-        //GameData.totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
-        //GameData.length = save.length;
-        //GameData.end = save.end;
-        //GameData.difficulty = save.difficulty;
-        //GameData.repeatGradeMax = save.repeatGradeMax;
-        //GameData.quest = save.quest;
-        //GameData.pendingQuest = save.pendingQuest;
-        //GameData.tutorial = save.tutorial;
-        //GameData.hiddenLevelMode = save.hiddenLevelMode;
         if (GameData.achCompleted.Length < data.achievement.Count)
         {
             GameData.achCompleted = GameData.achCompleted.Concat(new bool[data.achievement.Count - GameData.achCompleted.Length]).ToArray();
         }
-        #endregion
         mapInited = true;
         Move(GameData.currentScene, GameData.mapArgs, new Vector3(GameData.x, GameData.y, 0), forceLoad: true);
         canvas = GameObject.Find("Canvas").transform;
         dialog = canvas.Find("Dialog").gameObject;
         dialogText = dialog.transform.Find("DialogText").Find("Viewport").Find("Content").GetComponent<Text>();
-        firstGrade = new string[8];
-        repeatGrade = new int[8];
         achGen.Start2();
-        //busStopTimeDisplay = canvas.Find("BusStopTime").Find("Scroll View").Find("Viewport").Find("Content").GetComponent<Text>();
-        //busStopDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy)").GetComponent<Dropdown>();
-        //busDirectionDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy) (1)").GetComponent<Dropdown>();
         UpdateDDay();
-        /*if (busStopTime.Count == 0)
-        {
-            ChangeBusStopTime();
-        }*/
         lvInfo = canvas.Find("LvInfo").Find("Lv").GetComponent<Text>();
-        inventoryDisplay2 = canvas.Find("Inventory").gameObject;
-        inventoryDisplay = inventoryDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
-        problem = canvas.Find("Problem").gameObject;
-        problemText = problem.transform.Find("Text").Find("Viewport").Find("Content").GetComponent<Text>();
-        problemImage = problem.transform.Find("Image").GetComponent<Image>();
-        problemTimerDisplay = problem.transform.Find("Timer").GetComponent<Text>();
-        problemAnswerInput = problem.transform.Find("Answer").GetComponent<InputField>();
         speedDisplay = GameObject.Find("SpeedDisplay").GetComponent<Text>();
         cntProblemItem = -1;
         buyItemDisplay2 = canvas.Find("Shop").gameObject;
         buyItemDisplay = buyItemDisplay2.transform.Find("Scroll View").Find("Viewport").Find("Content");
         updateShop();
         sudoku = new int[6, 6];
-        //for (int i = 0; i < GameData.statTypes.Count; i++)
-        //{
-        //    if (GameData.statTypes[i].experimental != Experimental.NONE && !GameData.ExperimentalCheck(GameData.statTypes[i].experimental))
-        //    {
-        //        continue;
-        //    }
-        //    GameObject g = Instantiate(upgradeButton);
-        //    g.transform.SetParent(upgradeScroll, false);
-        //    StatUpgrade u = g.GetComponent<StatUpgrade>();
-        //    u.id = i;
-        //    u.Start2();
-        //    u.UpdateText();
-        //}
         updateInventory();
-        endTime = new DateTime(2024, 3, 4) + new TimeSpan(GameData.length * 7, 0, 0, 0);
         oldStudyExp = new long[5];
         for (int i = 0; i < 5; i++)
         {
             oldStudyExp[i] = GameData.studyExp[i];
         }
-        //data.NeedExpForGrade = data.NeedExpForGrade.Select(c => GameData.difficulty > 0 ? c * GameData.difficulty : c * -GameData.difficulty / 100).ToList();
         if (Application.platform == RuntimePlatform.Android)
         {
             mobileOnlyUI.SetActive(true);
             speedDisplay.GetComponent<RectTransform>().offsetMin = new Vector2(300, 0);
         }
-        //stockInput = new InputField[5];
-        //stockItems = new Transform[5];
-        //StockUIUpdate();
         if (GameData.pendingQuest[0].reward == 0)
         {
             UpdatePendingQuest();
@@ -291,13 +176,6 @@ public class Player : MonoBehaviour
             GameData.time += GameData.timeSpeed * Time.deltaTime * speed;
         }
         GameData.totalPlayTime += new TimeSpan(0, 0, 1) * Time.deltaTime;
-        if (enableCheat)
-        {
-            if (GetKeyDown(KeyCode.Slash))
-            {
-                canvas.Find("Cheat").gameObject.SetActive(true);
-            }
-        }
         if (control)
         {
             float x = Input.GetAxis("Horizontal") * moveSpeed;
@@ -345,19 +223,6 @@ public class Player : MonoBehaviour
                 hit.transform.GetComponent<Clickable>()?.onClick?.Invoke();
             }
         }
-        //if (tutorial)
-        //{
-        //    if (TimeSpan.Parse(data.tutorialSchedule[schedule].time) < time.TimeOfDay)
-        //    {
-        //        if (TimeSpan.Parse(data.tutorialSchedule[schedule].time) > new TimeSpan(8, 0, 0) || time.TimeOfDay < new TimeSpan(14, 0, 0))
-        //        {
-        //            data.tutorialSchedule[schedule].work.Invoke();
-        //            schedule++;
-        //        }
-        //    }
-        //}
-        //else
-        //{
         if (TimeSpan.Parse(schedule[GameData.schedule].time) < GameData.time.TimeOfDay)
         {
             if (TimeSpan.Parse(schedule[GameData.schedule].time) > new TimeSpan(8, 0, 0) || GameData.time.TimeOfDay < new TimeSpan(14, 0, 0))
@@ -415,55 +280,11 @@ public class Player : MonoBehaviour
                 speed -= 1;
             }
         }
-        //if (GetKeyDown(KeyCode.I))
-        //{
-        //    inventoryDisplay2.SetActive(true);
-        //}
-        //if (cntProblemItem != -1)
-        //{
-        //    problemTimer -= GameData.timeSpeed * Time.deltaTime * speed;
-        //    TimeSpan realTime = problemTimer / GameData.timeSpeed.TotalSeconds;
-        //    problemTimerDisplay.text = $"{Math.Floor(realTime.TotalMinutes)}:{realTime.Seconds} ({Math.Floor(problemTimer.TotalMinutes)}:{problemTimer.Seconds})";
-        //    if (problemTimer <= TimeSpan.Zero)
-        //    {
-        //        if (problemAnswerInput.text == problemAnswer)
-        //        {
-        //            int l = cntProblemItem % 10 + 1;
-        //            giveStudyExp(cntProblemItem / 10, l, l * 2);
-        //        }
-        //        else
-        //        {
-        //            giveStudyExp(cntProblemItem / 10, -20, -10);
-        //        }
-        //        problem.SetActive(false);
-        //        cntProblemItem = -1;
-        //        GameData.timeSpeed = new TimeSpan(0, 1, 0);
-        //    }
-        //}
         if (!GameData.hiddenLevelMode)
         {
             xpDisplay.text = $"{GameData.exp} XP";
             xpDisplay2.text = $"{GameData.exp} XP";
         }
-        //if (blockTime != TimeSpan.Zero && currentScene != "DormitoryRoom" && (time.TimeOfDay < new TimeSpan(8, 0, 0) || time.TimeOfDay > blockTime))
-        //{
-        //    xpFloat2 += (float)needExpForLvUP / 2 * (float)(speed * timeSpeed).TotalHours * Time.deltaTime;
-        //    int a = (int)xpFloat2;
-        //    xpFloat2 %= 1;
-        //    GameData.exp -= a;
-        //    if (lv == maxLevel)
-        //    {
-        //        lvInfo.text = $"Lv {lv + 1} ({GameData.exp})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 100%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
-        //    }
-        //    else
-        //    {
-        //        lvInfo.text = $"Lv {lv + 1} ({GameData.exp}/{needExpForLvUP})\n공부 효율 {studyLvBonus}\n수입 {LvIncome}원/1시간\n반배정 성공확률 {Mathf.Clamp(lv + 10, 10, 100)}%\n수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승";
-        //    }
-        //    moneyFloat2 += LvIncome * 2 * (float)(speed * timeSpeed).TotalHours * Time.deltaTime;
-        //    a = (int)moneyFloat2;
-        //    moneyFloat2 %= 1;
-        //    money -= a;
-        //}
         GameObject selectedGameobject = GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject;
         if (selectedGameobject == null || selectedGameobject.GetComponent<InputField>() == null)
         {
@@ -504,64 +325,6 @@ public class Player : MonoBehaviour
     {
         GameData.nextDayOnHome = true;
         Move("Home", 0, Vector3.zero);
-        //GameData.schedule = -1;
-        //GameData.inSchool = true;
-        //GameData.timeSpeed = new TimeSpan(0, 1, 0);
-        //if (GameData.time.Date == GameData.endClassPlacement)
-        //{
-        //    GameData.duringClassPlacement = false;
-        //}
-        ////if (GameData.tutorial)
-        ////{
-        ////    if (GameData.time.Date == new DateTime(2024, 3, 4))
-        ////    {
-        ////        OpenChat(0);
-        ////    }
-        ////    if (GameData.time.Date == new DateTime(2024, 3, 5))
-        ////    {
-        ////        OpenChat(8);
-        ////    }
-        ////    if (GameData.time.Date == new DateTime(2024, 3, 9))
-        ////    {
-        ////        OpenChat(10);
-        ////    }
-        ////    if (GameData.time.Date == new DateTime(2024, 3, 11))
-        ////    {
-        ////        OpenChat(11);
-        ////    }
-        ////}
-        //alreadyPenalty = false;
-        //if (GameData.time.Date != new DateTime(2024, 3, 4))
-        //{
-        //    updateShop();
-        //}
-        //for (int i = GameData.quest.Count - 1; i >= 0; i--)
-        //{
-        //    Quest q = GameData.quest[i];
-        //    if (DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null) > GameData.time.Date)
-        //    {
-        //        continue;
-        //    }
-        //    bool fail = false;
-        //    for (int j = 0; j < 5; j++)
-        //    {
-        //        if (GameData.studyExp[j] < q.req[j])
-        //        {
-        //            fail = true;
-        //            break;
-        //        }
-        //    }
-        //    if (fail)
-        //    {
-        //        SendMessage($"퀘스트를 실패하여 {q.reward} XP를 잃었습니다");
-        //        GiveExp(-q.reward, false);
-        //        GameData.quest.RemoveAt(i);
-        //    }
-        //}
-        //UpdateQuestList();
-    }
-    public void Test()
-    {
     }
     public void StartClass()
     {
@@ -591,11 +354,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public void EndClass()
-    {
-        //timeSpeed = new TimeSpan(0, 0, 5);
-        //inClass = false;
-    }
+    public void EndClass() { }
     public void EndSchool()
     {
         if (GameData.weekendOrVacation) return;
@@ -658,7 +417,6 @@ public class Player : MonoBehaviour
                 SceneManager.UnloadSceneAsync(actualSceneName);
             }
             actualSceneName = GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN) && SceneUtility.GetBuildIndexByScenePath($"Assets/Map/{name}.unity") != -1 ? name : "Old" + name;
-            //actualSceneName = name;
             GameData.currentScene = name;
             SceneManager.LoadScene(actualSceneName, LoadSceneMode.Additive);
             GameData.mapArgs = args;
@@ -744,12 +502,6 @@ public class Player : MonoBehaviour
         }
         if (GameData.currentScene == "Classroom") // 교실 생성
         {
-            //GameObject.Find("Square (3)").GetComponent<Door>().args = mapArgs / 10;
-            //GameObject.Find("Square (3)").GetComponent<Door>().pos = new Vector3(1 + mapArgs % 10 * 3, 0.8f, 0);
-            /*if (mapArgs != 9)
-            {
-                GameObject.Find("EasterEgg").SetActive(false);
-            }*/
             if (GameData.mapArgs == GameData.clas && GameData.inSchool)
             {
                 GameData.timeSpeed = new TimeSpan(0, 10, 0);
@@ -763,111 +515,8 @@ public class Player : MonoBehaviour
         {
             GameObject.Find("block").SetActive(GameData.inSchool);
         }
-        //if (currentScene == "Dormitory1F")
-        //{
-            //GameObject.Find("Square (4)").GetComponent<OpenGUIButton>().target = canvas.Find("PC").gameObject;
-            //GameObject.Find("Square (4)").GetComponent<CPBlockCall>().c = canvas.Find("PC").GetComponent<CPBlock>();
-            #region 통금 시간 (이제 안 씀)
-            //int r;
-            //if (scores.Count == 0)
-            //{
-            //    r = 9;
-            //}
-            //else
-            //{
-            //    r = (int)Math.Ceiling(scores[^1].grade.Average()); 
-            //}
-            //string msg;
-            //if (r <= 3)
-            //{
-            //    msg = "외출 금지 시간\n<b>1~3등급 없음</b>";
-            //}
-            //else
-            //{
-            //    msg = "외출 금지 시간\n1~3등급 없음";
-            //}
-            //TimeSpan t = new TimeSpan(1, 0, 0, 0);
-            //for (int i = 4; i <= 9; i++)
-            //{
-            //    if (i > 4)
-            //    {
-            //        t -= new TimeSpan(0, blockTimeSpace, 0);
-            //    }
-            //    string display = i == 4 ? "24:00" : t.ToString("hh\\:mm");
-            //    if (r == i)
-            //    {
-            //        msg += $"\n<b>{i}등급 {display}~08:00</b>";
-            //    }
-            //    else
-            //    {
-            //        msg += $"\n{i}등급 {display}~08:00";
-            //    }
-            //}
-            //GameObject.Find("Square (5)").GetComponent<MapSendMsg>().msg = msg;
-            //if (r <= 3)
-            //{
-            //    GameObject.Find("Text (TMP) (3)").GetComponent<TextMeshPro>().text = "외출 금지 시간\n--------";
-            //}
-            //else if (r == 4)
-            //{
-            //    GameObject.Find("Text (TMP) (3)").GetComponent<TextMeshPro>().text = "외출 금지 시간\n24:00~08:00";
-            //}
-            //else
-            //{
-            //    GameObject.Find("Text (TMP) (3)").GetComponent<TextMeshPro>().text = $"외출 금지 시간\n{new TimeSpan(1, 0, 0, 0) - new TimeSpan(0, blockTimeSpace, 0) * (r - 4):hh\\:mm}~08:00";
-            //}
-            #endregion
-        //}
-        /*if (currentScene == "BusStop")
-        {
-            if (mapArgs == 0)
-            {
-                GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"<size=5><b>{data.busStop[0].name}</b></size> → {data.busStop[1].name}";
-            }
-            else if (mapArgs == data.busStop.Count - 1)
-            {
-                GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{data.busStop[^2].name} ← <size=5><b>{data.busStop[^1].name}</b></size>";
-            }
-            else
-            {
-                GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>().text = $"{data.busStop[mapArgs - 1].name} ← <size=5><b>{data.busStop[mapArgs].name}</b></size> → {data.busStop[mapArgs + 1].name}";
-            }
-            GameObject.Find("Square (6)").GetComponent<Door>().map = data.busStop[mapArgs].map;
-            GameObject.Find("Square (6)").GetComponent<Door>().args = data.busStop[mapArgs].extra;
-            GameObject.Find("Square (6)").GetComponent<Door>().pos = data.busStop[mapArgs].loc;
-            GameObject.Find("Square (6)").GetComponent<Door>().destDoorID = data.busStop[mapArgs].destDoorID;
-            GameObject.Find("Square (6)").GetComponent<Door>().direction = data.busStop[mapArgs].direction;
-            bus1 = GameObject.Find("Square (7)");
-            bus1.GetComponent<Door>().args = mapArgs;
-            bus2 = GameObject.Find("Square (8)");
-            bus2.GetComponent<Door>().args = mapArgs + 65536;
-            busTime1 = GetBusTime(mapArgs, false);
-            busTime2 = GetBusTime(mapArgs, true);
-            busStopText1 = GameObject.Find("Text (TMP) (1)").GetComponent<TextMeshPro>();
-            busStopText2 = GameObject.Find("Text (TMP) (2)").GetComponent<TextMeshPro>();
-            busStopText1.text = $"{data.busStop[0].name} 방향";
-            busStopText2.text = $"{data.busStop[^1].name} 방향";
-            bus1.SetActive(false);
-            bus2.SetActive(false);
-        }
-        if (currentScene == "Bus")
-        {
-            if (mapArgs >= 65536)
-            {
-                mapArgs -= 65536;
-                busDirection = true;
-                busBaseTime = busBaseTime2;
-            }
-            else
-            {
-                busDirection = false;
-                busBaseTime = busBaseTime1;
-            }
-            busDoor = GameObject.Find("Square (5)").GetComponent<Door>();
-            busLocD = GameObject.Find("Text (TMP)").GetComponent<TextMeshPro>();
-        }*/
         mapInited = true;
-        if (doorID != -1)// && GameData.ExperimentalCheck(Experimental.IMPROVEMENT_DESIGN))
+        if (doorID != -1)
         {
             Vector3 dpos = new Vector3(0, 0, 1);
             foreach (Door d in FindObjectsOfType<Door>())
@@ -936,60 +585,12 @@ public class Player : MonoBehaviour
         achGen.AchRegen();
     }
     public void UpdateDDay() {}
-    /*void ChangeBusStopTime()
-    {
-        busStopTime.Clear();
-        busStopTime.Add(new TimeSpan(8, 10, 0));
-        bool nextDay = false;
-        while (true)
-        {
-            TimeSpan next = busStopTime[^1] + new TimeSpan(0, Random.Range(30, 60), 0);
-            if (next >= new TimeSpan(1, 0, 0, 0))
-            {
-                nextDay = true;
-                next -= new TimeSpan(1, 0, 0, 0);
-            }
-            if (nextDay && next >= new TimeSpan(8, 10, 0))
-            {
-                break;
-            }
-            busStopTime.Add(next);
-        }
-        LoadBusTime();
-    }
-    public void LoadBusTime()
-    {
-        busStopTimeDisplay.text = $"{string.Join('\n', GetBusTime(busStopDropdown.value, busDirectionDropdown.value == 1).Select(c => c.ToString("hh\\:mm")))}\n다음 변경 : {nextBusStopTimeChange:yyyy-MM-dd} (D-{(nextBusStopTimeChange - time.Date).TotalDays})";
-    }
-    public TimeSpan[] GetBusTime(int id, bool direction)
-    {
-        if (direction)
-        {
-            id = (data.busStop.Count - 1) * 2 - id;
-        }
-        return busStopTime.Select(c =>
-        {
-            TimeSpan a = DateTimeCalc2.Add(c, new TimeSpan(0, id * 20, 0));
-            return a;
-        }).ToArray();
-    }*/
     public void UpdateLv()
     {
         if (!GameData.hiddenLevelMode)
         {
             return;
         }
-        /*needExpForLvUP = (int)(25 * Mathf.Pow(1.08f, lv));
-        if (lv <= 18)
-        {
-            studyLvBonus = Mathf.Pow(1.25f, lv);
-        }
-        else
-        {
-            studyLvBonus = 55 * Mathf.Pow(1.02f, lv - 18);
-        }
-        LvIncome = Mathf.RoundToInt(9860 * Mathf.Pow(1.015f, lv));*/
-        //수업 1번 들을 시 능력치 1~{(int)(10 * studyLvBonus)} 상승\n
         string lt = $"Lv {GameData.stat[0] + 1} ({GameData.exp}/{GameData.needExpForLvUP})\n";
         for (int i = 0; i < statProp.Length; i++)
         {
@@ -997,7 +598,6 @@ public class Player : MonoBehaviour
             lt += $"{st.name} {st.prefix}{statProp[i].GetValue(this)}{st.suffix}\n";
         }
         lvInfo.text = lt;
-        //nextDayStudyExp = 1 - 0.05f * Mathf.Pow(0.99f, lv);
         updateInventory();
     }
     public bool isFriendable(int id)
@@ -1015,41 +615,14 @@ public class Player : MonoBehaviour
             return id <= data.friendableStudent[2];
         }
     }
-    public void updateInventory()
-    {
-        // 안쓰는 함수 (이제 아이템 집에서만 씀)
-        //foreach (Transform item in inventoryDisplay)
-        //{
-        //    Destroy(item.gameObject);
-        //}
-        //for (int i = 0; i < GameData.inventory.Count; i++)
-        //{
-        //    Transform b = Instantiate(itemContent).transform;
-        //    b.SetParent(inventoryDisplay, false);
-        //    Item d = GameData.items[GameData.inventory[i]];
-        //    b.Find("Name").GetComponent<Text>().text = d.name;
-        //    b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
-        //    int i2 = i;
-        //    b.Find("UseButton").GetComponent<Button>().onClick.AddListener(() => UseItem(i2));
-        //}
-    }
+    public void updateInventory() { }
     public void UseItem(int id)
     {
-        if (GameData.end)
-        {
-            OpenDialog("이미 종료된 게임입니다");
-            return;
-        }
         if (((Func<bool>)GlobalEventManager.events[GameData.items[GameData.inventory[id]].use])())
         {
             GameData.inventory.RemoveAt(id);
         }
         updateInventory();
-    }
-    public void ProblemOK()
-    {
-        GameData.time += problemTimer;
-        problemTimer = TimeSpan.Zero;
     }
     public void updateShop()
     {
@@ -1199,23 +772,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public void End()
-    {
-        GiveAch(15);
-        GameData.Save();
-        GameObject end = GameObject.Find("EndDatePass");
-        DontDestroyOnLoad(end);
-        //end.GetComponent<EndDatePass>().endDate = GameData.time;
-        SceneManager.LoadScene("EndScene");
-    }
-    public void End2()
-    {
-        GameData.timeSpeed = TimeSpan.Zero;
-        GameData.end = true;
-        endEffectDuring = true;
-        endEffect.gameObject.SetActive(true);
-        endEffect.transform.SetAsLastSibling();
-    }
     public void Exit()
     {
         SceneManager.LoadScene("TitleScene");
@@ -1274,66 +830,6 @@ public class Player : MonoBehaviour
             GameData.tutorialState |= state;
         }
     }
-    public void ChatExtra1()
-    {
-        chatExtra = new object[] {GameData.clas + 1};
-    }
-    public void TutorialEvent1()
-    {
-        //goalSubject = Random.Range(0, 5);
-        //goalValue = (int)(Mathf.Clamp(studyExp[goalSubject], 20, int.MaxValue) * Random.Range(1.2f, 1.5f));
-        //goalReward = (int)(Mathf.Clamp(studyExp[goalSubject], 500, int.MaxValue) * Random.Range(0.3f, 0.5f));
-        //updateWeeklyGoalDisplay();
-    }
-    //public void StockUIUpdate()
-    //{
-    //    for (int i = 0; i < 5; i++)
-    //    {
-    //        Transform st;
-    //        if (stockItems[i] == null)
-    //        {
-    //            st = Instantiate(stockItem, stockList).transform;
-    //            int i2 = i;
-    //            st.Find("BuyButton").GetComponent<Button>().onClick.AddListener(() => BuyStock(i2));
-    //            st.Find("SellButton").GetComponent<Button>().onClick.AddListener(() => SellStock(i2));
-    //            stockInput[i] = st.Find("AmountInput").GetComponent<InputField>();
-    //            stockItems[i] = st;
-    //        }
-    //        else
-    //        {
-    //            st = stockItems[i];
-    //        }
-    //        st.Find("Info").GetComponent<Text>().text = $"{i + 1}번 ({stockCost[i]}원) ({stockAmount[i]}주) <color={(stockCostChanged[i] > 0 ? "red" : "blue")}>{stockCostChanged[i]:▲ 0;▼ 0;\"\"}</color>";
-    //    }
-    //}
-    //public void BuyStock(int id)
-    //{
-    //    int amount = stockInput[id].text == "" ? money / stockCost[id] : int.Parse(stockInput[id].text);
-    //    if (stockCost[id] * amount > money)
-    //    {
-    //        OpenDialog("돈이 부족합니다");
-    //    }
-    //    else
-    //    {
-    //        money -= stockCost[id] * amount;
-    //        stockAmount[id] += amount;
-    //        StockUIUpdate();
-    //    }
-    //}
-    //public void SellStock(int id)
-    //{
-    //    int amount = stockInput[id].text == "" ? stockAmount[id] : int.Parse(stockInput[id].text);
-    //    if (amount > stockAmount[id])
-    //    {
-    //        OpenDialog("주식이 부족합니다");
-    //    }
-    //    else
-    //    {
-    //        money += stockCost[id] * amount;
-    //        stockAmount[id] -= amount;
-    //        StockUIUpdate();
-    //    }
-    //}
     public void UpdateQuestCount()
     {
         questAmount.text = $"{GameData.quest.Count} / {GameData.maxQuest}";

@@ -34,10 +34,6 @@ public static class GameData
     public static List<Experimental> experimental;
     public static DateTime startTime;
     public static TimeSpan totalPlayTime;
-    public static int length;
-    public static bool end;
-    public static int difficulty;
-    public static int[] repeatGradeMax;
     public static List<Quest> quest;
     public static Quest1[] pendingQuest;
     public static TutorialState tutorialState;
@@ -140,10 +136,6 @@ public static class GameData
         y = save.y;
         startTime = DateTime.ParseExact(save.startTime, "yyyy-MM-dd HH:mm:ss", null);
         totalPlayTime = TimeSpan.ParseExact(save.totalPlayTime, "d\\:hh\\:mm\\:ss", null);
-        length = save.length;
-        end = save.end;
-        difficulty = save.difficulty;
-        repeatGradeMax = save.repeatGradeMax;
         quest = save.quest;
         pendingQuest = save.pendingQuest;
         hiddenLevelMode = save.hiddenLevelMode;
@@ -262,10 +254,6 @@ public static class GameData
         save.experimental = experimental;
         save.startTime = startTime.ToString("yyyy-MM-dd HH:mm:ss");
         save.totalPlayTime = totalPlayTime.ToString("d\\:hh\\:mm\\:ss");
-        save.length = length;
-        save.end = end;
-        save.difficulty = difficulty;
-        save.repeatGradeMax = repeatGradeMax;
         save.tutorialState = tutorialState;
         save.quest = quest;
         save.pendingQuest = pendingQuest;
