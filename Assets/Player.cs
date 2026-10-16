@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
     public GameObject oldExpPanel;
     int speed = 1;
     public Chat parkmunwon1;
+    public Chat parkmunwon2;
     public Chat whyDontRegister;
     readonly int[] numberKeySpeed = {0, 1, 2, 3, 5, 10, 20, 30, 50, 100};
     #endregion
@@ -406,6 +407,10 @@ public class Player : MonoBehaviour
             if (UniversityManager.finalUniversity == -1 && Util.InGameDate(GameData.time) == GameData.graduationDate.AddDays(-1))
             {
                 ChatManager.OpenChat(whyDontRegister);
+            }
+            if (!GameData.worldBookUnlocked[3] && GameData.grade == 3)
+            {
+                ChatManager.OpenChat(parkmunwon2);
             }
         }
         shopDialog.SetActive(false);

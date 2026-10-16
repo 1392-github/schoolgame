@@ -6801,7 +6801,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  enableCheat: 0
   sbindex: 0
   schedule:
   - time: 08:50:00
@@ -7041,7 +7040,6 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   gradeDoor: {fileID: 6999059519365474992, guid: 405e1d68b22f70040b7d234521b1ff10, type: 3}
-  blockTimeSpace: 60
   firstClassChat: {fileID: 11400000, guid: b03e86f90fbf65e4cbb4269fc2d07576, type: 2}
   itemContent: {fileID: 8227581057423231033, guid: 11ec910a4bf3aa64ba443bda72335633, type: 3}
   buyItemContent: {fileID: 6393138032359381622, guid: d354ed6e9f0050040b1b42d0486bfe41, type: 3}
@@ -7065,8 +7063,6 @@ MonoBehaviour:
   currentPressingButton: 
   fastSpeedToggle: {fileID: 11402125}
   mobileOnlyUI: {fileID: 1728680417}
-  firstGrade: []
-  repeatGrade: 
   alertItem: {fileID: 4528228285106282689, guid: 37e1543166d922d45a711a10ba66b8a2, type: 3}
   alertList: {fileID: 682822521}
   questAmount: {fileID: 850413122}
@@ -7080,6 +7076,7 @@ MonoBehaviour:
   weeklyPaneltra: {fileID: 503942440}
   oldExpPanel: {fileID: 313563435}
   parkmunwon1: {fileID: 11400000, guid: 9af1d6a05525c3344bb29682c34255d7, type: 2}
+  parkmunwon2: {fileID: 11400000, guid: 41d3b69baff54964b801e6c7f8ba7ada, type: 2}
   whyDontRegister: {fileID: 11400000, guid: ca85e5f322acf3a448efd2696a250ee2, type: 2}
 --- !u!212 &573470140
 SpriteRenderer:

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de2a110b994c2747b95b909036604a0, type: 3}
+  m_Name: Parkmunwon2
+  m_EditorClassIdentifier: 
+  name: "3\uD559\uB144\uC758 \uC2DC\uC791"
+  skipable: 1
+  value:
+  - value: "3\uD559\uB144 \uB41C \uAC70 \uCD95\uD558\uD574!"
+    character: "\uBC15\uBB38\uC6D0"
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
+  - value: "3\uD559\uB144\uBD80\uD130\uB294 \uB300\uD559 \uC785\uC2DC \uC900\uBE44\uD574\uC57C
+      \uD558\uB294 \uAC70 \uC54C\uC9C0?"
+    character: "\uBC15\uBB38\uC6D0"
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
+  - value: "\uADF8\uB7EC\uB2C8 \u300C\uC774 \uC138\uC0C1\uC758 \uAD50\uACFC\uC11C\u300D
+      4\uAD8C \uC904\uAED8!"
+    character: "\uBC15\uBB38\uC6D0"
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
+  - value: "(\uC774 \uC138\uC0C1\uC758 \uAD50\uACFC\uC11C 4\uAD8C\uC744 \uD68D\uB4DD\uD588\uB2E4.)"
+    character: 
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
+  pauseGame: 1
+  endEvent: 65

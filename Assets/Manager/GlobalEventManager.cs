@@ -6,7 +6,7 @@ public static class GlobalEventManager
     public static Delegate[] events;
     public static void Register()
     {
-        events = new Delegate[65];
+        events = new Delegate[66];
         // 0~49: 문제집 사용
         for (int i = 0; i < 50; i++)
         {
@@ -25,7 +25,7 @@ public static class GlobalEventManager
         events[61] = (Func<object[]>)(() => new object[] {GameData.clas+1});
         // 62: 대화의 학교명
         events[62] = (Func<object[]>)(() => new object[] {GameData.school});
-        // 63: 이 세상의 교과서 잠금해제
+        // 63: 이 세상의 교과서 1, 2, 3 잠금해제
         events[63] = (Action)(() =>
         {
             GameData.worldBookUnlocked[0] = true;
@@ -34,5 +34,7 @@ public static class GlobalEventManager
         });
         // 64: "너 왜 등록 안 해?"에서 합격한 대학 목록
         events[64] = (Func<object[]>)(() => new object[] {string.Join(", ", UniversityManager.appliedUniversities.Where((x, i) => x != -1 && UniversityManager.applicationPassed[i]).Select(x => UniversityManager.universities[x].name))});
+        // 65: 이 세상의 교과서 4 잠금해제
+        events[65] = (Action)(() => GameData.worldBookUnlocked[3] = true);
     }
 }
