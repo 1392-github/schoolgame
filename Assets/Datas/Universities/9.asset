@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1df186f1ea977144da63a3a1f5d8c6db, type: 3}
-  m_Name: Test002
+  m_Name: 9
   m_EditorClassIdentifier: 
-  name: "\uC870\uC6B420"
-  effect: (test)
+  name: "\uC870\uC6B49"
+  effect: "(\uBBF8\uC815)"
   weightMin: 3
-  hasSuneungMinChance: 100
-  suneungMinSubjectCountMin: 2
+  hasSuneungMinChance: 60
+  suneungMinSubjectCountMin: 3
   suneungMinSubjectCountMax: 6
-  suneungMinGradeSumMin: 20
-  suneungMinGradeSumMax: 40
-  chanceDecreaseStartMin: 5
-  chanceDecreaseStartMax: 10
-  chanceDecreaseAmountMin: 10
-  chanceDecreaseAmountMax: 20
-  registerFee: 1000000
+  suneungMinGradeSumMin: 12
+  suneungMinGradeSumMax: 17
+  chanceDecreaseStartMin: 14
+  chanceDecreaseStartMax: 17
+  chanceDecreaseAmountMin: 25
+  chanceDecreaseAmountMax: 36
+  registerFee: 2000000

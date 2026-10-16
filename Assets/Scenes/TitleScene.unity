@@ -581,7 +581,25 @@ MonoBehaviour:
   typeSound: {fileID: 8300000, guid: 8dae20d31f58b2f468c2c08335e0baa8, type: 3}
   universities:
   - {fileID: 11400000, guid: 9264c4bea1767c64c9d716cd3cb3f001, type: 2}
-  - {fileID: 11400000, guid: a87f29bdc2a60be42bffebd21652e86e, type: 2}
+  - {fileID: 11400000, guid: 48878a402edcc9f4d9930241f251db26, type: 2}
+  - {fileID: 11400000, guid: 9cf5ab26a46d23643b260b74638fa40c, type: 2}
+  - {fileID: 11400000, guid: fce8da6e9fbd6894890e5f6b6af2e074, type: 2}
+  - {fileID: 11400000, guid: 60d306bb6e3b7f44fa051670156b6b5b, type: 2}
+  - {fileID: 11400000, guid: c6d76b22b4b21cc478bf251ca90ba939, type: 2}
+  - {fileID: 11400000, guid: eef20efdebc319f4abe534ad7b045ff0, type: 2}
+  - {fileID: 11400000, guid: ca7206fae0fda2e47aaca31d5a787716, type: 2}
+  - {fileID: 11400000, guid: 8fbeaf9e83530384c926c4aebc4b5bcf, type: 2}
+  - {fileID: 11400000, guid: aa8b0023289e86b4cbf7f7d9aa946223, type: 2}
+  - {fileID: 11400000, guid: 9ba1520b947a2d24c934a064755d9e16, type: 2}
+  - {fileID: 11400000, guid: e305f6a0bd3deb343a402d9a878a4a14, type: 2}
+  - {fileID: 11400000, guid: dad6b3f9c0286cb489636dbc49585ef7, type: 2}
+  - {fileID: 11400000, guid: 535ca4d659efb0c4488fd920e8b97751, type: 2}
+  - {fileID: 11400000, guid: c7aeb323f12d4e443a78c89db39fa2e3, type: 2}
+  - {fileID: 11400000, guid: 57662afd9006d1f48a9b002f8306ed40, type: 2}
+  - {fileID: 11400000, guid: e58c113b894a5c4498bbb9e5ca80e180, type: 2}
+  - {fileID: 11400000, guid: e297963da3b866d46a40aa48e1b32d54, type: 2}
+  - {fileID: 11400000, guid: 1aa0df4ff75072043a609001af0dd4da, type: 2}
+  - {fileID: 11400000, guid: 7bb9a0f17df04a04aae2ef6aa6ca6d16, type: 2}
 --- !u!1 &460328625
 GameObject:
   m_ObjectHideFlags: 0

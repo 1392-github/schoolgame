@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df186f1ea977144da63a3a1f5d8c6db, type: 3}
+  m_Name: 15
+  m_EditorClassIdentifier: 
+  name: "\uC870\uC6B415"
+  effect: "(\uBBF8\uC815)"
+  weightMin: 2
+  hasSuneungMinChance: 30
+  suneungMinSubjectCountMin: 2
+  suneungMinSubjectCountMax: 4
+  suneungMinGradeSumMin: 24
+  suneungMinGradeSumMax: 33
+  chanceDecreaseStartMin: 9
+  chanceDecreaseStartMax: 12
+  chanceDecreaseAmountMin: 20
+  chanceDecreaseAmountMax: 31
+  registerFee: 1000000

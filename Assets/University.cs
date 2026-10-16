@@ -14,6 +14,7 @@ public class University : ScriptableObject
     /// <summary>
     /// 대학교 효과의 설명
     /// </summary>
+    [TextArea(10, 20)]
     public string effect;
     /// <summary>
     /// 과목 가중치의 범위 (최솟값~5포함)

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1df186f1ea977144da63a3a1f5d8c6db, type: 3}
-  m_Name: Choun1
+  m_Name: 4
   m_EditorClassIdentifier: 
-  name: "\uC870\uC6B41"
-  effect: (test)
-  weightMin: 5
-  hasSuneungMinChance: 100
-  suneungMinSubjectCountMin: 5
+  name: "\uC870\uC6B44"
+  effect: "(\uBBF8\uC815)"
+  weightMin: 4
+  hasSuneungMinChance: 80
+  suneungMinSubjectCountMin: 4
   suneungMinSubjectCountMax: 6
-  suneungMinGradeSumMin: 7
-  suneungMinGradeSumMax: 10
-  chanceDecreaseStartMin: 19
-  chanceDecreaseStartMax: 20
-  chanceDecreaseAmountMin: 40
-  chanceDecreaseAmountMax: 50
-  registerFee: 5000000
+  suneungMinGradeSumMin: 8
+  suneungMinGradeSumMax: 15
+  chanceDecreaseStartMin: 17
+  chanceDecreaseStartMax: 19
+  chanceDecreaseAmountMin: 30
+  chanceDecreaseAmountMax: 41
+  registerFee: 3000000
