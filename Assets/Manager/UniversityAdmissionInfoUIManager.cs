@@ -37,7 +37,32 @@ public class UniversityAdmissionInfoUIManager : MonoBehaviour
         registerFeeText.text = registerFee.ToString("N0") + "¿ø";
         for (int i = 0; i < 20; i++)
         {
-            chanceTexts[i].text = info.chance[i].ToString() + "%";
+            int chance = info.chance[i];
+            chanceTexts[i].text = chance.ToString() + "%";
+            if (chance >= 80)
+            {
+                chanceTexts[i].color = Color.green;
+            }
+            else if (chance >= 60)
+            {
+                chanceTexts[i].color = new Color32(128, 255, 0, 255);
+            }
+            else if (chance >= 40)
+            {
+                chanceTexts[i].color = Color.yellow;
+            }
+            else if (chance >= 20)
+            {
+                chanceTexts[i].color = new Color32(255, 128, 0, 255);
+            }
+            else if (chance >= 1)
+            {
+                chanceTexts[i].color = Color.red;
+            }
+            else
+            {
+                chanceTexts[i].color = Color.black;
+            }
         }
     }
 }
