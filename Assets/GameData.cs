@@ -75,6 +75,7 @@ public static class GameData
     public static DateTime[] type1ExamDate;
     public static DateTime[] type2ExamDate;
     public static bool pause;
+    public static DateTime graduationDate;
     static readonly int[] firstWed = { 3, 2, 1, 0, 6, 5, 4 };
     static readonly int[] lastWed = { -4, -5, -6, 0, -1, -2, -3 };
     static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
@@ -174,10 +175,20 @@ public static class GameData
         {
             stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
         }
+        graduationDate = new DateTime(startYear + 2, 12, 31);
+        if (graduationDate.DayOfWeek == DayOfWeek.Saturday) graduationDate = graduationDate.AddDays(-1);
+        if (graduationDate.DayOfWeek == DayOfWeek.Sunday) graduationDate = graduationDate.AddDays(-2);
         type1ExamDate = new DateTime[type1Exams.Length];
         for (int i = 0; i < type1Exams.Length; i++)
         {
-            type1ExamDate[i] = new DateTime(startYear + type1Exams[i].grade - 1, type1Exams[i].month, DateTime.DaysInMonth(1, type1Exams[i].month)); // DaysInMonth에서 month는 2가 아니기에(2월에 시험없고 방학임) year 값은 상관없어서 1 넣음
+            if (type1Exams[i].dateType == ExamType.DateType.BEFORE_GRADUATION)
+            {
+                type1ExamDate[i] = graduationDate.AddDays(-1);
+            }
+            else
+            {
+                type1ExamDate[i] = new DateTime(startYear + type1Exams[i].grade - 1, type1Exams[i].month, DateTime.DaysInMonth(1, type1Exams[i].month)); // DaysInMonth에서 month는 2가 아니기에(2월에 시험없고 방학임) year 값은 상관없어서 1 넣음
+            }
             if (type1ExamDate[i].DayOfWeek == DayOfWeek.Saturday) type1ExamDate[i] = type1ExamDate[i].AddDays(-1);
             if (type1ExamDate[i].DayOfWeek == DayOfWeek.Sunday) type1ExamDate[i] = type1ExamDate[i].AddDays(-2);
         }
@@ -196,6 +207,9 @@ public static class GameData
                     type2ExamDate[i] = c.AddDays(lastWed[(int)c.DayOfWeek]);
                     break;
                 case ExamType.DateType.LAST_WEEKDAY:
+                    // Type 1에서만 쓰는 거라 구현안함
+                    break;
+                case ExamType.DateType.BEFORE_GRADUATION:
                     // Type 1에서만 쓰는 거라 구현안함
                     break;
                 case ExamType.DateType.SUNEUNG:

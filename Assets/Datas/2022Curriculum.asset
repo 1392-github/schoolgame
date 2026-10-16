@@ -102,6 +102,6 @@ MonoBehaviour:
   - name: "Y1\uD559\uB144\uB3C4 \uB300\uD559\uC218\uD559\uB2A5\uB825\uC2DC\uD5D8"
     logBase: 1.025
     logShift: 100
-    dateType: 3
+    dateType: 4
     grade: 3
     month: 11

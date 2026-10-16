@@ -406,6 +406,10 @@ public class UniversityUIManager : MonoBehaviour
     {
         int univ = UniversityManager.appliedUniversities[index];
         int fee = UniversityManager.universities[univ].registerFee;
+        if (GameData.time >= GameData.graduationDate)
+        {
+            Fail("안타깝게도, 등록 기간이 지났습니다.");
+        }
         if (GameData.money < fee)
         {
             Fail($"등록금({fee:N0}원)이 부족합니다.");

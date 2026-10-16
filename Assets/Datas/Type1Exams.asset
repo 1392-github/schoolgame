@@ -82,6 +82,6 @@ MonoBehaviour:
   - name: "3\uD559\uB144 2\uD559\uAE30 \uAE30\uB9D0\uACE0\uC0AC"
     logBase: 1.027
     logShift: 150
-    dateType: 2
+    dateType: 3
     grade: 3
     month: 12

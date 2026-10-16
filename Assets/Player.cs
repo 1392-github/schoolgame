@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
     public GameObject oldExpPanel;
     int speed = 1;
     public Chat parkmunwon1;
+    public Chat whyDontRegister;
     readonly int[] numberKeySpeed = {0, 1, 2, 3, 5, 10, 20, 30, 50, 100};
     #endregion
     void OnEnable()
@@ -642,6 +643,10 @@ public class Player : MonoBehaviour
             if (GameData.time < GameData.firstDay.AddHours(1))
             {
                 ChatManager.OpenChat(firstClassChat);
+            }
+            if (UniversityManager.finalUniversity == -1 && Util.InGameDate(GameData.time) == GameData.graduationDate.AddDays(-1))
+            {
+                ChatManager.OpenChat(whyDontRegister);
             }
         }
         shopDialog.SetActive(false);

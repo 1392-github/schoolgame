@@ -7,6 +7,7 @@ public class ExamType
         FIRST_WEDNESDAY,
         LAST_WEDNESDAY,
         LAST_WEEKDAY,
+        BEFORE_GRADUATION,
         SUNEUNG
     }
     public string name;
