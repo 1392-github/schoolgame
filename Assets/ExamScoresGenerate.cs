@@ -27,7 +27,7 @@ public class ExamScoresGenerate : MonoBehaviour
             DateTime revealDate;
             if (exams[i].grade == 3 && exams[i].month == 12)
             {
-                revealDate = examDate[i]; // 3-2 기말의 경우 examDate[i].AddDays(examType == 1 ? 7 : 14);를 하면 졸업 이후가 되어서 3-2 기말 성적표를 평생 못 보는 문제가 생김
+                revealDate = GameData.graduationDate; // 3-2 기말의 경우 examDate[i].AddDays(examType == 1 ? 7 : 14);를 하면 졸업 이후가 되어서 3-2 기말 성적표를 평생 못 보는 문제가 생김
             }
             else
             {
