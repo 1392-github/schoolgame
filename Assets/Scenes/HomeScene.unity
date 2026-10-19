@@ -12008,7 +12008,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1\uAD8C: \uD559\uAD50, \uC0C1\uC810, \uC54C\uBC14\uC7A5\uC5D0 \uB300\uD558\uC5EC"
+  m_text: "1\uAD8C: \uD559\uAD50, \uC0C1\uC810, \uC791\uC5C5\uC18C\uC5D0 \uB300\uD558\uC5EC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
