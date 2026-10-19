@@ -779,6 +779,7 @@ public class Player : MonoBehaviour
     }
     public void Exit()
     {
+        GameData.Save();
         SceneManager.LoadScene("TitleScene");
     }
     public void ChangeTimeSpeed(string speed)
