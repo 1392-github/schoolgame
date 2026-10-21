@@ -6,7 +6,7 @@ public static class GlobalEventManager
     public static Delegate[] events;
     public static void Register()
     {
-        events = new Delegate[66];
+        events = new Delegate[70];
         // 0~49: 문제집 사용
         for (int i = 0; i < 50; i++)
         {
@@ -36,5 +36,13 @@ public static class GlobalEventManager
         events[64] = (Func<(object[], int)>)(() => (new object[] {string.Join(", ", UniversityManager.appliedUniversities.Where((x, i) => x != -1 && UniversityManager.applicationPassed[i]).Select(x => UniversityManager.universities[x].name))}, 0));
         // 65: 이 세상의 교과서 4 잠금해제
         events[65] = (Action)(() => GameData.worldBookUnlocked[3] = true);
+        // 66 : 그럼 지금부터 제{0}회 {1} 졸업식을 시작하겠습니다.
+        events[66] = (Func<(object[], int)>)(() => (new object[] {GameData.playthrough, GameData.school}, 0));
+        // 67 : {0} {1} 학생, 박문원 학생, 이외 298명의 졸업을 허가합니다.
+        events[67] = (Func<(object[], int)>)(() => (new object[] {GameData.school, GameData.name}, UniversityManager.finalUniversity == -1 ? 5 : 3));
+        // 68: 그나저나 너 {0}대학교 합격했다며? 진짜 대박이다!
+        events[68] = (Func<(object[], int)>)(() => (new object[] {UniversityManager.universities[UniversityManager.finalUniversity].name}, 0));
+        // 69: 졸업식 시작
+        events[69] = (Action)(() => GameData.player.StartGraduation());
     }
 }

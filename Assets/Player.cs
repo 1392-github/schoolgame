@@ -94,6 +94,8 @@ public class Player : MonoBehaviour
     public Chat parkmunwon2;
     public Chat whyDontRegister;
     readonly int[] numberKeySpeed = {0, 1, 2, 3, 5, 10, 20, 30, 50, 100};
+    [SerializeField] Chat graduationChat;
+    [SerializeField] Image graduationEffect;
     #endregion
     void OnEnable()
     {
@@ -509,7 +511,14 @@ public class Player : MonoBehaviour
         {
             if (GameData.mapArgs == GameData.clas && GameData.inSchool)
             {
-                GameData.timeSpeed = new TimeSpan(0, 10, 0);
+                if (GameData.time.Date == GameData.graduationDate)
+                {
+                    ChatManager.OpenChat(graduationChat);
+                }
+                else
+                {
+                    GameData.timeSpeed = new TimeSpan(0, 10, 0);
+                }
             }
             if (GameData.time.Date == GameData.firstDay.Date)
             {
@@ -960,5 +969,21 @@ public class Player : MonoBehaviour
             Instantiate(questItem, questList).transform.Find("Text").GetComponent<Text>().text = $"기간 : {d.Year}년 {d.Month}월 {d.Day}일 8시까지 (D-{(d - GetDate2()).TotalDays})\n성공 보상 : {q.reward} XP\n실패 패널티 : -{q.reward} XP{req}";
         }
         UpdateQuestCount();
+    }
+    System.Collections.IEnumerator StartGraduation2()
+    {
+        float alpha = 0;
+        while (alpha < 1)
+        {
+            alpha += Time.deltaTime * 0.2f;
+            graduationEffect.color = new Color(1, 1, 1, alpha);
+            yield return null;
+        }
+        SceneManager.LoadScene("TitleScene"); // 임시
+    }
+    public void StartGraduation()
+    {
+        graduationEffect.gameObject.SetActive(true);
+        StartCoroutine(StartGraduation2());
     }
 }
