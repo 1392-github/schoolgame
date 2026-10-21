@@ -55,19 +55,25 @@ public class ChatManager : MonoBehaviour
         }
         ChatElement e = currentChat.value[currentChatElement];
         object[] chatExtra;
+        int nextChat;
         if (e.chatEvent == -1)
         {
             chatExtra = new object[0];
+            nextChat = e.next;
         }
         else
         {
-            chatExtra = ((Func<object[]>)GlobalEventManager.events[e.chatEvent])();
+            (chatExtra, nextChat) = ((Func<(object[], int)>)GlobalEventManager.events[e.chatEvent])();
+            if (nextChat == 0)
+            {
+                nextChat = e.next;
+            }
         }
-        if (e.next == -2)
+        if (nextChat == -2)
         {
             nextChatElement = 0;
         }
-        else if (e.next == 0)
+        else if (nextChat == 0)
         {
             if (currentChatElement == currentChat.value.Count - 1)
             {
@@ -80,7 +86,7 @@ public class ChatManager : MonoBehaviour
         }
         else
         {
-            nextChatElement = e.next;
+            nextChatElement = nextChat;
         }
         enableNext2 = false;
         foreach (Transform item2 in chatOption)
