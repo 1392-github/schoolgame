@@ -46,4 +46,5 @@ public class SaveFile8 : SaveFile0
     public bool[] applicationPassed;
     public UniversityAdmissionInfo[] universityAdmissionInfo;
     public bool announcementOpened;
+    public int finalUniversity;
 }
