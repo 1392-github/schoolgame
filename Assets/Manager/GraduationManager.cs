@@ -8,6 +8,7 @@ public class GraduationManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI introText;
     [SerializeField] Chat graduation2Chat;
     [SerializeField] Chat graduation3Chat;
+    [SerializeField] Chat graduation4Chat;
     [SerializeField] Image backgroundImage;
     [SerializeField] Image theEndImage;
     [SerializeField] TextMeshProUGUI theEndText;
@@ -29,27 +30,49 @@ public class GraduationManager : MonoBehaviour
         }
         introText.gameObject.SetActive(false);
         yield return new WaitForSeconds(1);
-        ChatManager.OpenChat(graduation2Chat);
-        yield return new WaitUntil(() => ChatManager.instance.currentChat == null);
-        alpha = 0;
-        backgroundImage.gameObject.SetActive(true);
-        while (alpha < 1)
+        if (UniversityManager.finalUniversity == -1)
         {
-            alpha += Time.deltaTime / 3f;
-            backgroundImage.color = new Color(1, 1, 1, alpha);
-            yield return null;
+            // 재수 엔딩
+            ChatManager.OpenChat(graduation4Chat);
+            yield return new WaitUntil(() => ChatManager.instance.currentChat == null);
+            alpha = 0;
+            backgroundImage.gameObject.SetActive(true);
+            theEndImage.gameObject.SetActive(true);
+            while (alpha < 1)
+            {
+                alpha += Time.deltaTime / 3f;
+                backgroundImage.color = new Color(1, 1, 1, alpha);
+                theEndImage.color = new Color(1, 1, 1, alpha);
+                theEndText.color = new Color(0, 0, 0, alpha);
+                yield return null;
+            }
+            backgroundImage.color = Color.white;
         }
-        backgroundImage.color = Color.white;
-        ChatManager.OpenChat(graduation3Chat);
-        yield return new WaitUntil(() => ChatManager.instance.currentChat == null);
-        alpha = 0;
-        theEndImage.gameObject.SetActive(true);
-        while (alpha < 1)
+        else
         {
-            alpha += Time.deltaTime / 3f;
-            theEndImage.color = new Color(1, 1, 1, alpha);
-            theEndText.color = new Color(0, 0, 0, alpha);
-            yield return null;
+            // 일반 엔딩
+            ChatManager.OpenChat(graduation2Chat);
+            yield return new WaitUntil(() => ChatManager.instance.currentChat == null);
+            alpha = 0;
+            backgroundImage.gameObject.SetActive(true);
+            while (alpha < 1)
+            {
+                alpha += Time.deltaTime / 3f;
+                backgroundImage.color = new Color(1, 1, 1, alpha);
+                yield return null;
+            }
+            backgroundImage.color = Color.white;
+            ChatManager.OpenChat(graduation3Chat);
+            yield return new WaitUntil(() => ChatManager.instance.currentChat == null);
+            alpha = 0;
+            theEndImage.gameObject.SetActive(true);
+            while (alpha < 1)
+            {
+                alpha += Time.deltaTime / 3f;
+                theEndImage.color = new Color(1, 1, 1, alpha);
+                theEndText.color = new Color(0, 0, 0, alpha);
+                yield return null;
+            }
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0));
         alpha = 0;

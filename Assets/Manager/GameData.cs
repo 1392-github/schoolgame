@@ -369,7 +369,10 @@ public static class GameData
             ExamManager.type2Exam[i] = new ExamScore();
         }
 
-        UniversityManager.universityCount[UniversityManager.finalUniversity]++;
+        if (UniversityManager.finalUniversity != -1)
+        {
+            UniversityManager.universityCount[UniversityManager.finalUniversity]++;
+        }
         UniversityManager.admissionType = AdmissionType.NONE;
         Array.Fill(UniversityManager.appliedUniversities, -1);
         UniversityManager.appliedUniversityCount = 0;

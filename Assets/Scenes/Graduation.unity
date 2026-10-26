@@ -872,6 +872,7 @@ MonoBehaviour:
   introText: {fileID: 935294888}
   graduation2Chat: {fileID: 11400000, guid: bff964b4470769d46b7c29b13f40614b, type: 2}
   graduation3Chat: {fileID: 11400000, guid: eafb7b9cad75a1c40acda4b419276877, type: 2}
+  graduation4Chat: {fileID: 11400000, guid: 8ac4a3913ef1f054f8d51cf705622dd7, type: 2}
   backgroundImage: {fileID: 621620128}
   theEndImage: {fileID: 1575881006}
   theEndText: {fileID: 1189507151}
