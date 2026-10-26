@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6de2a110b994c2747b95b909036604a0, type: 3}
-  m_Name: Graduation
+  m_Name: Graduation1
   m_EditorClassIdentifier: 
   name: "\uC878\uC5C5\uC2DD"
   skipable: 0

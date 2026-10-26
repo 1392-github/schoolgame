@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public enum TutorialState
@@ -337,5 +337,48 @@ public static class GameData
     public static bool ExperimentalCheck(Experimental e)
     {
         return experimental.Contains(e);
+    }
+    public static void NewGamePlus()
+    {
+        playthrough++;
+        exp = 0;
+        money = 0;
+        time = firstDay;
+        timeSpeed = TimeSpan.Zero;
+        inClass = false;
+        inSchool = true;
+        currentScene = "Home";
+        mapArgs = 0;
+        Array.Clear(studyExp, 0, 5);
+        schedule = 0;
+        clas = Random.Range(0, 10);
+        inventory.Clear();
+        for (int i = 0; i < stat.Length; i++)
+        {
+            stat[i] = 0;
+        }
+        quest.Clear();
+        pendingQuest[0].reward = 0;
+
+        for (int i = 0; i < ExamManager.type1Exam.Length; i++)
+        {
+            ExamManager.type1Exam[i] = new ExamScore();
+        }
+        for (int i = 0; i < ExamManager.type2Exam.Length; i++)
+        {
+            ExamManager.type2Exam[i] = new ExamScore();
+        }
+
+        UniversityManager.universityCount[UniversityManager.finalUniversity]++;
+        UniversityManager.admissionType = AdmissionType.NONE;
+        Array.Fill(UniversityManager.appliedUniversities, -1);
+        UniversityManager.appliedUniversityCount = 0;
+        Array.Clear(UniversityManager.applicationPassed, 0, 3);
+        UniversityManager.announcementOpened = false;
+        UniversityManager.finalUniversity = -1;
+        Save();
+
+        HomeUIManager.newGamePlusStartEffect = true;
+        SceneManager.LoadScene("HomeScene");
     }
 }

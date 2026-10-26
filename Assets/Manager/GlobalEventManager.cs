@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
+using UnityEngine;
 
 public static class GlobalEventManager
 {
     public static Delegate[] events;
     public static void Register()
     {
-        events = new Delegate[70];
+        events = new Delegate[73];
         // 0~49: 문제집 사용
         for (int i = 0; i < 50; i++)
         {
@@ -40,9 +41,15 @@ public static class GlobalEventManager
         events[66] = (Func<(object[], int)>)(() => (new object[] {GameData.playthrough, GameData.school}, 0));
         // 67 : {0} {1} 학생, 박문원 학생, 이외 298명의 졸업을 허가합니다.
         events[67] = (Func<(object[], int)>)(() => (new object[] {GameData.school, GameData.name}, UniversityManager.finalUniversity == -1 ? 5 : 3));
-        // 68: 그나저나 너 {0}대학교 합격했다며? 진짜 대박이다!
+        // 68: 그나저나 너 {0}대학교 합격했다며? 진짜 대박이다! / 그럼 지금부터 {0}대학교 입학식을 시작합니다!
         events[68] = (Func<(object[], int)>)(() => (new object[] {UniversityManager.universities[UniversityManager.finalUniversity].name}, 0));
         // 69: 졸업식 시작
         events[69] = (Action)(() => GameData.player.StartGraduation());
+        // 70: 졸업식 "{0}년 2월 1일"
+        events[70] = (Func<(object[], int)>)(() => (new object[] {GameData.startYear + 3}, 0));
+        // 71: 졸업식 "안녕, {0}?"
+        events[71] = (Func<(object[], int)>)(() => (new object[] {Util.Josa(GameData.name, "아", "야")}, 0));
+        // 72: 졸업식 "나는 아쉽게 {0}대로 갔거든..."
+        events[72] = (Func<(object[], int)>)(() => (new object[] {UniversityManager.universities[Mathf.Min(UniversityManager.finalUniversity + 2, UniversityManager.universities.Length - 1)].name}, 0));
     }
 }

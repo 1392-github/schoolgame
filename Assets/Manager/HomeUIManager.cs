@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,9 +23,26 @@ public class HomeUIManager : MonoBehaviour
     [SerializeField] Button worldBookButton;
     [SerializeField] Button[] worldBookChapterButtons;
     [SerializeField] WorldBook[] worldBooks;
+    [SerializeField] Image newGameStartEffect;
     public Button nextDayButton;
     bool nextDayButtonPrevent;
     bool nextDayButtonPrevent2;
+
+    public static bool newGamePlusStartEffect;
+    
+    IEnumerator NewGameStartEffect()
+    {
+        newGameStartEffect.gameObject.SetActive(true);
+        float alpha = 1;
+        while (alpha > 0)
+        {
+            newGameStartEffect.color = new Color(1, 1, 1, alpha);
+            alpha -= Time.deltaTime / 5f;
+            yield return null;
+        }
+        newGameStartEffect.gameObject.SetActive(false);
+        newGamePlusStartEffect = false;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -68,6 +86,10 @@ public class HomeUIManager : MonoBehaviour
             {
                 button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i + 1}±Ç: ? ? ?";
             }
+        }
+        if (newGamePlusStartEffect)
+        {
+            StartCoroutine(NewGameStartEffect());
         }
     }
     void Update()

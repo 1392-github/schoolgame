@@ -80,4 +80,25 @@ public static class Util
             yield return new WaitForSeconds(delay);
         }
     }
+    /// <summary>
+    /// 문자열 뒤에 자동으로 조사(이/가 등)를 붙임
+    /// </summary>
+    /// <param name="text">조사가 붙기 전 문자열</param>
+    /// <param name="josa1">받침 있을 때의 조사(이, 은, 을 등)</param>
+    /// <param name="josa2">받침 없을 때의 조사(가, 는, 를 등)</param>
+    /// <returns>조사가 붙은 문자열</returns>
+    /// <exception cref="ArgumentException">text가 null이거나 비어 있는 경우</exception>
+    public static string Josa(string text, string josa1, string josa2)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            throw new ArgumentException("text가 null이거나 비어 있습니다.");
+        }
+        int last = text[^1];
+        if (last < 0xac00 || last > 0xd7a3)
+        {
+            return text + josa1;
+        }
+        return text + ((last - 0xac00) % 28 == 0 ? josa2 : josa1);
+    }
 }

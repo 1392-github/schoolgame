@@ -839,7 +839,7 @@ public class Player : MonoBehaviour
     }
     public void TutorialOpenChat(TutorialState state, Chat chat)
     {
-        if ((GameData.tutorialState & state) == 0)
+        if (GameData.playthrough == 1 && (GameData.tutorialState & state) == 0)
         {
             ChatManager.OpenChat(chat);
             GameData.tutorialState |= state;
@@ -979,7 +979,7 @@ public class Player : MonoBehaviour
             graduationEffect.color = new Color(1, 1, 1, alpha);
             yield return null;
         }
-        SceneManager.LoadScene("TitleScene"); // 임시
+        SceneManager.LoadScene("Graduation"); // 임시
     }
     public void StartGraduation()
     {

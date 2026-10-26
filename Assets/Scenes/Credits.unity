@@ -360,7 +360,9 @@ MonoBehaviour:
     DEALINGS IN THE FONT SOFTWARE.\r\n\r\n\uB610\uD55C \uB2E4\uC74C \uC678\uBD80
     \uC0AC\uC6B4\uB4DC\uB97C \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\r\nhttps://freesound.org/people/Jay_You/sounds/460430/
     (freesound.org\uC758 \"computer keyboard single hit\", CC BY 4.0, 460430__jay_you__computer-keyboard-single-hit)\r\nhttps://freesound.org/people/davidbain/sounds/136778/
-    (freesound.org\uC758 \"Page Turn\", CC0, 136778__davidbain__page-turn)\r\n\r\n\uC774
+    (freesound.org\uC758 \"Page Turn\", CC0, 136778__davidbain__page-turn)\r\nhttps://freesound.org/people/tyops/sounds/616799/
+    (freesound.org\uC758 \"Nostalgic Ending Credits 3\", CC BY 4.0, 616799__tyops__nostalgic-ending-credits-3,
+    \uC6D0\uBCF8\uC740 wav\uC774\uB098 ogg\uB85C \uBCC0\uD658\uD568)\n\r\n\uC774
     \uD504\uB85C\uC81D\uD2B8\uB294 Font Awesome 7.3.1(Font Awesome 7 Free-Soild-900.otf,
     Font Awesome 7 Free-Solid-900 SDF.asset\uC740 \uC774\uB97C \uBCC0\uD658\uD55C
     \uD30C\uC77C)\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\r\n\r\nFonticons, Inc. (https://fontawesome.com)\r\n\r\n--------------------------------------------------------------------------------\r\n\r\nFont
@@ -1137,7 +1139,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 540356354}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.06088081
+  m_Size: 0.060704578
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
