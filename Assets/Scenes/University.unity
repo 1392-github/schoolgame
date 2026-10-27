@@ -5476,6 +5476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   universityList: {fileID: 2134405919}
   universityListItemPrefab: {fileID: 4596767965543184822, guid: 128f37b887fb9be429dffbe0521d9391, type: 3}
+  applicationButton: {fileID: 526568213}
   applicationTitleText: {fileID: 111461926}
   applicationInfoSuneungMinOrGroupText: {fileID: 1036327696}
   applicationList: {fileID: 769804842}

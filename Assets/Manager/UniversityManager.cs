@@ -136,6 +136,10 @@ public static class UniversityManager
     /// 최종 등록한 대학 (-1이면 없음)
     /// </summary>
     public static int finalUniversity = -1;
+    /// <summary>
+    /// 모집요강이 해금되었는지
+    /// </summary>
+    public static bool admissionInfoUnlocked => GameData.grade == 3;
     static readonly int[] nearMonday = {1, 0, 6, 5, 4, 3, 2};
     public static void Init()
     {

@@ -11,6 +11,7 @@ public class UniversityUIManager : MonoBehaviour
 {
     [SerializeField] Transform universityList;
     [SerializeField] GameObject universityListItemPrefab;
+    [SerializeField] Button applicationButton;
     [SerializeField] TextMeshProUGUI applicationTitleText;
     [SerializeField] TextMeshProUGUI applicationInfoSuneungMinOrGroupText;
     [SerializeField] Transform applicationList;
@@ -172,23 +173,43 @@ public class UniversityUIManager : MonoBehaviour
             item.universityName.text = university.name + "대학교";
             int score = UniversityManager.GetAdmissionScore(AdmissionType.EARLY_ADMISSION, i);
             item.scoreEarly.text = score.ToString();
-            int chance = UniversityManager.GetChance(i, score);
-            item.chanceEarly.text = $"{chance}%";
-            item.chanceEarly.color = GetChanceColor(chance);
+            if (UniversityManager.admissionInfoUnlocked)
+            {
+                int chance = UniversityManager.GetChance(i, score);
+                item.chanceEarly.text = $"{chance}%";
+                item.chanceEarly.color = GetChanceColor(chance);
+            }
+            else
+            {
+                item.chanceEarly.text = "???";
+            }
             if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.EARLY_ADMISSION))
             {
                 item.scoreEarly.fontStyle = FontStyles.Italic;
-                item.chanceEarly.fontStyle = FontStyles.Italic;
+                if (UniversityManager.admissionInfoUnlocked)
+                {
+                    item.chanceEarly.fontStyle = FontStyles.Italic;
+                }
             }
             score = UniversityManager.GetAdmissionScore(AdmissionType.REGULAR_ADMISSION, i);
             item.scoreRegular.text = score.ToString();
-            chance = UniversityManager.GetChance(i, score);
-            item.chanceRegular.text = $"{chance}%";
-            item.chanceRegular.color = GetChanceColor(chance);
+            if (UniversityManager.admissionInfoUnlocked)
+            {
+                int chance = UniversityManager.GetChance(i, score);
+                item.chanceRegular.text = $"{chance}%";
+                item.chanceRegular.color = GetChanceColor(chance);
+            }
+            else
+            {
+                item.chanceRegular.text = "???";
+            }
             if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.REGULAR_ADMISSION))
             {
                 item.scoreRegular.fontStyle = TMPro.FontStyles.Italic;
-                item.chanceRegular.fontStyle = TMPro.FontStyles.Italic;
+                if (UniversityManager.admissionInfoUnlocked)
+                {
+                    item.chanceRegular.fontStyle = FontStyles.Italic;
+                }
             }
             item.admissionCount.text = UniversityManager.universityCount[i].ToString();
             int i2 = i;
@@ -200,78 +221,85 @@ public class UniversityUIManager : MonoBehaviour
                 SceneManager.LoadScene("UniversityAdmissionInfo");
             });
         }
-        applicationTitleText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")} 지원 <size=50>전체 지원 기간: {UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}</size>";
-        if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        if (UniversityManager.admissionInfoUnlocked)
         {
-            // 정시 모집의 경우 수시 모집의 수능 최저 자리에 모집군을 표시
-            applicationInfoSuneungMinOrGroupText.text = "모집군";
-            if (UniversityManager.admissionType != AdmissionType.EARLY_ADMISSION) // 이미 수시를 지원한 경우는 제외하고
+            applicationTitleText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")} 지원 <size=50>전체 지원 기간: {UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}</size>";
+            if (admissionType == AdmissionType.REGULAR_ADMISSION)
             {
-                // 수시 모집의 지원 목록 1, 2, 3 자리에 가, 나, 다 표시
-                applicationedGroupTexts[0].text = "가";
-                applicationedGroupTexts[1].text = "나";
-                applicationedGroupTexts[2].text = "다";
-            }
-        }
-        for (int i = 0; i < UniversityManager.universities.Length; i++)
-        {
-            UniversityApplicationListItem item = Instantiate(applicationListPrefab, applicationList).GetComponent<UniversityApplicationListItem>();
-            item.universityName.text = UniversityManager.universities[i].name + "대학교";
-            UniversityAdmissionInfo info = UniversityManager.universityAdmissionInfo[i];
-            if (admissionType == AdmissionType.EARLY_ADMISSION)
-            {
-                item.applicaitonDate.text = $"{info.earlyApplicationStartDay:M\\/d}~{info.earlyApplicationEndDay2:M\\/d}";
-            }
-            else
-            {
-                item.applicaitonDate.text = $"{UniversityManager.GetApplicationDate(AdmissionType.REGULAR_ADMISSION, 0):M\\/d}~{UniversityManager.GetApplicationDate(AdmissionType.REGULAR_ADMISSION, 2):M\\/d}";
-            }
-            int score = UniversityManager.GetAdmissionScore(admissionType, i);
-            item.score.text = score.ToString();
-            int chance = UniversityManager.GetChance(i, score);
-            item.chance.text = $"{chance}%";
-            item.chance.color = GetChanceColor(chance);
-            if (!UniversityManager.IsAdmissionScoreConfirmed(admissionType))
-            {
-                item.score.fontStyle = FontStyles.Italic;
-                item.chance.fontStyle = FontStyles.Italic;
-            }
-            if (admissionType == AdmissionType.EARLY_ADMISSION)
-            {
-                if (info.suneungMinSubjectCount == 0)
+                // 정시 모집의 경우 수시 모집의 수능 최저 자리에 모집군을 표시
+                applicationInfoSuneungMinOrGroupText.text = "모집군";
+                if (UniversityManager.admissionType != AdmissionType.EARLY_ADMISSION) // 이미 수시를 지원한 경우는 제외하고
                 {
-                    item.suneungMinOrGroup.text = "-";
+                    // 수시 모집의 지원 목록 1, 2, 3 자리에 가, 나, 다 표시
+                    applicationedGroupTexts[0].text = "가";
+                    applicationedGroupTexts[1].text = "나";
+                    applicationedGroupTexts[2].text = "다";
+                }
+            }
+            for (int i = 0; i < UniversityManager.universities.Length; i++)
+            {
+                UniversityApplicationListItem item = Instantiate(applicationListPrefab, applicationList).GetComponent<UniversityApplicationListItem>();
+                item.universityName.text = UniversityManager.universities[i].name + "대학교";
+                UniversityAdmissionInfo info = UniversityManager.universityAdmissionInfo[i];
+                if (admissionType == AdmissionType.EARLY_ADMISSION)
+                {
+                    item.applicaitonDate.text = $"{info.earlyApplicationStartDay:M\\/d}~{info.earlyApplicationEndDay2:M\\/d}";
                 }
                 else
                 {
-                    item.suneungMinOrGroup.text = $"{info.suneungMinSubjectCount}합 {info.suneungMinGradeSum}";
+                    item.applicaitonDate.text = $"{UniversityManager.GetApplicationDate(AdmissionType.REGULAR_ADMISSION, 0):M\\/d}~{UniversityManager.GetApplicationDate(AdmissionType.REGULAR_ADMISSION, 2):M\\/d}";
                 }
+                int score = UniversityManager.GetAdmissionScore(admissionType, i);
+                item.score.text = score.ToString();
+                int chance = UniversityManager.GetChance(i, score);
+                item.chance.text = $"{chance}%";
+                item.chance.color = GetChanceColor(chance);
+                if (!UniversityManager.IsAdmissionScoreConfirmed(admissionType))
+                {
+                    item.score.fontStyle = FontStyles.Italic;
+                    item.chance.fontStyle = FontStyles.Italic;
+                }
+                if (admissionType == AdmissionType.EARLY_ADMISSION)
+                {
+                    if (info.suneungMinSubjectCount == 0)
+                    {
+                        item.suneungMinOrGroup.text = "-";
+                    }
+                    else
+                    {
+                        item.suneungMinOrGroup.text = $"{info.suneungMinSubjectCount}합 {info.suneungMinGradeSum}";
+                    }
+                }
+                else
+                {
+                    item.suneungMinOrGroup.text = UniversityManager.regularGroupNames[info.regularGroup];
+                }
+                int i2 = i;
+                item.apply.onClick.AddListener(() => ClickApplication(i2));
             }
-            else
+            if (UniversityManager.admissionType == AdmissionType.EARLY_ADMISSION && admissionType == AdmissionType.REGULAR_ADMISSION) // 수시를 이미 지원했고 지금 정시 기간이면 (수시 납치를 당했다면)
             {
-                item.suneungMinOrGroup.text = UniversityManager.regularGroupNames[info.regularGroup];
+                cannotApply.SetActive(true);
+                cannotApplyReasonText.text = "수시모집 지원자는\n정시모집 지원 불가";
             }
-            int i2 = i;
-            item.apply.onClick.AddListener(() => ClickApplication(i2));
+            else if (GameData.time < UniversityManager.GetApplicationDate(admissionType, 0)) // 지원 시작 전이라면
+            {
+                cannotApply.SetActive(true);
+                cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")} 지원 기간\n{UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}";
+            }
+            else if (GameData.time >= UniversityManager.regularApplicationEnd) // 정시 지원이 끝났다면
+            {
+                cannotApply.SetActive(true);
+                cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 정시 지원 기간\n{UniversityManager.regularApplicationStart:yyyy년 M월 d일} ~ {UniversityManager.regularApplicationEnd2:M월 d일}";
+                // 참고: 수시 지원만 끝났고 정시 지원이 안 끝났다면 정시 지원 창이 나옴
+            }
+            UpdateAdmissionList();
         }
-        if (UniversityManager.admissionType == AdmissionType.EARLY_ADMISSION && admissionType == AdmissionType.REGULAR_ADMISSION) // 수시를 이미 지원했고 지금 정시 기간이면 (수시 납치를 당했다면)
+        else
         {
-            cannotApply.SetActive(true);
-            cannotApplyReasonText.text = "수시모집 지원자는\n정시모집 지원 불가";
-        }
-        else if (GameData.time < UniversityManager.GetApplicationDate(admissionType, 0)) // 지원 시작 전이라면
-        {
-            cannotApply.SetActive(true);
-            cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")} 지원 기간\n{UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}";
-        }
-        else if (GameData.time >= UniversityManager.regularApplicationEnd) // 정시 지원이 끝났다면
-        {
-            cannotApply.SetActive(true);
-            cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 정시 지원 기간\n{UniversityManager.regularApplicationStart:yyyy년 M월 d일} ~ {UniversityManager.regularApplicationEnd2:M월 d일}";
-            // 참고: 수시 지원만 끝났고 정시 지원이 안 끝났다면 정시 지원 창이 나옴
+            applicationButton.interactable = false;
         }
         audioSource = GetComponent<AudioSource>();
-        UpdateAdmissionList();
         UpdateResult();
     }
     void Fail(string message)
