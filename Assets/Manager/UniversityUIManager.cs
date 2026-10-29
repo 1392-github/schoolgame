@@ -216,6 +216,7 @@ public class UniversityUIManager : MonoBehaviour
             item.button.onClick.AddListener(() =>
             {
                 UniversityAdmissionInfoUIManager.universityName = UniversityManager.universities[i2].name;
+                UniversityAdmissionInfoUIManager.universityEffect = UniversityManager.universities[i2].effect;
                 UniversityAdmissionInfoUIManager.registerFee = UniversityManager.universities[i2].registerFee;
                 UniversityAdmissionInfoUIManager.info = UniversityManager.universityAdmissionInfo[i2];
                 SceneManager.LoadScene("UniversityAdmissionInfo");

@@ -5,10 +5,12 @@ using TMPro;
 public class UniversityAdmissionInfoUIManager : MonoBehaviour
 {
     public static string universityName;
+    public static string universityEffect;
     public static int registerFee;
     public static UniversityAdmissionInfo info;
 
     [SerializeField] TextMeshProUGUI titleText;
+    [SerializeField] TextMeshProUGUI effectText;
     [SerializeField] TextMeshProUGUI[] weightTexts;
     [SerializeField] TextMeshProUGUI suneungMinText;
     [SerializeField] TextMeshProUGUI earlyApplicationDateText;
@@ -18,6 +20,7 @@ public class UniversityAdmissionInfoUIManager : MonoBehaviour
     void Start()
     {
         titleText.text = universityName + "대학교\n모 집 요 강";
+        effectText.text = universityEffect;
         // 가중치 표시
         for (int i = 0; i < 5; i++)
         {
