@@ -41,7 +41,7 @@ public static class ExamManager
         ExamScore score = new ExamScore();
         for (int i = 0; i < 5; i++)
         {
-            bool maxScore50 = currentExamType == 2 && (i == 2 || i == 3); // 모의고사/수능 시험이면서 사회(2)/과학(3) 영역인 경우 50점 만점으로
+            bool maxScore50 = currentExamType == 2 && i >= 3; // 모의고사/수능 시험이면서 사회(3)/과학(4) 영역인 경우 50점 만점으로
             score.rawScore[i] = Mathf.Clamp((int)(Mathf.Log(GameData.studyExp[i] + examType.logShift, examType.logBase) - Mathf.Log(examType.logShift, examType.logBase)) + Random.Range(-3, 4), 0, 100);
             if (maxScore50) score.rawScore[i] /= 2;
             score.average[i] = Random.Range(maxScore50 ? 25 : 50, maxScore50 ? 31 : 61);

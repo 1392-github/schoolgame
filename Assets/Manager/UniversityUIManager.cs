@@ -402,7 +402,7 @@ public class UniversityUIManager : MonoBehaviour
                         break;
                     case 27:
                         int[] suneung = ExamManager.type2Exam[^1].grade;
-                        StartCoroutine(Util.TypeText($"결국 수능에서 국어 {suneung[0]}, 수학 {suneung[1]}, 사회 {suneung[2]}, 과학 {suneung[3]}, 영어 {suneung[4]}등급을 받고,\n" +
+                        StartCoroutine(Util.TypeText($"결국 수능에서 국어 {suneung[0]}, 수학 {suneung[1]}, 영어 {suneung[2]}, 사회 {suneung[3]}, 과학 {suneung[4]}등급을 받고,\n" +
                             $"결국 {string.Join(", ", UniversityManager.appliedUniversities.Where(x => x != -1).Select(x => UniversityManager.universities[x].name))}대학교에 지원했었지.\n\n" +
                             $"오늘 드디어 합격자 발표하네... 과연 난 합격할 수 있을까?\n\n", countdownStoryText, audioSource));
                         countdownBackground.color = Color.black;

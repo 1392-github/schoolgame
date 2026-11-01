@@ -18,7 +18,7 @@ public class GraduationManager : MonoBehaviour
     {
         yield return StartCoroutine(Util.TypeText($"그렇게 나의 3년간의 고등학교 생활은 끝이 나게 되었다.\n\n그리고...\n\n나는 {(UniversityManager.finalUniversity == -1 ? "아무 대학에도 입학하지 못했다." : $"{UniversityManager.universities[UniversityManager.finalUniversity].name}대학교에 입학했다.")}\n\n" +
             $"최종 능력치\n\n국어 {GameData.studyExp[0]}, 수학 {GameData.studyExp[1]}, " +
-            $"사회 {GameData.studyExp[2]}, 과학 {GameData.studyExp[3]}, 영어 {GameData.studyExp[4]}\n\n", introText, audioSource));
+            $"영어 {GameData.studyExp[2]}, 사회 {GameData.studyExp[3]}, 과학 {GameData.studyExp[4]}\n\n", introText, audioSource));
         yield return StartCoroutine(Util.TypeText($"([Enter] 클릭이나 화면 클릭/터치)", introText, audioSource, 0.05f));
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0));
         float alpha = 1;

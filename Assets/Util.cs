@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public static class Util
 {
-    public static readonly string[] subjectName = { "국어", "수학", "사회", "과학", "영어" };
+    public static readonly string[] subjectName = { "국어", "수학", "영어", "사회", "과학" };
     static readonly char[] choTable = { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
     public static AudioClip typeSound;
     public static string DDay(DateTime from, DateTime to)

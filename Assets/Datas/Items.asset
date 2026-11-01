@@ -113,153 +113,153 @@ MonoBehaviour:
     cost: 100000
     descExt: 59
     use: 19
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 10000
-    descExt: 50
-    use: 20
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 20000
-    descExt: 51
-    use: 21
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 30000
-    descExt: 52
-    use: 22
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 40000
-    descExt: 53
-    use: 23
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 50000
-    descExt: 54
-    use: 24
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 60000
-    descExt: 55
-    use: 25
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 70000
-    descExt: 56
-    use: 26
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 80000
-    descExt: 57
-    use: 27
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 90000
-    descExt: 58
-    use: 28
-  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
-    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 100000
-    descExt: 59
-    use: 29
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 10000
-    descExt: 50
-    use: 30
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 20000
-    descExt: 51
-    use: 31
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 30000
-    descExt: 52
-    use: 32
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 40000
-    descExt: 53
-    use: 33
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 50000
-    descExt: 54
-    use: 34
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 60000
-    descExt: 55
-    use: 35
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 70000
-    descExt: 56
-    use: 36
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 80000
-    descExt: 57
-    use: 37
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 90000
-    descExt: 58
-    use: 38
-  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
-    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
-    cost: 100000
-    descExt: 59
-    use: 39
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 10000
     descExt: 50
-    use: 40
+    use: 20
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 20000
     descExt: 51
-    use: 41
+    use: 21
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 30000
     descExt: 52
-    use: 42
+    use: 22
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 40000
     descExt: 53
-    use: 43
+    use: 23
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 50000
     descExt: 54
-    use: 44
+    use: 24
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 60000
     descExt: 55
-    use: 45
+    use: 25
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 70000
     descExt: 56
-    use: 46
+    use: 26
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 80000
     descExt: 57
-    use: 47
+    use: 27
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 90000
     descExt: 58
-    use: 48
+    use: 28
   - name: "\uC601\uC5B4 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
     desc: "\uC601\uC5B4 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000
+    descExt: 59
+    use: 29
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+    descExt: 50
+    use: 30
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+    descExt: 51
+    use: 31
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+    descExt: 52
+    use: 32
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+    descExt: 53
+    use: 33
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+    descExt: 54
+    use: 34
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+    descExt: 55
+    use: 35
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+    descExt: 56
+    use: 36
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+    descExt: 57
+    use: 37
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+    descExt: 58
+    use: 38
+  - name: "\uC0AC\uD68C \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uC0AC\uD68C \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 100000
+    descExt: 59
+    use: 39
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (1\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 10000
+    descExt: 50
+    use: 40
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (2\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 20000
+    descExt: 51
+    use: 41
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (3\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 30000
+    descExt: 52
+    use: 42
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (4\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 40000
+    descExt: 53
+    use: 43
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (5\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 50000
+    descExt: 54
+    use: 44
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (6\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 60000
+    descExt: 55
+    use: 45
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (7\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 70000
+    descExt: 56
+    use: 46
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (8\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 80000
+    descExt: 57
+    use: 47
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (9\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
+    cost: 90000
+    descExt: 58
+    use: 48
+  - name: "\uACFC\uD559 \uBB38\uC81C\uC9D1 (10\uB2E8\uACC4)"
+    desc: "\uACFC\uD559 \uB2A5\uB825\uCE58 {0}~{1} \uC0C1\uC2B9"
     cost: 100000
     descExt: 59
     use: 49

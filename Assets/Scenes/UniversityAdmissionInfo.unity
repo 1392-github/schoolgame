@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 59360036}
   - component: {fileID: 59360035}
   m_Layer: 5
-  m_Name: English
+  m_Name: Science
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2869,7 +2869,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC0AC  \uD68C"
+  m_text: "\uC601  \uC5B4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -3563,7 +3563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC601  \uC5B4"
+  m_text: "\uACFC  \uD559"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -4857,7 +4857,7 @@ GameObject:
   - component: {fileID: 663976037}
   - component: {fileID: 663976036}
   m_Layer: 5
-  m_Name: Science
+  m_Name: Society
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5530,7 +5530,7 @@ GameObject:
   - component: {fileID: 770857196}
   - component: {fileID: 770857195}
   m_Layer: 5
-  m_Name: Science
+  m_Name: Society
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5653,7 +5653,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uACFC  \uD559"
+  m_text: "\uC0AC  \uD68C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -5991,7 +5991,7 @@ GameObject:
   - component: {fileID: 866550559}
   - component: {fileID: 866550558}
   m_Layer: 5
-  m_Name: Society
+  m_Name: English
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6222,7 +6222,7 @@ GameObject:
   - component: {fileID: 879210221}
   - component: {fileID: 879210220}
   m_Layer: 5
-  m_Name: Society
+  m_Name: English
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16672,7 +16672,7 @@ GameObject:
   - component: {fileID: 2132420669}
   - component: {fileID: 2132420668}
   m_Layer: 5
-  m_Name: English
+  m_Name: Science
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

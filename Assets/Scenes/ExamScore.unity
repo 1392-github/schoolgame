@@ -422,7 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 22576712}
   m_Layer: 5
-  m_Name: English
+  m_Name: Science
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1401,7 +1401,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC601  \uC5B4"
+  m_text: "\uACFC  \uD559"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -1663,7 +1663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 206006635}
   m_Layer: 5
-  m_Name: Society
+  m_Name: English
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7833,7 +7833,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC0AC  \uD68C"
+  m_text: "\uC601  \uC5B4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
@@ -7997,7 +7997,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1496877297}
   m_Layer: 5
-  m_Name: Science
+  m_Name: Society
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8334,7 +8334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uACFC  \uD559"
+  m_text: "\uC0AC  \uD68C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
   m_sharedMaterial: {fileID: 3773918852168200818, guid: 1ef641c681c3bf84ca02a993905b88bb, type: 2}
