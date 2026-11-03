@@ -9,6 +9,8 @@ public class HomeUIManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timeText;
     [SerializeField] TextMeshProUGUI ddayText;
+    [SerializeField] RectTransform gradeBar;
+    [SerializeField] RectTransform fullBar;
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] HomeGameManager gameManager;
     [SerializeField] GameObject dialog;
@@ -105,7 +107,13 @@ public class HomeUIManager : MonoBehaviour
     public void UpdateTimeUI()
     {
         timeText.text = $"<size=70>{GameData.playthrough}</size>회차 <size=70>{GameData.grade}</size>학년 <size=70>{GameData.semester}</size>학기 {GameData.time:yyyy-MM-dd(ddd)\nHH:mm:ss}";
-        ddayText.text = $"{(GameData.grade == 3 ? "졸업까지" : $"{GameData.grade + 1}학년 진급까지")}\n<size=70>{Util.DDay(Util.InGameDate(GameData.time), GameData.grade == 3 ? GameData.graduationDate : new DateTime(GameData.startYear + GameData.grade, 3, 1))}</size>";
+        DateTime gradeEndDate = GameData.grade == 3 ? GameData.graduationDate : new DateTime(GameData.startYear + GameData.grade, 3, 1);
+        DateTime inGameData = Util.InGameDate(GameData.time);
+        ddayText.text = $"{(GameData.grade == 3 ? "졸업까지" : $"{GameData.grade + 1}학년 진급까지")}\n<size=70>{Util.DDay(inGameData, gradeEndDate)}</size>";
+        gradeBar.anchorMax = new Vector2(1 - (float)(gradeEndDate - inGameData).Days /
+            (GameData.grade == 3 ? (GameData.graduationDate - new DateTime(GameData.startYear + 2, 3, 1)).Days :
+            (DateTime.IsLeapYear(GameData.startYear + GameData.grade) ? 366 : 365)), 0);
+        fullBar.anchorMax = new Vector2((float)((GameData.time - GameData.firstDay).Days) / ((GameData.graduationDate - GameData.firstDay.Date).Days), 0);
         nextDayButton.interactable = !GameData.inSchool;
         string type1ExamDday = null;
         string type2ExamDday = null;
