@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: 11
   m_EditorClassIdentifier: 
   name: "\uC870\uC6B411"
-  effect: "(\uBBF8\uC815)"
+  effect: "\uC804\uACFC\uBAA9 \uACF5\uBD80 \uD6A8\uC728\uC744 1.3\uBC30 \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4.\n\n\uCD94\uAC00\uB85C
+    \uC870\uC6B413, 15, 17, 19\uB300\uC758 \uD6A8\uACFC\uB97C \uB2E4\uC74C\uACFC
+    \uAC19\uC774 \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4.\n\n\uC870\uC6B413\uB300: 0.8\uBC30
+    \u2192 0.5\uBC30\n\uC870\uC6B415\uB300: 45\uBD84 \u2192 30\uBD84\n\uC870\uC6B417\uB300:
+    1.3\uBC30 \u2192 1.5\uBC30\n\uC870\uC6B419\uB300: 1.3\uBC30 \u2192 1.5\uBC30"
   weightMin: 2
   hasSuneungMinChance: 50
   suneungMinSubjectCountMin: 3

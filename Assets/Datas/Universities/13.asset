@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: 13
   m_EditorClassIdentifier: 
   name: "\uC870\uC6B413"
-  effect: "(\uBBF8\uC815)"
+  effect: "\uD018\uC2A4\uD2B8 \uC2E4\uD328 \uD328\uB110\uD2F0\uB97C 0.8\uBC30\uB85C
+    \uC904\uC5EC\uC8FC\uACE0, \uD018\uC2A4\uD2B8 \uC0AD\uC81C\uB97C \uD560 \uC218
+    \uC788\uC2B5\uB2C8\uB2E4. (\uD018\uC2A4\uD2B8 \uC0AD\uC81C \uC2DC \uC989\uC2DC
+    \uC2E4\uD328 \uCC98\uB9AC\uB429\uB2C8\uB2E4.)"
   weightMin: 2
   hasSuneungMinChance: 30
   suneungMinSubjectCountMin: 2

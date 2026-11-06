@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 4
   m_EditorClassIdentifier: 
   name: "\uC870\uC6B44"
-  effect: "(\uBBF8\uC815)"
+  effect: "\uD018\uC2A4\uD2B8 \uCD5C\uB300 \uAC1C\uC218\uB97C 3\uBC30 \uB298\uB824\uC90D\uB2C8\uB2E4."
   weightMin: 4
   hasSuneungMinChance: 80
   suneungMinSubjectCountMin: 4
