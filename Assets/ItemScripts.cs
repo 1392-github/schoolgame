@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class ItemScripts
 {
     public static HomeUIManager uiManager;
-    public static object[] Item1Desc(int l)
+    public static object[] Item1Desc(int id)
     {
-        return new object[] { (int)(l * GameData.studyLvBonus), (int)(l * 2 * GameData.studyLvBonus) };
+        int l = id % 10 + 1;
+        float bonus = GameData.studyLvBonus * UniversityManager.GetStudyBonusSubject(id / 10);
+        return new object[] { (int)(l * bonus), (int)(l * 2 * bonus) };
     }
     public static bool UseItem1(int id)
     {
@@ -28,31 +26,9 @@ public static class ItemScripts
                 return false;
             }
         }
-        /*
-        임시로 문제 푸는 기능 없앰
-        cntProblemItem = id;
-        Problem p = data.problem[id].value[Random.Range(0, data.problem[id].value.Count)];
-        problem.SetActive(true);
-        problem.transform.SetAsLastSibling();
-        if (p.imgContent == null)
-        {
-            problemText.gameObject.SetActive(true);
-            problemImage.gameObject.SetActive(false);
-            problemText.text = p.content;
-        }
-        else
-        {
-            problemText.gameObject.SetActive(false);
-            problemImage.gameObject.SetActive(true);
-            problemImage.sprite = p.imgContent;
-        }
-        problemAnswer = p.answer;
-        problemTimer = new TimeSpan(0, 1, 0) * problemTime;
-        timeSpeed = new TimeSpan(0, 0, 30) * (problemTime / 60);*/
-        // v1.0에서는 문제 풀 필요 없음
         int l = id % 10 + 1;
         GameData.giveStudyExp(id / 10, l, l * 2);
-        GameData.time += new TimeSpan(1, 0, 0);
+        GameData.time += UniversityManager.problemTime;
         if (uiManager != null) uiManager.UpdateTimeUI();
         return true;
     }

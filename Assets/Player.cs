@@ -869,7 +869,7 @@ public class Player : MonoBehaviour
                 req += $"{Util.subjectName[i]} +{r} ({GameData.studyExp[i] + r}) 이상\n";
             }
         }
-        newQuestText.text = $"기간 : {GameData.questTime}일 (~{GetDate2() + new TimeSpan(GameData.questTime, 0, 0, 0):yyyy-MM-dd} 8시까지)\n(기간은 퀘스트를 받은 당일 기준의 \"퀘스트 기간\" 강화에 의해 결정됩니다)\n성공 보상 : {quest.reward} XP\n실패 패널티: -{quest.reward} XP\n{req}(기간 및 요구량의 괄호 안 내용은 지금 받을 때 기준이며, 괄호 밖 부분 및 성공 보상 / 실패 패널티는 받는 시간과 무관합니다)";
+        newQuestText.text = $"기간 : {GameData.questTime}일 (~{GetDate2() + new TimeSpan(GameData.questTime, 0, 0, 0):yyyy-MM-dd} 8시까지)\n(기간은 퀘스트를 받은 당일 기준의 \"퀘스트 기간\" 강화에 의해 결정됩니다)\n성공 보상 : {(long)(quest.reward * UniversityManager.questRewardMul)} XP\n실패 패널티: -{(long)(quest.reward * UniversityManager.questFailMul)} XP\n{req}(기간 및 요구량의 괄호 안 내용은 지금 받을 때 기준이며, 괄호 밖 부분 및 성공 보상 / 실패 패널티는 받는 시간과 무관합니다)";
     }
     public void ChangeQuestLevel(int lv)
     {
@@ -966,7 +966,7 @@ public class Player : MonoBehaviour
                 }
             }
             DateTime d = DateTime.ParseExact(q.timeLimit, "yyyy-MM-dd", null);
-            Instantiate(questItem, questList).transform.Find("Text").GetComponent<Text>().text = $"기간 : {d.Year}년 {d.Month}월 {d.Day}일 8시까지 (D-{(d - GetDate2()).TotalDays})\n성공 보상 : {q.reward} XP\n실패 패널티 : -{q.reward} XP{req}";
+            Instantiate(questItem, questList).transform.Find("Text").GetComponent<Text>().text = $"기간 : {d.Year}년 {d.Month}월 {d.Day}일 8시까지 (D-{(d - GetDate2()).TotalDays})\n성공 보상 : {(long)(q.reward * UniversityManager.questRewardMul)} XP\n실패 패널티 : -{(long)(q.reward * UniversityManager.questFailMul)} XP{req}";
         }
         UpdateQuestCount();
     }

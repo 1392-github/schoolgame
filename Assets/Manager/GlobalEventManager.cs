@@ -7,19 +7,14 @@ public static class GlobalEventManager
     public static Delegate[] events;
     public static void Register()
     {
-        events = new Delegate[73];
+        events = new Delegate[123];
         // 0~49: 문제집 사용
         for (int i = 0; i < 50; i++)
         {
             int i2 = i;
             events[i] = (Func<bool>)(() => ItemScripts.UseItem1(i2));
         }
-        // 50~59: 문제집 설명 부가 정보
-        for (int i = 0; i < 10; i++)
-        {
-            int i2 = i;
-            events[i+50] = (Func<object[]>)(() => ItemScripts.Item1Desc(i2+1));
-        }
+        // 50~59: 빈 공간
         // 60: 대화의 학교명과 이름
         events[60] = (Func<(object[], int)>)(() => (new object[] {GameData.school, GameData.name}, 0));
         // 61: 대화의 반 번호
@@ -51,5 +46,11 @@ public static class GlobalEventManager
         events[71] = (Func<(object[], int)>)(() => (new object[] {Util.Josa(GameData.name, "아", "야")}, 0));
         // 72: 졸업식 "나는 아쉽게 {0}대로 갔거든..."
         events[72] = (Func<(object[], int)>)(() => (new object[] {UniversityManager.universities[Mathf.Min(UniversityManager.finalUniversity + 2, UniversityManager.universities.Length - 1)].name}, 0));
+        // 73~122: 문제집 설명 부가 정보
+        for (int i = 0; i < 50; i++)
+        {
+            int i2 = i;
+            events[i+73] = (Func<object[]>)(() => ItemScripts.Item1Desc(i2));
+        }
     }
 }

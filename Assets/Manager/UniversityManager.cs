@@ -139,7 +139,15 @@ public static class UniversityManager
     /// <summary>
     /// 모집요강이 해금되었는지
     /// </summary>
-    public static bool admissionInfoUnlocked => GameData.grade == 3;
+    public static bool admissionInfoUnlocked => GameData.grade >= admissionInfoGrade;
+    public static float studyLvBonus;
+    public static int questMaxMul;
+    public static int questDurMul;
+    public static int admissionInfoGrade;
+    public static float questFailMul;
+    public static TimeSpan problemTime;
+    public static float questRewardMul;
+    public static float incomeMul;
     static readonly int[] nearMonday = {1, 0, 6, 5, 4, 3, 2};
     public static void Init()
     {
@@ -156,6 +164,7 @@ public static class UniversityManager
         regularApplicationEnd2 = regularApplicationStart.AddDays(4);
         announcementDate = new DateTime(GameData.startYear + 2, 12, 22);
         announcementDate = announcementDate.AddDays(nearMonday[(int)announcementDate.DayOfWeek]);
+        UpdateUniversityEffect();
     }
     /// <summary>
     /// 입학 정보 생성 1 (한 세이브 파일 내 전체에서)
@@ -397,5 +406,119 @@ public static class UniversityManager
                 applicationPassed[i] = true;
             }
         }
+    }
+    /// <summary>
+    /// 대학 효과 갱신
+    /// </summary>
+    public static void UpdateUniversityEffect()
+    {
+        studyLvBonus = 1;
+        questMaxMul = 1;
+        questDurMul = 1;
+        admissionInfoGrade = 3;
+        questFailMul = 1;
+        problemTime = new TimeSpan(1, 0, 0);
+        questRewardMul = 1;
+        incomeMul = 1;
+        if (universityCount[0] >= 1) // 조운1대
+        {
+            studyLvBonus *= 10;
+            questRewardMul *= 10;
+        }
+        bool choun2 = universityCount[1] >= 1; // 조운2대
+        if (choun2)
+        {
+            studyLvBonus *= 2;
+        }
+        bool choun3 = universityCount[2] >= 1; // 조운3대
+        if (choun3)
+        {
+            studyLvBonus *= 2;
+        }
+        if (universityCount[3] >= 1) // 조운4대
+        {
+            questMaxMul *= choun2 ? 5 : 3;
+        }
+        if (universityCount[4] >= 1) // 조운5대
+        {
+            questFailMul = 0;
+            questDurMul *= choun3 ? 3 : 2;
+        }
+        if (universityCount[5] >= 1) // 조운6대
+        {
+            // 미구현
+        }
+        if (universityCount[6] >= 1) // 조운7대
+        {
+            admissionInfoGrade = choun2 ? 1 : 2;
+        }
+        bool choun10 = universityCount[9] >= 1; // 조운10대
+        if (choun10)
+        {
+            studyLvBonus *= 1.3f;
+        }
+        bool choun11 = universityCount[10] >= 1; // 조운11대
+        if (choun11)
+        {
+            studyLvBonus *= 1.3f;
+        }
+        if (universityCount[11] >= 1) // 조운12대
+        {
+            // 미구현
+        }
+        if (universityCount[12] >= 1) // 조운13대
+        {
+            questFailMul *= choun11 ? 0.5f : 0.8f;
+        }
+        if (universityCount[13] >= 1) // 조운14대
+        {
+            // 미구현
+        }
+        if (universityCount[14] >= 1) // 조운15대
+        {
+            problemTime = choun11 ? new TimeSpan(0, 0, 30) : new TimeSpan(0, 0, 45);
+        }
+        if (universityCount[15] >= 1) // 조운16대
+        {
+            studyLvBonus *= choun10 ? 1.5f : 1.3f;
+        }
+        if (universityCount[16] >= 1) // 조운17대
+        {
+            questRewardMul *= choun11 ? 1.5f : 1.3f;
+        }
+        if (universityCount[17] >= 1) // 조운18대
+        {
+            incomeMul *= choun10 ? 1.5f : 1.3f;
+        }
+    }
+    // 과목별 공부 효율
+    public static float GetStudyBonusSubject(int subject)
+    {
+        if (subject < 0 || subject >= 5)
+        {
+            throw new ArgumentException("subject는 0 이상 5 미만이어야 합니다.");
+        }
+        float result = 1;
+        if (universityCount[7] >= 1) // 조운8대
+        {
+            if (subject == 3)
+            {
+                result *= 1 + (GameData.studyExp[0] / (universityCount[1] >= 1 ? 500 : 1000) * 0.01f);
+            }
+            else if (subject == 4)
+            {
+                result *= 1 + (GameData.studyExp[1] / (universityCount[1] >= 1 ? 500 : 1000) * 0.01f);
+            }
+        }
+        if (universityCount[18] >= 1 && subject <= 2) // 조운19대
+        {
+            result *= universityCount[10] >= 1 ? 1.5f : 1.3f;
+        }
+        if (universityCount[19] >= 1 && subject >= 3) // 조운20대
+        {
+            result *= universityCount[10] >= 1 ? 1.5f : 1.3f;
+        }
+        Debug.Log($"{subject}, {result}");
+        return result;
     }
 }

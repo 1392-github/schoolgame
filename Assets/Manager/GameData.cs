@@ -73,38 +73,38 @@ public static class GameData
     public static bool pause;
     public static DateTime graduationDate;
     static readonly int[] firstWed = { 3, 2, 1, 0, 6, 5, 4 };
-    static readonly int[] lastWed = { -4, -5, -6, 0, -1, -2, -3 };
+    static readonly int[] lastWed = { -4, -5, -6, 0, -  1, -2, -3 };
     static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
     #endregion
     #region 상수들
     public const int worldBookCount = 4;
     #endregion
-    #region 스탯 정보 속성
+    #region 강화 정보 속성
     public static long needExpForLvUP => (long)(30 * Mathf.Pow(1.07f, stat[0]));
-    public static float studyLvBonus => Mathf.Pow(1.03f, stat[0]);
-    public static int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]));
-    public static int maxQuest => (hiddenLevelMode ? stat[3] / 10 : stat[2]) + 1;
+    public static float studyLvBonus => Mathf.Pow(1.03f, stat[0]) * UniversityManager.studyLvBonus;
+    public static int LvIncome => (int)(10000 * Mathf.Pow(1.025f, stat[1]) * UniversityManager.incomeMul);
+    public static int maxQuest => ((hiddenLevelMode ? stat[3] / 10 : stat[2]) + 1) * UniversityManager.questMaxMul;
     public static int questTime
     {
         get
         {
             if (hiddenLevelMode)
             {
-                return stat[3] / 10;
+                return stat[3] / 10 * UniversityManager.questDurMul;
             }
             else
             {
                 if (stat[3] >= 20)
                 {
-                    return stat[3] * 3 - 27;
+                    return (stat[3] * 3 - 27) * UniversityManager.questDurMul;
                 }
                 else if (stat[3] >= 10)
                 {
-                    return stat[3] * 2 - 8;
+                    return (stat[3] * 2 - 8) * UniversityManager.questDurMul;
                 }
                 else
                 {
-                    return stat[3] + 1;
+                    return (stat[3] + 1) * UniversityManager.questDurMul;
                 }
             }
         }
@@ -278,7 +278,8 @@ public static class GameData
     }
     public static void giveStudyExp(int sub, int min, int max)
     {
-        int amount = Random.Range((int)(min * studyLvBonus), (int)(max * studyLvBonus) + 1);
+        float bonus = studyLvBonus * UniversityManager.GetStudyBonusSubject(sub);
+        int amount = Random.Range((int)(min * bonus), (int)(max * bonus) + 1);
         studyExp[sub] += amount;
         if (player != null) player.SendMessage($"{Util.subjectName[sub]} 능력치가 {Mathf.Abs(amount)} {(amount >= 0 ? "증가" : "감소")}했습니다");
         for (int i = quest.Count - 1; i >= 0; i--)
@@ -297,9 +298,9 @@ public static class GameData
             {
                 if (player != null)
                 {
-                    player.SendMessage($"퀘스트를 성공하여 {q.reward} XP를 획득했습니다");
+                    player.SendMessage($"퀘스트를 성공하여 {(long)(q.reward * UniversityManager.questRewardMul)} XP를 획득했습니다");
                 }
-                GiveExp(q.reward, false);
+                GiveExp((long)(q.reward * UniversityManager.questRewardMul), false);
                 quest.RemoveAt(i);
             }
         }
@@ -379,8 +380,8 @@ public static class GameData
         Array.Clear(UniversityManager.applicationPassed, 0, 3);
         UniversityManager.announcementOpened = false;
         UniversityManager.finalUniversity = -1;
+        UniversityManager.UpdateUniversityEffect();
         Save();
-
         HomeUIManager.newGamePlusStartEffect = true;
         SceneManager.LoadScene("HomeScene");
     }

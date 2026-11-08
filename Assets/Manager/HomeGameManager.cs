@@ -54,7 +54,7 @@ public class HomeGameManager : MonoBehaviour
             if (fail)
             {
                 //SendMessage($"퀘스트를 실패하여 {q.reward} XP를 잃었습니다");
-                GameData.GiveExp(-q.reward, false);
+                GameData.GiveExp((long)(-q.reward * UniversityManager.questFailMul), false);
                 GameData.quest.RemoveAt(i);
             }
         }

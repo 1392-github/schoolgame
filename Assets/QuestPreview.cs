@@ -17,7 +17,7 @@ public class QuestPreview : MonoBehaviour
         StringBuilder stringBuilder = new StringBuilder($"Äù½ºÆ® {GameData.quest.Count} / {GameData.maxQuest}\n\n");
         foreach (Quest quest in GameData.quest)
         {
-            stringBuilder.AppendLine($"+{quest.reward} XP");
+            stringBuilder.AppendLine($"+{(long)(quest.reward * UniversityManager.questRewardMul)} XP");
             for (int i = 0; i < 5; i++)
             {
                 if (quest.req[i] > 0)
