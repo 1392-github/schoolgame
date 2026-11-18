@@ -374,7 +374,7 @@ public static class GameData
         {
             UniversityManager.universityCount[UniversityManager.finalUniversity]++;
         }
-        UniversityManager.admissionType = AdmissionType.NONE;
+        UniversityManager.admissionType = AdmissionType.None;
         Array.Fill(UniversityManager.appliedUniversities, -1);
         UniversityManager.appliedUniversityCount = 0;
         Array.Clear(UniversityManager.applicationPassed, 0, 3);

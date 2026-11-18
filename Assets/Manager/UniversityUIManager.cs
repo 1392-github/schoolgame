@@ -77,7 +77,7 @@ public class UniversityUIManager : MonoBehaviour
     }
     public void UpdateAdmissionList()
     {
-        if (UniversityManager.admissionType == AdmissionType.NONE)
+        if (UniversityManager.admissionType == AdmissionType.None)
         {
             return;
         }
@@ -100,16 +100,16 @@ public class UniversityUIManager : MonoBehaviour
     }
     public void UpdateResult()
     {
-        if (UniversityManager.admissionType == AdmissionType.NONE)
+        if (UniversityManager.admissionType == AdmissionType.None)
         {
             return;
         }
         resultButton.interactable = true;
         DateTime date = Util.InGameDate(GameData.time);
-        resultTitleText.text = $"{GameData.startYear + 3}학년도 {(UniversityManager.admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")}모집 합격자 발표 <size=50>({UniversityManager.announcementDate:yyyy년 MM월 dd일} 8시, {Util.DDay(date, UniversityManager.announcementDate)})</size>";
+        resultTitleText.text = $"{GameData.startYear + 3}학년도 {(UniversityManager.admissionType == AdmissionType.Early ? "수시" : "정시")}모집 합격자 발표 <size=50>({UniversityManager.announcementDate:yyyy년 MM월 dd일} 8시, {Util.DDay(date, UniversityManager.announcementDate)})</size>";
         for (int i = 0; i < 3; i++)
         {
-            if (UniversityManager.admissionType == AdmissionType.REGULAR_ADMISSION)
+            if (UniversityManager.admissionType == AdmissionType.Regular)
             {
                 resultGroupTexts[i].text = UniversityManager.regularGroupNames[i];
             }
@@ -164,14 +164,14 @@ public class UniversityUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        admissionType = Util.InGameDate(GameData.time) < UniversityManager.earlyApplicationEnd ? AdmissionType.EARLY_ADMISSION : AdmissionType.REGULAR_ADMISSION;
+        admissionType = Util.InGameDate(GameData.time) < UniversityManager.earlyApplicationEnd ? AdmissionType.Early : AdmissionType.Regular;
         // 대학교 목록 생성
         for (int i = 0; i < UniversityManager.universities.Length; i++)
         {
             University university = UniversityManager.universities[i];
             UniversityListItem item = Instantiate(universityListItemPrefab, universityList).GetComponent<UniversityListItem>();
             item.universityName.text = university.name + "대학교";
-            int score = UniversityManager.GetAdmissionScore(AdmissionType.EARLY_ADMISSION, i);
+            int score = UniversityManager.GetAdmissionScore(AdmissionType.Early, i);
             item.scoreEarly.text = score.ToString();
             if (UniversityManager.admissionInfoUnlocked)
             {
@@ -183,7 +183,7 @@ public class UniversityUIManager : MonoBehaviour
             {
                 item.chanceEarly.text = "???";
             }
-            if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.EARLY_ADMISSION))
+            if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.Early))
             {
                 item.scoreEarly.fontStyle = FontStyles.Italic;
                 if (UniversityManager.admissionInfoUnlocked)
@@ -191,7 +191,7 @@ public class UniversityUIManager : MonoBehaviour
                     item.chanceEarly.fontStyle = FontStyles.Italic;
                 }
             }
-            score = UniversityManager.GetAdmissionScore(AdmissionType.REGULAR_ADMISSION, i);
+            score = UniversityManager.GetAdmissionScore(AdmissionType.Regular, i);
             item.scoreRegular.text = score.ToString();
             if (UniversityManager.admissionInfoUnlocked)
             {
@@ -203,7 +203,7 @@ public class UniversityUIManager : MonoBehaviour
             {
                 item.chanceRegular.text = "???";
             }
-            if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.REGULAR_ADMISSION))
+            if (!UniversityManager.IsAdmissionScoreConfirmed(AdmissionType.Regular))
             {
                 item.scoreRegular.fontStyle = TMPro.FontStyles.Italic;
                 if (UniversityManager.admissionInfoUnlocked)
@@ -224,12 +224,12 @@ public class UniversityUIManager : MonoBehaviour
         }
         if (UniversityManager.admissionInfoUnlocked)
         {
-            applicationTitleText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")} 지원 <size=50>전체 지원 기간: {UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}</size>";
-            if (admissionType == AdmissionType.REGULAR_ADMISSION)
+            applicationTitleText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.Early ? "수시" : "정시")} 지원 <size=50>전체 지원 기간: {UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}</size>";
+            if (admissionType == AdmissionType.Regular)
             {
                 // 정시 모집의 경우 수시 모집의 수능 최저 자리에 모집군을 표시
                 applicationInfoSuneungMinOrGroupText.text = "모집군";
-                if (UniversityManager.admissionType != AdmissionType.EARLY_ADMISSION) // 이미 수시를 지원한 경우는 제외하고
+                if (UniversityManager.admissionType != AdmissionType.Early) // 이미 수시를 지원한 경우는 제외하고
                 {
                     // 수시 모집의 지원 목록 1, 2, 3 자리에 가, 나, 다 표시
                     applicationedGroupTexts[0].text = "가";
@@ -242,13 +242,13 @@ public class UniversityUIManager : MonoBehaviour
                 UniversityApplicationListItem item = Instantiate(applicationListPrefab, applicationList).GetComponent<UniversityApplicationListItem>();
                 item.universityName.text = UniversityManager.universities[i].name + "대학교";
                 UniversityAdmissionInfo info = UniversityManager.universityAdmissionInfo[i];
-                if (admissionType == AdmissionType.EARLY_ADMISSION)
+                if (admissionType == AdmissionType.Early)
                 {
                     item.applicaitonDate.text = $"{info.earlyApplicationStartDay:M\\/d}~{info.earlyApplicationEndDay2:M\\/d}";
                 }
                 else
                 {
-                    item.applicaitonDate.text = $"{UniversityManager.GetApplicationDate(AdmissionType.REGULAR_ADMISSION, 0):M\\/d}~{UniversityManager.GetApplicationDate(AdmissionType.REGULAR_ADMISSION, 2):M\\/d}";
+                    item.applicaitonDate.text = $"{UniversityManager.GetApplicationDate(AdmissionType.Regular, 0):M\\/d}~{UniversityManager.GetApplicationDate(AdmissionType.Regular, 2):M\\/d}";
                 }
                 int score = UniversityManager.GetAdmissionScore(admissionType, i);
                 item.score.text = score.ToString();
@@ -260,7 +260,7 @@ public class UniversityUIManager : MonoBehaviour
                     item.score.fontStyle = FontStyles.Italic;
                     item.chance.fontStyle = FontStyles.Italic;
                 }
-                if (admissionType == AdmissionType.EARLY_ADMISSION)
+                if (admissionType == AdmissionType.Early)
                 {
                     if (info.suneungMinSubjectCount == 0)
                     {
@@ -278,7 +278,7 @@ public class UniversityUIManager : MonoBehaviour
                 int i2 = i;
                 item.apply.onClick.AddListener(() => ClickApplication(i2));
             }
-            if (UniversityManager.admissionType == AdmissionType.EARLY_ADMISSION && admissionType == AdmissionType.REGULAR_ADMISSION) // 수시를 이미 지원했고 지금 정시 기간이면 (수시 납치를 당했다면)
+            if (UniversityManager.admissionType == AdmissionType.Early && admissionType == AdmissionType.Regular) // 수시를 이미 지원했고 지금 정시 기간이면 (수시 납치를 당했다면)
             {
                 cannotApply.SetActive(true);
                 cannotApplyReasonText.text = "수시모집 지원자는\n정시모집 지원 불가";
@@ -286,7 +286,7 @@ public class UniversityUIManager : MonoBehaviour
             else if (GameData.time < UniversityManager.GetApplicationDate(admissionType, 0)) // 지원 시작 전이라면
             {
                 cannotApply.SetActive(true);
-                cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.EARLY_ADMISSION ? "수시" : "정시")} 지원 기간\n{UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}";
+                cannotApplyReasonText.text = $"{GameData.startYear + 3}학년도 {(admissionType == AdmissionType.Early ? "수시" : "정시")} 지원 기간\n{UniversityManager.GetApplicationDate(admissionType, 0):yyyy년 M월 d일} ~ {UniversityManager.GetApplicationDate(admissionType, 2):M월 d일}";
             }
             else if (GameData.time >= UniversityManager.regularApplicationEnd) // 정시 지원이 끝났다면
             {
@@ -323,12 +323,12 @@ public class UniversityUIManager : MonoBehaviour
         }
         int group = UniversityManager.universityAdmissionInfo[university].regularGroup;
         int groupUniv = UniversityManager.appliedUniversities[group];
-        if (admissionType == AdmissionType.REGULAR_ADMISSION && groupUniv != -1)
+        if (admissionType == AdmissionType.Regular && groupUniv != -1)
         {
             Fail($"{UniversityManager.regularGroupNames[group]}군에 이미 {UniversityManager.universities[groupUniv].name}대학교를 지원했습니다.");
             return;
         }
-        if (admissionType == AdmissionType.EARLY_ADMISSION && (GameData.time < UniversityManager.universityAdmissionInfo[university].earlyApplicationStartDay || GameData.time >= UniversityManager.universityAdmissionInfo[university].earlyApplicationEndDay))
+        if (admissionType == AdmissionType.Early && (GameData.time < UniversityManager.universityAdmissionInfo[university].earlyApplicationStartDay || GameData.time >= UniversityManager.universityAdmissionInfo[university].earlyApplicationEndDay))
         {
             Fail("해당 대학교의 수시 지원 기간이 아닙니다.");
             return;
@@ -348,7 +348,7 @@ public class UniversityUIManager : MonoBehaviour
     public void ClickApplicationOK()
     {
         UniversityManager.admissionType = admissionType;
-        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        if (admissionType == AdmissionType.Early)
         {
             UniversityManager.appliedUniversities[UniversityManager.appliedUniversityCount] = selectedUniv;
         }

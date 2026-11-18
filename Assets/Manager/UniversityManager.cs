@@ -11,15 +11,15 @@ public enum AdmissionType
     /// <summary>
     /// 지원 안 함 / 지원 전
     /// </summary>
-    NONE,
+    None,
     /// <summary>
     /// 수시모집
     /// </summary>
-    EARLY_ADMISSION,
+    Early,
     /// <summary>
     /// 정시모집
     /// </summary>
-    REGULAR_ADMISSION
+    Regular
 }
 [Serializable]
 public class UniversityAdmissionInfo
@@ -261,11 +261,11 @@ public static class UniversityManager
     /// <param name="admissionType">지원하려는 전형의 유형</param>
     /// <param name="university">지원하려는 대학의 번호</param>
     /// <returns>전형 점수 계산 결과</returns>
-    /// <exception cref="ArgumentException">admissionType이 AdmissionType.NONE이거나 유효하지 않은 값일 때</exception>
+    /// <exception cref="ArgumentException">admissionType이 AdmissionType.None이거나 유효하지 않은 값일 때</exception>
     public static int GetAdmissionScore(AdmissionType admissionType, int university)
     {
         DateTime date = Util.InGameDate(GameData.time);
-        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        if (admissionType == AdmissionType.Early)
         {
             int total = 0;
             int divider = 0;
@@ -287,7 +287,7 @@ public static class UniversityManager
             }
             return total / divider;
         }
-        else if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        else if (admissionType == AdmissionType.Regular)
         {
             for (int i = ExamManager.type2Exam.Length - 1; i >= 0; i--) // 오래된 것이 아닌 최근 것부터 찾아야 하니
             {
@@ -307,22 +307,22 @@ public static class UniversityManager
         }
         else
         {
-            throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
+            throw new ArgumentException("admissionType은 AdmissionType.Early 또는 AdmissionType.Regular어야 합니다.");
         }
     }
     public static bool IsAdmissionScoreConfirmed(AdmissionType admissionType)
     {
-        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        if (admissionType == AdmissionType.Early)
         {
             return Util.InGameDate(GameData.time) >= GameData.type1ExamDate[9].AddDays(7);
         }
-        else if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        else if (admissionType == AdmissionType.Regular)
         {
             return Util.InGameDate(GameData.time) >= GameData.type2ExamDate[^1].AddDays(14);
         }
         else
         {
-            throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
+            throw new ArgumentException("admissionType은 AdmissionType.Early 또는 AdmissionType.Regular어야 합니다.");
         }
     }
     public static int GetChance(int university, int score)
@@ -342,10 +342,10 @@ public static class UniversityManager
     /// <param name="admissionType">입학전형의 유형</param>
     /// <param name="dateType">가져오려는 날짜의 종류 (0: 시작일, 1: 종료일(제외), 2: 종료일(포함))</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentException">admissionType이 AdmissionType.NONE이거나 유효하지 않은 값이거나 dateType이 0, 1, 2가 아닐 때</exception>
+    /// <exception cref="ArgumentException">admissionType이 AdmissionType.None이거나 유효하지 않은 값이거나 dateType이 0, 1, 2가 아닐 때</exception>
     public static DateTime GetApplicationDate(AdmissionType admissionType, int dateType)
     {
-        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        if (admissionType == AdmissionType.Early)
         {
             switch (dateType)
             {
@@ -359,7 +359,7 @@ public static class UniversityManager
                     throw new ArgumentException("dateType은 0, 1, 2 중 하나여야 합니다.");
             }
         }
-        else if (admissionType == AdmissionType.REGULAR_ADMISSION)
+        else if (admissionType == AdmissionType.Regular)
         {
             switch (dateType)
             {
@@ -375,7 +375,7 @@ public static class UniversityManager
         }
         else
         {
-            throw new ArgumentException("admissionType은 AdmissionType.EARLY_ADMISSION 또는 AdmissionType.REGULAR_ADMISSION이어야 합니다.");
+            throw new ArgumentException("admissionType은 AdmissionType.Early 또는 AdmissionType.Regular어야 합니다.");
         }
     }
     /// <summary>
@@ -384,7 +384,7 @@ public static class UniversityManager
     public static void CheckPassed()
     {
         int[] suneungOrdered = null;
-        if (admissionType == AdmissionType.EARLY_ADMISSION)
+        if (admissionType == AdmissionType.Early)
         {
             suneungOrdered = ExamManager.type2Exam[^1].grade.OrderBy(x => x).ToArray();
         }
@@ -397,7 +397,7 @@ public static class UniversityManager
             }
             UniversityAdmissionInfo info = universityAdmissionInfo[univ];
             // 수능 최저 확인
-            if (admissionType == AdmissionType.EARLY_ADMISSION && suneungOrdered.Take(info.suneungMinSubjectCount).Sum() > info.suneungMinGradeSum)
+            if (admissionType == AdmissionType.Early && suneungOrdered.Take(info.suneungMinSubjectCount).Sum() > info.suneungMinGradeSum)
             {
                 continue; // 수능 최저 미달이면 무조건 불합격
             }
