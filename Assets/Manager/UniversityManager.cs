@@ -199,6 +199,11 @@ public static class UniversityManager
                 info.suneungMinSubjectCount = Random.Range(univ.suneungMinSubjectCountMin, univ.suneungMinSubjectCountMax);
                 info.suneungMinGradeSum = Random.Range(univ.suneungMinGradeSumMin * info.suneungMinSubjectCount / 5, univ.suneungMinGradeSumMax * info.suneungMinSubjectCount / 5);
             }
+            else
+            {
+                info.suneungMinSubjectCount = 0;
+                info.suneungMinGradeSum = 0;
+            }
             // 지원 기간 설정
             do
             {
@@ -397,7 +402,7 @@ public static class UniversityManager
             }
             UniversityAdmissionInfo info = universityAdmissionInfo[univ];
             // 수능 최저 확인
-            if (admissionType == AdmissionType.Early && suneungOrdered.Take(info.suneungMinSubjectCount).Sum() > info.suneungMinGradeSum)
+            if (info.suneungMinSubjectCount != 0 && admissionType == AdmissionType.Early && suneungOrdered.Take(info.suneungMinSubjectCount).Sum() > info.suneungMinGradeSum)
             {
                 continue; // 수능 최저 미달이면 무조건 불합격
             }
@@ -518,7 +523,6 @@ public static class UniversityManager
         {
             result *= universityCount[10] >= 1 ? 1.5f : 1.3f;
         }
-        Debug.Log($"{subject}, {result}");
         return result;
     }
 }
