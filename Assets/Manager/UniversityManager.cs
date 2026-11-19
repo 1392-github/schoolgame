@@ -276,6 +276,10 @@ public static class UniversityManager
             int divider = 0;
             for (int i = 0; i < 10; i++) // 10개의 시험(3-1 기말까지) 반영
             {
+                if (ExamManager.type1Exam[i].grade[0] == 0) // 안 본 시험 건너뜀
+                {
+                    continue;
+                }
                 if (date < GameData.type1ExamDate[i].AddDays(7)) // 성적 통지일 전인 시험이면 break
                 {
                     break;
@@ -296,7 +300,7 @@ public static class UniversityManager
         {
             for (int i = ExamManager.type2Exam.Length - 1; i >= 0; i--) // 오래된 것이 아닌 최근 것부터 찾아야 하니
             {
-                if (date >= GameData.type2ExamDate[i].AddDays(14)) // 성적통지된 가장 최근의 모의고사/수능 시험을 찾음
+                if (ExamManager.type2Exam[i].grade[0] != 0 && date >= GameData.type2ExamDate[i].AddDays(14)) // 성적통지된 가장 최근의 모의고사/수능 시험을 찾음
                 {
                     int total = 0;
                     int divider = 0;

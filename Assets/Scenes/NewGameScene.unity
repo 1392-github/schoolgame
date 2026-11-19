@@ -480,10 +480,6 @@ MonoBehaviour:
     experimental: 
     startTime: 
     totalPlayTime: 0:00:00:00
-    length: 0
-    end: 0
-    difficulty: 1
-    repeatGradeMax: 0000000000000000000000000000000000000000000000000000000000000000
     quest: []
     pendingQuest:
     - reward: 0
@@ -500,6 +496,19 @@ MonoBehaviour:
     hiddenLevelMode: 0
     studentCardPatternColor: '#000064'
     worldBookUnlocked: 
+    universityCount: 
+    admissionType: 0
+    appliedUniversities: 
+    appliedUniversityCount: 0
+    applicationPassed: 
+    universityAdmissionInfo: []
+    announcementOpened: 0
+    finalUniversity: 0
+    startGrade:
+    - studyExp: 0000000000000000000000000000000000000000
+      stat: 
+    - studyExp: 0000000000000000000000000000000000000000
+      stat: 
 --- !u!1 &377280792
 GameObject:
   m_ObjectHideFlags: 0

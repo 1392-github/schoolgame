@@ -10,6 +10,17 @@ public enum TutorialState
 {
     SCHOOL_FIRST = 1
 }
+[Serializable]
+public class StartGrade
+{
+    public int[] studyExp;
+    public int[] stat;
+    public (int[], int[]) GetStart()
+    {
+        int mul = UniversityManager.universityCount[2] >= 1 ? 9 : 8;
+        return (studyExp.Select(x => x * mul / 10).ToArray(), stat.Select(x => x == 0 ? 0 : ((x + 1) * mul / 10 - 1)).ToArray());
+    }
+}
 public static class GameData
 {
     #region 저장 데이터
@@ -39,6 +50,7 @@ public static class GameData
     public static TutorialState tutorialState;
     public static bool hiddenLevelMode;
     public static bool[] worldBookUnlocked;
+    public static StartGrade[] startGrade;
 
     public static bool init;
     public static List<Item> items;
@@ -72,6 +84,7 @@ public static class GameData
     public static DateTime[] type2ExamDate;
     public static bool pause;
     public static DateTime graduationDate;
+    public static bool newGradeStart;
     static readonly int[] firstWed = { 3, 2, 1, 0, 6, 5, 4 };
     static readonly int[] lastWed = { -4, -5, -6, 0, -  1, -2, -3 };
     static readonly int[] thirdThu = { 18, 17, 16, 15, 14, 20, 19 };
@@ -152,6 +165,7 @@ public static class GameData
         UniversityManager.universityAdmissionInfo = save.universityAdmissionInfo;
         UniversityManager.announcementOpened = save.announcementOpened;
         UniversityManager.finalUniversity = save.finalUniversity;
+        startGrade = save.startGrade;
         if (save.introCompleted) Load2();
     }
     public static void Load2()
@@ -164,10 +178,9 @@ public static class GameData
         {
             time = firstDay;
         }
-        if (stat.Length < statTypes.Count)
-        {
-            stat = stat.Concat(new int[statTypes.Count - stat.Length]).ToArray();
-        }
+        Array.Resize(ref stat, statTypes.Count);
+        Array.Resize(ref startGrade[0].stat, statTypes.Count);
+        Array.Resize(ref startGrade[1].stat, statTypes.Count);
         graduationDate = new DateTime(startYear + 2, 12, 31);
         if (graduationDate.DayOfWeek == DayOfWeek.Saturday) graduationDate = graduationDate.AddDays(-1);
         if (graduationDate.DayOfWeek == DayOfWeek.Sunday) graduationDate = graduationDate.AddDays(-2);
@@ -241,7 +254,7 @@ public static class GameData
         save.mapextra = mapArgs;
         if (currentScene != "Home")
         {
-            Transform playerTransform = GameObject.Find("Player").transform;
+            Transform playerTransform = player.transform;
             save.x = playerTransform.position.x;
             save.y = playerTransform.position.y;
         }
@@ -274,6 +287,7 @@ public static class GameData
         save.universityAdmissionInfo = UniversityManager.universityAdmissionInfo;
         save.announcementOpened = UniversityManager.announcementOpened;
         save.finalUniversity = UniversityManager.finalUniversity;
+        save.startGrade = startGrade;
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)
@@ -339,27 +353,47 @@ public static class GameData
     {
         return experimental.Contains(e);
     }
-    public static void NewGamePlus()
+    public static void NewGamePlus(int grade)
     {
         playthrough++;
         exp = 0;
         money = 0;
-        time = firstDay;
         timeSpeed = TimeSpan.Zero;
         inClass = false;
         inSchool = true;
         currentScene = "Home";
         mapArgs = 0;
-        Array.Clear(studyExp, 0, 5);
+        if (grade == 1)
+        {
+            time = firstDay;
+            Array.Clear(studyExp, 0, 5);
+            Array.Clear(stat, 0, stat.Length);
+        }
+        else
+        {
+            time = new DateTime(startYear + grade - 1, 3, 1);
+            int[] studyExp1;
+            (studyExp1, stat) = startGrade[grade - 2].GetStart();
+            studyExp = studyExp1.Select(x => (long)x).ToArray(); // 향후 studyExp는 long[] → int[]로 다시 바꿀 듯
+            newGradeStart = true;
+            void DecreaseStartGrade(int grade)
+            {
+                (int[] studyExp, int[] stat) = startGrade[grade].GetStart();
+                startGrade[grade].studyExp = studyExp;
+                startGrade[grade].stat = stat;
+            }
+            DecreaseStartGrade(0);
+            if (grade == 3)
+            {
+                DecreaseStartGrade(1);
+            }
+        }
         schedule = 0;
         clas = Random.Range(0, 10);
         inventory.Clear();
-        for (int i = 0; i < stat.Length; i++)
-        {
-            stat[i] = 0;
-        }
         quest.Clear();
         pendingQuest[0].reward = 0;
+        nextDayOnHome = true;
 
         for (int i = 0; i < ExamManager.type1Exam.Length; i++)
         {

@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -13,6 +15,8 @@ public class GraduationManager : MonoBehaviour
     [SerializeField] Image theEndImage;
     [SerializeField] TextMeshProUGUI theEndText;
     [SerializeField] Image startEffect;
+    [SerializeField] GameObject selectGrade;
+    [SerializeField] TextMeshProUGUI selectGradeText;
     AudioSource audioSource;
     IEnumerator GraduationMain()
     {
@@ -73,6 +77,8 @@ public class GraduationManager : MonoBehaviour
                 theEndText.color = new Color(0, 0, 0, alpha);
                 yield return null;
             }
+            theEndImage.color = Color.white;
+            theEndText.color = Color.black;
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0));
         alpha = 0;
@@ -84,11 +90,35 @@ public class GraduationManager : MonoBehaviour
             audioSource.volume = 1 - alpha;
             yield return null;
         }
-        GameData.NewGamePlus();
+        if (UniversityManager.universityCount[8] >= 1) // 조운9대
+        {
+            selectGrade.SetActive(true);
+            static string PrintGradeStart(int grade)
+            {
+                (int[] studyExp, int[] stat) = GameData.startGrade[grade].GetStart();
+                string studyExpString = string.Join(", ", studyExp.Select((x, i) => $"{Util.subjectName[i]} {x}"));
+                string statString = string.Join(", ", stat.Select((x, i) =>
+                {
+                    GameData.stat[i] = x;
+                    StatType type = GameData.statTypes[i];
+                    return $"{type.name} Lv {i + 1} ({type.prefix}{typeof(GameData).GetProperty(type.prop, BindingFlags.Public | BindingFlags.Static).GetValue(null)}{type.suffix})";
+                }));
+                return $"{studyExpString} / {statString}";
+            }
+            selectGradeText.text = $"2학년 시작: {PrintGradeStart(0)}\n3학년 시작: {PrintGradeStart(1)}";
+        }
+        else
+        {
+            GameData.NewGamePlus(1);
+        }
     }
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         StartCoroutine(GraduationMain());
+    }
+    public void NewGamePlus(int grade)
+    {
+        GameData.NewGamePlus(grade);
     }
 }

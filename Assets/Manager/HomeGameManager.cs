@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HomeGameManager : MonoBehaviour
@@ -18,10 +17,18 @@ public class HomeGameManager : MonoBehaviour
     }
     public void StartDay()
     {
-        if (GameData.time == GameData.firstDay)
+        if (GameData.playthrough == 1 && GameData.time == GameData.firstDay)
         {
             ChatManager.OpenChat(startChat);
         }
+        if (!GameData.newGradeStart && GameData.time.Month == 3 && GameData.time.Day == 1)
+        {
+            StartGrade startGrade = GameData.startGrade[GameData.grade - 2];
+            //Array.Copy(GameData.studyExp, startGrade.studyExp, 5);
+            startGrade.studyExp = GameData.studyExp.Select(x => (int)x).ToArray(); // юс╫ц
+            Array.Copy(GameData.stat, startGrade.stat, GameData.stat.Length);
+        }
+        GameData.newGradeStart = false;
         if (GameData.weekendOrVacation)
         {
             GameData.inSchool = false;

@@ -34,12 +34,13 @@ public class ExamScoresGenerate : MonoBehaviour
                 revealDate = examDate[i].AddDays(examType == 1 ? 7 : 14);
             }
             s.revealDay.text = $"{revealDate:yyyy-MM-dd} ({Util.DDay(inGameDate, revealDate)})";
-            if (inGameDate >= revealDate)
+            ExamScore score = ExamManager.GetExamScore(examType, i);
+            if (score.grade[0] != 0 && inGameDate >= revealDate)
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int j = 0; j < 5; j++)
                 {
-                    stringBuilder.Append(ExamManager.GetExamScore(examType, i).grade[j]);
+                    stringBuilder.Append(score.grade[j]);
                 }
                 s.rank.text = stringBuilder.ToString();
                 s.button.interactable = true;

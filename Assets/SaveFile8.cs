@@ -47,4 +47,5 @@ public class SaveFile8 : SaveFile0
     public UniversityAdmissionInfo[] universityAdmissionInfo;
     public bool announcementOpened;
     public int finalUniversity;
+    public StartGrade[] startGrade;
 }
