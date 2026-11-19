@@ -36,14 +36,6 @@ public class TitleManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
     }
-    public void Youtube()
-    {
-        Application.OpenURL("https://www.youtube.com/@Á¶¿îÇõ-c7n");
-    }
-    public void OfficalSite()
-    {
-        Application.OpenURL("https://1392year.pythonanywhere.com/w/ÇÐ±³3");
-    }
     #if UNITY_ANDROID
     void Update()
     {
