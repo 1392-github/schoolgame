@@ -107,14 +107,18 @@ public class StatUpgrade : MonoBehaviour
         if (Random.Range(0f, 1f) <= chance)
         {
             GameData.stat[id]++;
+            GameData.statTypes[id].onUpgrade?.Invoke();
             //player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 성공했습니다 (Lv {GameData.stat[id] - 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
         }
         else
         {
-            if (GameData.stat[id] > 0) GameData.stat[id]--;
+            if (UniversityManager.universityCount[4] == 0 && GameData.stat[id] > 0)
+            {
+                GameData.stat[id]--;
+                GameData.statTypes[id].onUpgrade?.Invoke();
+            }
             //player.SendMessage($"{GameData.statTypes[id].name} 업그레이드에 실패했습니다 (Lv {GameData.stat[id] + 1} ({GameData.statTypes[id].prefix}{before}{GameData.statTypes[id].suffix}) → Lv {GameData.stat[id]} ({GameData.statTypes[id].prefix}{prop.GetValue(player)}{GameData.statTypes[id].suffix}))");
         }
-        GameData.statTypes[id].onUpgrade?.Invoke();
         UpdateText();
         ChanceInputChance(chanceInput.text);
         ChanceInputEnd();
