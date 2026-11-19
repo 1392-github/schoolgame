@@ -6800,7 +6800,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6d4386363d2cc4b90c6ee27017bfae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
   sbindex: 0
   schedule:
   - time: 08:50:00

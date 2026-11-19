@@ -12,7 +12,6 @@ using Random = UnityEngine.Random;
 public class Player : MonoBehaviour
 {
     #region 저장 데이터가 아닌 변수들
-    public float moveSpeed;
     public int sbindex;
     public List<Schedule> schedule;
     public GameObject gradeDoor;
@@ -181,23 +180,23 @@ public class Player : MonoBehaviour
         GameData.totalPlayTime += new TimeSpan(0, 0, 1) * Time.deltaTime;
         if (control)
         {
-            float x = Input.GetAxis("Horizontal") * moveSpeed;
-            float y = Input.GetAxis("Vertical") * moveSpeed;
+            float x = Input.GetAxis("Horizontal") * 5;
+            float y = Input.GetAxis("Vertical") * 5;
             if (left)
             {
-                x = -moveSpeed;
+                x = -5;
             }
             if (right)
             {
-                x = moveSpeed;
+                x = 5;
             }
             if (up)
             {
-                y = moveSpeed;
+                y = 5;
             }
             if (down)
             {
-                y = -moveSpeed;
+                y = -5;
             }
             rb.velocity = new Vector3(x * speed, y * speed, 0);
         }
