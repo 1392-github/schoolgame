@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
+[Flags]
 public enum TutorialState
 {
     SCHOOL_FIRST = 1
