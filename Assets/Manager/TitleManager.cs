@@ -14,8 +14,8 @@ public class TitleManager : MonoBehaviour
     public University[] universities;
     void Start()
     {
-        Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "saves"));
-        Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "studentCardPhoto"));
+        Directory.CreateDirectory(Path.Join(Application.persistentDataPath, "saves"));
+        Directory.CreateDirectory(Path.Join(Application.persistentDataPath, "studentCardPhoto"));
         if (!GameData.init)
         {
             GameData.init = true;

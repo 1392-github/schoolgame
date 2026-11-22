@@ -39,7 +39,7 @@ public class StudentCard : MonoBehaviour
         {
             Destroy(photoTexture);
         }
-        string path = Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName);
+        string path = Path.Join(Application.persistentDataPath, "studentCardPhoto", GameData.saveName);
         if (File.Exists(path))
         {
             photoTexture = new Texture2D(2, 2);

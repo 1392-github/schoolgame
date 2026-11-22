@@ -8,7 +8,7 @@ public class PlayButton : MonoBehaviour
 {
     T GetSaveFile<T>() where T : SaveFile0
     {
-        return JsonUtility.FromJson<T>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "saves", GameData.saveName)));
+        return JsonUtility.FromJson<T>(File.ReadAllText(Path.Join(Application.persistentDataPath, "saves", GameData.saveName)));
     }
     public void Play()
     {

@@ -44,7 +44,7 @@ public class StudentCardEdit : MonoBehaviour
         {
             return;
         }
-        File.Copy(file[0], Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName), true);
+        File.Copy(file[0], Path.Join(Application.persistentDataPath, "studentCardPhoto", GameData.saveName), true);
         StudentCard.LoadPhoto();
         studentCard.UpdateStudentCard();
         addPhotoText.text = "변경";
@@ -55,7 +55,7 @@ public class StudentCardEdit : MonoBehaviour
         {
             if (path != null)
             {
-                File.Copy(path, Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName), true);
+                File.Copy(path, Path.Join(Application.persistentDataPath, "studentCardPhoto", GameData.saveName), true);
                 loadPhoto = true;
             }
         }, "학생증 이미지 선택");
@@ -63,7 +63,7 @@ public class StudentCardEdit : MonoBehaviour
     }
     public void RemovePhoto()
     {
-        File.Delete(Path.Combine(Application.persistentDataPath, "studentCardPhoto", GameData.saveName));
+        File.Delete(Path.Join(Application.persistentDataPath, "studentCardPhoto", GameData.saveName));
         StudentCard.photoTexture = null;
         studentCard.UpdateStudentCard();
         addPhotoText.text = "추가";

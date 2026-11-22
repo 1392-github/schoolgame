@@ -289,7 +289,7 @@ public static class GameData
         save.announcementOpened = UniversityManager.announcementOpened;
         save.finalUniversity = UniversityManager.finalUniversity;
         save.startGrade = startGrade;
-        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
+        File.WriteAllText(Path.Join(Application.persistentDataPath, "saves", saveName), JsonUtility.ToJson(save));
     }
     public static void giveStudyExp(int sub, int min, int max)
     {

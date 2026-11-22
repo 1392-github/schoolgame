@@ -68,7 +68,7 @@ public class StartButton : MonoBehaviour
         //    defaultSave.x = 0.5f;
         //    defaultSave.y = 3f;
         //}
-        File.WriteAllText(Path.Combine(Application.persistentDataPath, "saves", name.text), JsonUtility.ToJson(defaultSave));
+        File.WriteAllText(Path.Join(Application.persistentDataPath, "saves", name.text), JsonUtility.ToJson(defaultSave));
         UnityEngine.SceneManagement.SceneManager.LoadScene("SelectSaveScene");
     }
     //public void ChangeMul(int i)
