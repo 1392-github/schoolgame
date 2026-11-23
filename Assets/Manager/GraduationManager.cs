@@ -101,7 +101,7 @@ public class GraduationManager : MonoBehaviour
                 {
                     GameData.stat[i] = x;
                     StatType type = GameData.statTypes[i];
-                    return $"{type.name} Lv {i + 1} ({type.prefix}{typeof(GameData).GetProperty(type.prop, BindingFlags.Public | BindingFlags.Static).GetValue(null)}{type.suffix})";
+                    return $"{type.name} Lv {x + 1} ({type.prefix}{typeof(GameData).GetProperty(type.prop, BindingFlags.Public | BindingFlags.Static).GetValue(null)}{type.suffix})";
                 }));
                 return $"{studyExpString} / {statString}";
             }
