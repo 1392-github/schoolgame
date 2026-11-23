@@ -459,7 +459,7 @@ public static class UniversityManager
         }
         if (universityCount[6] >= 1) // 조운7대
         {
-            admissionInfoGrade = choun2 ? 1 : 2;
+            admissionInfoGrade = choun3 ? 1 : 2;
         }
         bool choun10 = universityCount[9] >= 1; // 조운10대
         if (choun10)
