@@ -405,7 +405,7 @@ public class Player : MonoBehaviour
             {
                 ChatManager.OpenChat(firstClassChat);
             }
-            if (UniversityManager.finalUniversity == -1 && Util.InGameDate(GameData.time) == GameData.graduationDate.AddDays(-1))
+            if (UniversityManager.finalUniversity == -1 && Util.InGameDate(GameData.time) == GameData.graduationDate.AddDays(-1) && UniversityManager.applicationPassed.Any(x => x))
             {
                 ChatManager.OpenChat(whyDontRegister);
             }
