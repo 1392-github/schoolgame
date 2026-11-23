@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -15,8 +17,10 @@ public class IntroController : MonoBehaviour
     string schoolName;
     string name;
     int birth;
+    string saveName;
     int nowYear;
     bool inputCompleted;
+    readonly char[] bannedChar = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
 
     // Start is called before the first frame update
     void Start()
@@ -26,20 +30,38 @@ public class IntroController : MonoBehaviour
     }
     public void CompleteInput()
     {
-        inputCompleted = true;
-        input.gameObject.SetActive(false);
+        if (!string.IsNullOrWhiteSpace(input.text))
+        {
+            inputCompleted = true;
+            input.gameObject.SetActive(false);
+        }
     }
     IEnumerator TypeText(string text, float delay = 0.1f)
     {
         yield return StartCoroutine(Util.TypeText(text, this.text, source, delay));
     }
     // 호출 후 yield return new WaitUntil(() => inputCompleted); 을 호출할 것
-    void InputText(string placeholder)
+    void InputText(string placeholder, string def = "")
     {
         inputCompleted = false;
         ((Text)input.placeholder).text = placeholder;
-        input.text = "";
+        input.text = def;
         input.gameObject.SetActive(true);
+    }
+    IEnumerator HiddenLevelModeCheck()
+    {
+        while (true)
+        {
+            if (inputCompleted)
+            {
+                break;
+            }
+            if (input.text == "1392chounhyuk")
+            {
+                GameData.hiddenLevelMode = true;
+            }
+            yield return null;
+        }
     }
     IEnumerator Intro()
     {
@@ -87,11 +109,36 @@ public class IntroController : MonoBehaviour
                 yield return StartCoroutine(TypeText($"[{schoolName} 교장] 저건 숫자가 아니잖아!\n"));
             }
         }
-        yield return StartCoroutine(TypeText($"[{schoolName} 교장] {birth}년생이로군!\n"));
+        yield return StartCoroutine(TypeText($"[{schoolName} 교장] {birth}년생이로군!\n그럼 학생부 명칭은 무엇으로 하지?\n"));
+        while (true)
+        {
+            saveName = name;
+            int i = 1;
+            while (File.Exists(Path.Join(Application.persistentDataPath, "saves", saveName)))
+            {
+                i++;
+                saveName = name + i.ToString();
+            }
+            InputText("학생부 명칭(저장 파일 명칭)은?", saveName);
+            yield return StartCoroutine(HiddenLevelModeCheck());
+            saveName = input.text.Trim();
+            if (saveName.IndexOfAny(bannedChar) >= 0)
+            {
+                yield return StartCoroutine(TypeText($"[{schoolName} 교장] 학생부 이름에는 \\, /, :, *, ?, \", <, >, |는 못 쓴다고!\n"));
+                continue;
+            }
+            if (File.Exists(Path.Join(Application.persistentDataPath, "saves", saveName)))
+            {
+                yield return StartCoroutine(TypeText($"[{schoolName} 교장] 학생부 이름이 겹치는데?\n"));
+                continue;
+            }
+            break;
+        }
         yield return StartCoroutine(TypeText("이제 입학을 할까?\n그럼 3년간 잘 다녀보도록!", 0.2f));
         GameData.name = name;
         GameData.school = schoolName;
         GameData.birth = birth;
+        GameData.saveName = saveName;
         GameData.nextDayOnHome = true;
         GameData.clas = Random.Range(0, 10);
         ExamManager.type1Exam = new ExamScore[GameData.type1Exams.Length];

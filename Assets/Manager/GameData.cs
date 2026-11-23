@@ -354,6 +354,50 @@ public static class GameData
     {
         return experimental.Contains(e);
     }
+    public static void NewGame()
+    {
+        time = default;
+        timeSpeed = TimeSpan.Zero;
+        playthrough = 1;
+        money = 0;
+        exp = 0;
+        studyExp = new long[5];
+        ExamManager.type1Exam = new ExamScore[0];
+        ExamManager.type2Exam = new ExamScore[0];
+        ExamManager.currentExamType = 0;
+        ExamManager.currentExam = 0;
+        currentScene = "Home";
+        mapArgs = 0;
+        x = 0;
+        y = 0;
+        schedule = 0;
+        inClass = false;
+        inSchool = true;
+        achCompleted = new bool[0];
+        clas = -1;
+        inventory = new List<int>();
+        stat = new int[0];
+        experimental = new List<Experimental>();
+        startTime = DateTime.Now;
+        totalPlayTime = TimeSpan.Zero;
+        quest = new List<Quest>();
+        tutorialState = 0;
+        hiddenLevelMode = false;
+        StudentCard.patternColor = "#000064";
+        worldBookUnlocked = new bool[worldBookCount];
+        UniversityManager.universityCount = new int[0];
+        UniversityManager.admissionType = AdmissionType.None;
+        UniversityManager.appliedUniversities = new int[0];
+        UniversityManager.appliedUniversityCount = 0;
+        UniversityManager.applicationPassed = new bool[0];
+        UniversityManager.universityAdmissionInfo = new UniversityAdmissionInfo[0];
+        UniversityManager.announcementOpened = false;
+        UniversityManager.finalUniversity = -1;
+        startGrade = new StartGrade[2];
+        startGrade[0] = new StartGrade() { studyExp = new int[5], stat = new int[0] };
+        startGrade[1] = new StartGrade() { studyExp = new int[5], stat = new int[0] };
+        SceneManager.LoadScene("IntroScene");
+    }
     public static void NewGamePlus(int grade)
     {
         playthrough++;

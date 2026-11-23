@@ -36,6 +36,10 @@ public class TitleManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
     }
+    public void NewGame()
+    {
+        GameData.NewGame();
+    }
     #if UNITY_ANDROID
     void Update()
     {
