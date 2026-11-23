@@ -485,7 +485,7 @@ public static class UniversityManager
         }
         if (universityCount[14] >= 1) // 조운15대
         {
-            problemTime = choun11 ? new TimeSpan(0, 0, 30) : new TimeSpan(0, 0, 45);
+            problemTime = choun11 ? new TimeSpan(0, 30, 0) : new TimeSpan(0, 45, 0);
         }
         if (universityCount[15] >= 1) // 조운16대
         {
