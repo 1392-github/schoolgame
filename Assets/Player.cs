@@ -72,7 +72,6 @@ public class Player : MonoBehaviour
     public Toggle fastSpeedToggle;
     public object[] chatExtra;
     public GameObject mobileOnlyUI;
-    bool alreadyPenalty;
     public GameObject alertItem;
     public Transform alertList;
     public Text questAmount;
@@ -332,29 +331,7 @@ public class Player : MonoBehaviour
     {
         if (GameData.weekendOrVacation) return;
         GameData.inClass = true;
-        if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas)
-        {
-            GameData.giveStudyExp(Random.Range(0, 5), 5, 10);
-        }
-        else
-        {
-            if (!alreadyPenalty)
-            {
-                GameData.money -= 50000;
-                for (int i = 0; i < 5; i++)
-                {
-                    if (GameData.studyExp[i] >= 0)
-                    {
-                        GameData.studyExp[i] /= 2;
-                    }
-                    else
-                    {
-                        GameData.studyExp[i] *= 2;
-                    }
-                }
-                alreadyPenalty = true;
-            }
-        }
+        GameData.giveStudyExp(Random.Range(0, 5), 5, 10);
     }
     public void EndClass() { }
     public void EndSchool()
